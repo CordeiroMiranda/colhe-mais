@@ -20,10 +20,11 @@ Slogan: "Conectando alimentos e comunidades"
   - Valores dos planos de apoio financeiro em R$ (R$ 20, R$ 50, R$ 100).
   - Mapeamento pt-BR das métricas e notas de impacto em `usePublicImpactMetrics.ts`.
 
-- [ ] **Bloco 2: Localizar Pontos de Coleta (FindFoodBank)**
-  - Tradução para pt-BR ("Pontos de Coleta", "Buscar por CEP ou bairro").
-  - CEP no formato brasileiro (ex: 12245-000).
-  - Listagem e mapa com identidade visual Colhe+.
+- [x] **Bloco 2: Localizar Pontos de Coleta (FindFoodBank)**
+  - Tradução completa para pt-BR ("Pontos de Coleta", "Buscar por CEP").
+  - Placeholder de CEP brasileiro ("Ex: 12245-000").
+  - Mapa Leaflet centralizado em São José dos Campos – SP, com popups e legendas em português.
+  - Listagem com botões táteis mínimos de 44px e estilo Colhe+.
 
 - [ ] **Bloco 3: Doar Alimentos (DonateGoods)**
   - Cadastro de doação por produtor, comerciante ou morador.

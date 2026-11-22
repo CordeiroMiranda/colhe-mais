@@ -9,8 +9,10 @@ import {
   getFoodBankKey,
 } from "./findFoodBank.shared";
 import styles from "./FindFoodBank.module.css";
-const UK_CENTER: [number, number] = [54.5, -3.5];
-const UK_ZOOM = 6;
+
+// Coordenadas centrais de São José dos Campos – SP
+const SJC_CENTER: [number, number] = [-23.2237, -45.9009];
+const SJC_ZOOM = 12;
 
 interface FoodBankMapProps {
   foodBanks: FoodBank[];
@@ -18,14 +20,16 @@ interface FoodBankMapProps {
   selectedFoodBankKey: string | null;
   onSelectFoodBank: (foodBank: FoodBank) => void;
 }
-// Leaflet 仍然依赖默认原型上的图标 URL,因此在此统一为 Vite 资产管道重新指定一次。
+
 delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
 });
+
 const defaultIcon = new L.Icon.Default();
+
 function buildPopupContent(title: string, lines: string[]) {
   const wrapper = document.createElement("div");
   const heading = document.createElement("strong");
@@ -38,6 +42,7 @@ function buildPopupContent(title: string, lines: string[]) {
   });
   return wrapper;
 }
+
 export default function FoodBankMap({
   foodBanks,
   searchedLocation,
@@ -53,12 +58,12 @@ export default function FoodBankMap({
       return;
     }
     const map = L.map(mapElementRef.current, {
-      center: UK_CENTER,
-      zoom: UK_ZOOM,
+      center: SJC_CENTER,
+      zoom: SJC_ZOOM,
       scrollWheelZoom: true,
     });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors",
+      attribution: "&copy; Contribuidores do OpenStreetMap",
     }).addTo(map);
     markerLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
@@ -101,9 +106,10 @@ export default function FoodBankMap({
     if (!map || !markerLayer) {
       return;
     }
-    // 每次结果集变化时从头重建标记;列表较小,这样能让选中状态保持简单清晰。
+
     markerLayer.clearLayers();
     const points: L.LatLngExpression[] = [];
+
     if (searchedLocation) {
       points.push([searchedLocation.lat, searchedLocation.lng]);
       L.marker([searchedLocation.lat, searchedLocation.lng], {
@@ -111,12 +117,13 @@ export default function FoodBankMap({
         zIndexOffset: 900,
       })
         .bindPopup(
-          buildPopupContent("Your searched location", [
-            "This postcode is used as the centre point for nearby results.",
+          buildPopupContent("Seu local pesquisado", [
+            "Este CEP é o ponto central para calcular os pontos de coleta mais próximos.",
           ]),
         )
         .addTo(markerLayer);
     }
+
     foodBanks.forEach((foodBank) => {
       points.push([foodBank.lat, foodBank.lng]);
       L.marker([foodBank.lat, foodBank.lng], {
@@ -128,8 +135,8 @@ export default function FoodBankMap({
           buildPopupContent(foodBank.name, [
             foodBank.address,
             canViewFoodBankPackages(foodBank)
-              ? "Local package inventory available"
-              : "No linked local admin account for package viewing yet",
+              ? "Pacotes de alimentos disponíveis"
+              : "Ponto de coleta ativo",
           ]),
         )
         .on("click", () => {
@@ -137,18 +144,21 @@ export default function FoodBankMap({
         })
         .addTo(markerLayer);
     });
+
     if (points.length === 0) {
-      map.setView(UK_CENTER, UK_ZOOM);
+      map.setView(SJC_CENTER, SJC_ZOOM);
     } else {
       map.fitBounds(L.latLngBounds(points), {
         padding: [48, 48],
         maxZoom: points.length === 1 ? 14 : 13,
       });
     }
+
     window.requestAnimationFrame(() => {
       map.invalidateSize();
     });
   }, [foodBanks, searchedLocation, selectedFoodBankKey, onSelectFoodBank]);
+
   return (
     <div className={styles.mapShell}>
       <div ref={mapElementRef} className={styles.mapCanvas} />
@@ -158,9 +168,9 @@ export default function FoodBankMap({
             <img
               src={markerIcon}
               className={styles.legendMarkerIcon}
-              alt="marker"
+              alt="Marcador de ponto de coleta"
             />
-            <span className={styles.legendLabel}>Food bank location</span>
+            <span className={styles.legendLabel}>Ponto de coleta Colhe+</span>
           </div>
         </div>
       </div>

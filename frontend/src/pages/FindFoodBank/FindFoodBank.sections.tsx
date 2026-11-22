@@ -28,13 +28,13 @@ import styles from "./FindFoodBank.module.css";
 
 const getSecondaryLine = (foodBank: FoodBank) =>
   canViewFoodBankPackages(foodBank)
-    ? "Local package inventory available"
-    : "No linked local admin account for online package viewing yet";
+    ? "Pacotes de alimentos disponíveis para solicitação"
+    : "Ponto de coleta ativo para recebimento de doações";
 
 const getDistanceLabel = (foodBank: FoodBank) =>
   typeof foodBank.distance === "number"
-    ? `${formatDistanceKilometers(foodBank.distance)} away`
-    : "Nearby location";
+    ? `A ${formatDistanceKilometers(foodBank.distance)} de distância`
+    : "Ponto de coleta próximo";
 
 function DetailRow({
   icon,
@@ -63,8 +63,6 @@ function FoodBankResultCard({
   onViewPackages: (foodBank: FoodBank) => void;
 }) {
   const canViewPackages = canViewFoodBankPackages(foodBank);
-  // 套餐浏览仅对已绑定本地管理账户的食物银行开放,
-  // 但为了便于用户发现,仍然展示更大范围的搜索结果。
   const details = [
     {
       key: "address",
@@ -133,7 +131,7 @@ function FoodBankResultCard({
             title={
               canViewPackages
                 ? undefined
-                : "This food bank does not have a linked local admin account yet."
+                : "Este ponto de coleta ainda não possui pacotes cadastrados para visualização online."
             }
             onClick={(event) => {
               event.stopPropagation();
@@ -147,7 +145,7 @@ function FoodBankResultCard({
             )}
             iconStart={<PackageOpen className={styles.inlineIcon} />}
           >
-            View packages
+            Ver Pacotes
           </ActionButton>
           <ActionButton
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(foodBank.address)}`}
@@ -159,7 +157,7 @@ function FoodBankResultCard({
             className={styles.resultActionButton}
             iconStart={<Navigation className={styles.inlineIcon} />}
           >
-            Google Maps
+            Como Chegar
           </ActionButton>
         </div>
       </div>
@@ -174,12 +172,12 @@ export function FindFoodBankHeroSection() {
         <PublicSectionIntro
           title={
             <>
-              Find a food bank{" "}
-              <span className={styles.pageTitleAccent}>near you</span>
+              Localize um ponto de coleta{" "}
+              <span className={styles.pageTitleAccent}>próximo a você</span>
             </>
           }
-          description="Search by postcode to see nearby foodbank locations within 5kms."
-          descriptionExtraLine="Only food banks linked to a local admin account can open the package inventory page."
+          description="Pesquise por CEP ou bairro para visualizar os pontos de coleta do Colhe+ em São José dos Campos."
+          descriptionExtraLine="Pontos de coleta recebem doações de produtores, comerciantes e moradores e realizam a redistribuição às famílias."
           titleAs="h1"
           size="hero"
           className={styles.pageHeroIntro}
@@ -202,19 +200,19 @@ export function FindFoodBankSearchPanel({
 }) {
   return (
     <PublicSearchPanel
-      title="Search by postcode"
-      description="Enter your postcode to find nearby food banks"
+      title="Buscar por CEP"
+      description="Informe seu CEP para localizar os pontos de coleta mais próximos"
       value={localPostcode}
       onChange={onChangePostcode}
       onSubmit={onSubmit}
-      placeholder="e.g., SW1A 1AA"
-      submitLabel="Find Food Banks"
-      submittingLabel="Searching..."
+      placeholder="Ex: 12245-000"
+      submitLabel="Buscar Pontos de Coleta"
+      submittingLabel="Buscando..."
       isSubmitting={isSearching}
       icon={<Search className={styles.searchIcon} />}
       className={styles.searchPanel}
       introClassName={styles.searchPanelIntro}
-      inputProps={{ type: "text", "aria-label": "Postcode" }}
+      inputProps={{ type: "text", "aria-label": "CEP para busca de pontos de coleta" }}
     />
   );
 }
@@ -250,10 +248,8 @@ export function FindFoodBankResultsLayout({
     <div className={styles.contentGrid}>
       <div className={styles.mapColumn}>
         <div className={styles.mapPanel}>
-          <h3 className={styles.panelTitle}>Food bank locations</h3>
+          <h3 className={styles.panelTitle}>Mapa de Pontos de Coleta</h3>
           <div className={styles.mapBody}>
-            {/* 即使卡片已分页,地图仍保持对完整结果集的展示,
-                以确保标记选中与当前页保持一致。 */}
             <FoodBankMap
               foodBanks={searchResults}
               searchedLocation={searchedLocation}
@@ -266,7 +262,7 @@ export function FindFoodBankResultsLayout({
       <div>
         <div className={styles.resultsPanel}>
           <div className={styles.resultsHeader}>
-            <h3 className={styles.panelTitle}>Nearby food banks</h3>
+            <h3 className={styles.panelTitle}>Pontos de Coleta Próximos</h3>
             <p className={styles.summaryText}>{summary}</p>
           </div>
           <div className={styles.resultsStack}>
@@ -284,12 +280,11 @@ export function FindFoodBankResultsLayout({
             })}
             {hasSearched && searchResults.length === 0 ? (
               searchError ? (
-                <p className={styles.errorText}> Search error: {searchError}</p>
+                <p className={styles.errorText}>Erro na busca: {searchError}</p>
               ) : (
                 <div className={styles.emptyState}>
-                  {" "}
-                  No nearby food banks were found for this postcode. Try another
-                  postcode or a nearby area.
+                  Nenhum ponto de coleta foi encontrado para este CEP. Tente outro
+                  CEP de São José dos Campos ou consulte a lista geral no mapa.
                 </div>
               )
             ) : null}
@@ -301,12 +296,12 @@ export function FindFoodBankResultsLayout({
             className={styles.pagination}
             previousLabel={
               <>
-                <ChevronLeft size={16} /> Previous
+                <ChevronLeft size={16} /> Anterior
               </>
             }
             nextLabel={
               <>
-                Next <ChevronRight size={16} />
+                Próximo <ChevronRight size={16} />
               </>
             }
           />
