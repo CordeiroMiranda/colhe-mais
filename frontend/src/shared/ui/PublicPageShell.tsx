@@ -5,9 +5,12 @@ import LoginModal from "@/features/auth/components/LoginModal";
 import { useLoginModalController } from "@/features/auth/components/loginModal.model";
 import { cn } from "@/shared/lib/cn";
 import { scrollToTop, useScrollToTopOnRouteChange } from "@/shared/lib/scroll";
+import Logo from "@/shared/ui/Logo";
 import PublicSiteFooter from "@/shared/ui/PublicSiteFooter";
 import styles from "./PublicPageShell.module.css";
+
 type PublicPageShellVariant = "public" | "supermarket";
+
 interface PublicPageShellProps {
   children: ReactNode;
   className?: string;
@@ -16,26 +19,31 @@ interface PublicPageShellProps {
   showFooter?: boolean;
   navCenterText?: string;
 }
+
 const DEFAULT_SHELL_CLASS_NAME = cn(styles.shell, "public-page-font");
 const DEFAULT_MAIN_CLASS_NAME = styles.main;
+
 interface NavItem {
   key: string;
   label: string;
   path: string;
 }
+
 const publicNavItems: NavItem[] = [
-  { key: "home", label: "Home", path: "/home" },
-  { key: "support", label: "Get Support", path: "/find-foodbank" },
-  { key: "cash", label: "Donate Cash", path: "/donate/cash" },
-  { key: "goods", label: "Donate Goods", path: "/donate/goods" },
+  { key: "home", label: "Início", path: "/home" },
+  { key: "support", label: "Pontos de Coleta", path: "/find-foodbank" },
+  { key: "goods", label: "Doar Alimentos", path: "/donate/goods" },
+  { key: "cash", label: "Apoiar Projeto", path: "/donate/cash" },
 ];
+
 const supermarketNavItems: NavItem[] = [
   {
     key: "restock",
-    label: "Donation Form",
+    label: "Doação de Excedentes",
     path: "/workspace?section=restock",
   },
 ];
+
 function getActiveKey(
   pathname: string,
   search: string,
@@ -67,6 +75,7 @@ function getActiveKey(
   }
   return "";
 }
+
 function PrimaryNavbar({
   variant = "public",
   centerText,
@@ -81,9 +90,10 @@ function PrimaryNavbar({
   const navItems =
     variant === "supermarket" ? supermarketNavItems : publicNavItems;
   const activeKey = getActiveKey(location.pathname, location.search, variant);
-  const roleLabel = variant === "supermarket" ? "Supermarket" : "Public";
-  const authLabel = isAuthenticated ? "Sign Out" : "Sign In";
+  const roleLabel = variant === "supermarket" ? "Comércio Parceiro" : "Doador / Morador";
+  const authLabel = isAuthenticated ? "Sair" : "Entrar";
   const currentPath = `${location.pathname}${location.search}`;
+
   const goTo = (path: string) => {
     // 再次点击当前顶级目标时回到页面顶部,不推入重复的历史记录
     if (currentPath === path) {
@@ -92,6 +102,7 @@ function PrimaryNavbar({
     }
     navigate(path);
   };
+
   const handleAuthClick = () => {
     if (isAuthenticated) {
       void signOut();
@@ -100,6 +111,7 @@ function PrimaryNavbar({
     }
     loginModal.openSignIn();
   };
+
   return (
     <>
       <header className={styles.header}>
@@ -108,13 +120,14 @@ function PrimaryNavbar({
             type="button"
             className={styles.brandButton}
             onClick={() => goTo("/home")}
+            aria-label="Ir para a página inicial"
           >
-            <span className={styles.brand}>ABC Foodbank</span>
+            <Logo variant="header" alt="Colhe+" />
           </button>
           {centerText ? (
             <span>{centerText}</span>
           ) : (
-            <nav className={styles.nav} aria-label={`${variant} navigation`}>
+            <nav className={styles.nav} aria-label={variant === "supermarket" ? "Navegação do parceiro" : "Navegação principal"}>
               {navItems.map((item) => (
                 <button
                   key={item.key}
@@ -146,6 +159,7 @@ function PrimaryNavbar({
     </>
   );
 }
+
 export default function PublicPageShell({
   children,
   className,
@@ -155,6 +169,7 @@ export default function PublicPageShell({
   navCenterText,
 }: PublicPageShellProps) {
   useScrollToTopOnRouteChange();
+
   return (
     <div className={cn(DEFAULT_SHELL_CLASS_NAME, className)}>
       <PrimaryNavbar variant={variant} centerText={navCenterText} />

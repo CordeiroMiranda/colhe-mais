@@ -403,15 +403,15 @@ export function PublicPagination({
   totalPages,
   onPageChange,
   className,
-  previousLabel = "Prev",
-  nextLabel = "Next",
+  previousLabel = "Anterior",
+  nextLabel = "Próximo",
 }: PublicPaginationProps) {
   if (totalPages <= 1) {
     return null;
   }
 
   return (
-    <nav className={cn(styles.pagination, className)} aria-label="Pagination">
+    <nav className={cn(styles.pagination, className)} aria-label="Paginação">
       <ActionButton
         tone="secondary"
         size="sm"

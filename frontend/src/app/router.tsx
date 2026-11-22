@@ -23,6 +23,7 @@ import {
 } from "@/pages/Admin/workspaceTabs";
 import routerChromeStyles from "./RouterChrome.module.css";
 import routeErrorStyles from "./RouteErrorPage.module.css";
+
 const Home = lazy(lazyWithRetry("home", () => import("@/pages/Home/Home")));
 const FindFoodBank = lazy(
   lazyWithRetry(
@@ -45,25 +46,30 @@ const DonateGoods = lazy(
     () => import("@/pages/DonateGoods/DonateGoods"),
   ),
 );
+
 type IdleWindow = Window &
   typeof globalThis & {
     requestIdleCallback?: (callback: () => void) => number;
     cancelIdleCallback?: (handle: number) => void;
   };
+
 type RouteErrorDetails = {
   heading: string;
   message: string;
   code?: string;
   details?: string;
 };
+
 interface ProtectedRouteProps {
   children: ReactNode;
   allowedRole?: AllowedRole;
   showFooterWhenBlocked?: boolean;
 }
+
 function LoadingMessage({ children }: { children: ReactNode }) {
   return <div className={routerChromeStyles.loadingMessage}>{children}</div>;
 }
+
 const stringifyErrorData = (value: unknown) => {
   if (typeof value === "string") {
     return value;
@@ -75,75 +81,79 @@ const stringifyErrorData = (value: unknown) => {
     try {
       return JSON.stringify(value, null, 2);
     } catch {
-      return "Unable to display additional error details.";
+      return "Não foi possível exibir detalhes adicionais do erro.";
     }
   }
   return "";
 };
+
 const getRouteErrorDetails = (error: unknown): RouteErrorDetails => {
   if (isRouteErrorResponse(error)) {
     const responseDetails = stringifyErrorData(error.data);
     return {
-      heading: `Request failed${error.status ? ` (${error.status})` : ""}`,
+      heading: `Falha na requisição${error.status ? ` (${error.status})` : ""}`,
       message:
         responseDetails ||
         error.statusText ||
-        "The page could not be loaded. Please try again.",
+        "Não foi possível carregar a página. Por favor, tente novamente.",
       code: error.status ? `HTTP ${error.status}` : undefined,
       details: responseDetails || error.statusText,
     };
   }
   if (error instanceof Error) {
     return {
-      heading: "Something went wrong",
-      message: error.message || "The page ran into an unexpected problem.",
+      heading: "Algo deu errado",
+      message: error.message || "A página encontrou um problema inesperado.",
       details: error.stack || error.message,
     };
   }
   return {
-    heading: "Something went wrong",
-    message: "The page ran into an unexpected problem.",
+    heading: "Algo deu errado",
+    message: "A página encontrou um problema inesperado.",
     details: stringifyErrorData(error) || undefined,
   };
 };
+
 function RouteFallback() {
-  return <LoadingMessage>Loading...</LoadingMessage>;
+  return <LoadingMessage>Carregando...</LoadingMessage>;
 }
+
 function withSuspense(node: ReactNode) {
   return <Suspense fallback={<RouteFallback />}>{node}</Suspense>;
 }
+
 function RouterRoot() {
   return <Outlet />;
 }
+
 function RouteErrorPage() {
   const error = useRouteError();
   const location = useLocation();
   const { heading, message, code, details } = getRouteErrorDetails(error);
   const reloadHref =
     `${location.pathname}${location.search}${location.hash}` || "/";
+
   return (
     <main className={routeErrorStyles.root}>
       <div className={routeErrorStyles.content}>
-        <p className={routeErrorStyles.line}>Application error</p>
+        <p className={routeErrorStyles.line}>Erro na aplicação</p>
         <h1 className={routeErrorStyles.line}>{heading}</h1>
         <p className={routeErrorStyles.line}>{message}</p>
         {code ? <p className={routeErrorStyles.line}>{code}</p> : null}
-        <p className={routeErrorStyles.line}>Page: {location.pathname}</p>
+        <p className={routeErrorStyles.line}>Página: {location.pathname}</p>
         <p className={routeErrorStyles.line}>
           <a href={reloadHref} className={routeErrorStyles.link}>
-            {" "}
-            Reload page
+            Recarregar página
           </a>
         </p>
         <p className={routeErrorStyles.line}>
           <Link to="/home" className={routeErrorStyles.link}>
-            {" "}
-            Back to home
+            Voltar para o início
           </Link>
         </p>
         {details ? (
           <>
-            <p className={routeErrorStyles.line}>Details:</p>
+            <p className={routeErrorStyles.line}>Detalhes:</p>
             <pre className={routeErrorStyles.details}>{details}</pre>
           </>
         ) : null}
@@ -151,20 +161,21 @@ function RouteErrorPage() {
     </main>
   );
 }
+
 function AdminSectionFallback() {
   return (
     <>
-      <LoadingMessage>Loading admin section...</LoadingMessage>
+      <LoadingMessage>Carregando painel de gestão...</LoadingMessage>
       <PublicSiteFooter />
     </>
   );
 }
+
 function ProtectedRoute({
   children,
   allowedRole,
   showFooterWhenBlocked = false,
 }: ProtectedRouteProps) {
-  // open auth in place, keep current route
   const location = useLocation();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
@@ -174,17 +185,19 @@ function ProtectedRoute({
     redirectTo,
     requiredRole: allowedRole,
   });
+
   useEffect(() => {
     if (!isAuthenticated) {
       openSignIn({ redirectTo, requiredRole: allowedRole });
     }
   }, [allowedRole, isAuthenticated, openSignIn, redirectTo]);
+
   if (!isAuthenticated) {
     return (
       <>
         <div className={routerChromeStyles.gate}>
           <p className={routerChromeStyles.gateMessage}>
-            Please sign in to access this page.
+            Por favor, entre na sua conta para acessar esta página.
           </p>
           <button
             type="button"
@@ -193,8 +206,7 @@ function ProtectedRoute({
               openSignIn({ redirectTo, requiredRole: allowedRole })
             }
           >
-            {" "}
-            Sign In
+            Entrar
           </button>
         </div>
         {showFooterWhenBlocked ? <PublicSiteFooter /> : null}
@@ -202,21 +214,23 @@ function ProtectedRoute({
       </>
     );
   }
+
   if (!hasAllowedRole(user, allowedRole)) {
     return (
       <>
         <div className={routerChromeStyles.gate}>
           <p className={routerChromeStyles.gateMessage}>
-            {" "}
-            You do not have permission to access this page.
+            Você não tem permissão para acessar esta página.
           </p>
         </div>
         {showFooterWhenBlocked ? <PublicSiteFooter /> : null}
       </>
     );
   }
+
   return <>{children}</>;
 }
+
 function WorkspaceRoot() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -225,6 +239,7 @@ function WorkspaceRoot() {
   const sectionParam = searchParams.get("section");
   const activeSection = pickActiveTab(userRole, sectionParam);
   const ActiveSectionComponent = activeSection.component;
+
   useEffect(() => {
     if (sectionParam === activeSection.key) {
       return;
@@ -233,13 +248,13 @@ function WorkspaceRoot() {
       replace: true,
     });
   }, [activeSection.key, location.pathname, navigate, sectionParam]);
+
   useEffect(() => {
     const idleWindow = window as IdleWindow;
     const preloadTarget = getPrefetchTab(activeSection.key, userRole);
     if (!preloadTarget) {
       return;
     }
-    // 在空闲时间预热下一个可能切换的工作区标签,使切换感觉即时而不拖慢首次渲染
     const preload = () => {
       void preloadTarget.preload();
     };
@@ -254,19 +269,20 @@ function WorkspaceRoot() {
     const timer = window.setTimeout(preload, 300);
     return () => window.clearTimeout(timer);
   }, [activeSection.key, userRole]);
+
   return (
     <Suspense fallback={<AdminSectionFallback />}>
       <ActiveSectionComponent />
     </Suspense>
   );
 }
+
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RouterRoot />,
     errorElement: <RouteErrorPage />,
     children: [
-      // 保留旧版管理员路由,但将其引导回共享工作区入口,确保基于角色的导航保持一致
       { index: true, element: <Navigate to="/home" replace /> },
       {
         path: "workspace",

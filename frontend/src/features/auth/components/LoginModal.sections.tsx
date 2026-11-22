@@ -15,7 +15,9 @@ import {
   type VisibilityState,
 } from "./loginModal.model";
 import styles from "./LoginModal.module.css";
+
 const getPasswordEmoji = (visible: boolean) => (visible ? "👁️" : "🙈");
+
 type FormFieldsProps<FormState extends FormValues> = {
   prefix: string;
   fields: FieldConfig<FormState>[];
@@ -25,7 +27,9 @@ type FormFieldsProps<FormState extends FormValues> = {
   onFieldChange: (key: keyof FormState, value: string) => void;
   onToggleVisibility?: (key: keyof FormState) => void;
 };
+
 type InlineLinkButtonProps = { onClick: () => void; children: ReactNode };
+
 function InlineLinkButton({ onClick, children }: InlineLinkButtonProps) {
   return (
     <button type="button" className={styles.linkButton} onClick={onClick}>
@@ -33,10 +37,11 @@ function InlineLinkButton({ onClick, children }: InlineLinkButtonProps) {
     </button>
   );
 }
+
 function DemoAccountsCard() {
   return (
     <div className={styles.demoAccounts}>
-      <p className={styles.demoTitle}>Demo accounts</p>
+      <p className={styles.demoTitle}>Contas de demonstração</p>
       <ul className={styles.demoList}>
         {DEMO_SIGNIN_ACCOUNTS.map((account) => (
           <li key={account} className={styles.demoItem}>
@@ -47,6 +52,7 @@ function DemoAccountsCard() {
     </div>
   );
 }
+
 function FormFields<FormState extends FormValues>({
   prefix,
   fields,
@@ -64,6 +70,7 @@ function FormFields<FormState extends FormValues>({
         const isVisible = Boolean(visibility[key]);
         const error = errors[key];
         const validationProps = getEnglishInputValidationProps(label);
+
         return (
           <Field
             key={stringKey}
@@ -89,7 +96,7 @@ function FormFields<FormState extends FormValues>({
                   type="button"
                   className={styles.passwordToggle}
                   onClick={() => onToggleVisibility?.(key)}
-                  aria-label={isVisible ? "Hide password" : "Show password"}
+                  aria-label={isVisible ? "Ocultar senha" : "Exibir senha"}
                 >
                   <span className={styles.passwordEmoji} aria-hidden="true">
                     {getPasswordEmoji(isVisible)}
@@ -103,6 +110,7 @@ function FormFields<FormState extends FormValues>({
     </>
   );
 }
+
 function RegisterPanel({ model }: { model: LoginModalModel }) {
   return (
     <FormPanel
@@ -131,11 +139,12 @@ function RegisterPanel({ model }: { model: LoginModalModel }) {
         className={styles.submitButton}
         disabled={model.regLoading}
       >
-        {model.regLoading ? "Creating account..." : "Create Account"}
+        {model.regLoading ? "Criando conta..." : "Criar Conta"}
       </button>
     </FormPanel>
   );
 }
+
 function ForgotPasswordPanel({ model }: { model: LoginModalModel }) {
   return (
     <FormPanel
@@ -145,9 +154,8 @@ function ForgotPasswordPanel({ model }: { model: LoginModalModel }) {
     >
       <div className={styles.panelIntro}>
         <p className={styles.panelDescription}>
-          {" "}
-          Enter your account email. If it exists, we'll send a 6-digit
-          verification code to that inbox.
+          Informe o e-mail da sua conta. Se ele estiver cadastrado, enviaremos
+          um código de verificação de 6 dígitos para sua caixa de entrada.
         </p>
       </div>
       <FormFields
@@ -172,16 +180,17 @@ function ForgotPasswordPanel({ model }: { model: LoginModalModel }) {
         className={styles.submitButton}
         disabled={model.forgotLoading}
       >
-        {model.forgotLoading ? "Sending code..." : "Send Verification Code"}
+        {model.forgotLoading ? "Enviando código..." : "Enviar Código de Verificação"}
       </button>
       <div className={styles.inlineActions}>
         <InlineLinkButton onClick={model.backToSignInFromForgot}>
-          Back to sign in
+          Voltar para o login
         </InlineLinkButton>
       </div>
     </FormPanel>
   );
 }
+
 function ResetPasswordPanel({ model }: { model: LoginModalModel }) {
   return (
     <FormPanel
@@ -191,9 +200,8 @@ function ResetPasswordPanel({ model }: { model: LoginModalModel }) {
     >
       <div className={styles.panelIntro}>
         <p className={styles.panelDescription}>
-          {" "}
-          Enter the email address that received the code, then use that 6-digit
-          verification code to choose a new password.
+          Informe o endereço de e-mail que recebeu o código e utilize o código
+          de 6 dígitos para cadastrar uma nova senha.
         </p>
       </div>
       <InlineFeedback
@@ -227,19 +235,20 @@ function ResetPasswordPanel({ model }: { model: LoginModalModel }) {
         className={styles.submitButton}
         disabled={model.resetLoading}
       >
-        {model.resetLoading ? "Updating password..." : "Reset Password"}
+        {model.resetLoading ? "Atualizando senha..." : "Redefinir Senha"}
       </button>
       <div className={styles.inlineActions}>
         <InlineLinkButton onClick={model.useAnotherEmail}>
-          Use another email
+          Usar outro e-mail
         </InlineLinkButton>
         <InlineLinkButton onClick={model.backToSignInFromReset}>
-          Back to sign in
+          Voltar para o login
         </InlineLinkButton>
       </div>
     </FormPanel>
   );
 }
+
 function SignInPanel({ model }: { model: LoginModalModel }) {
   return (
     <FormPanel
@@ -273,7 +282,7 @@ function SignInPanel({ model }: { model: LoginModalModel }) {
       />
       <div className={styles.inlineActions}>
         <InlineLinkButton onClick={model.openForgotPassword}>
-          Forgot password?
+          Esqueceu a senha?
         </InlineLinkButton>
       </div>
       <button
@@ -281,12 +290,13 @@ function SignInPanel({ model }: { model: LoginModalModel }) {
         className={styles.submitButton}
         disabled={model.signInLoading}
       >
-        {model.signInLoading ? "Signing in..." : "Sign In"}
+        {model.signInLoading ? "Entrando..." : "Entrar"}
       </button>
       <DemoAccountsCard />
     </FormPanel>
   );
 }
+
 function ActivePanel({ model }: { model: LoginModalModel }) {
   if (model.tab === "register") {
     return <RegisterPanel model={model} />;
@@ -299,10 +309,12 @@ function ActivePanel({ model }: { model: LoginModalModel }) {
   }
   return <SignInPanel model={model} />;
 }
+
 export function LoginModalDialog({ model }: { model: LoginModalModel }) {
   if (!model.isOpen) {
     return null;
   }
+
   return (
     <div className={styles.backdrop} onClick={model.onClose}>
       <div
@@ -316,9 +328,8 @@ export function LoginModalDialog({ model }: { model: LoginModalModel }) {
           type="button"
           className={styles.closeButton}
           onClick={model.onClose}
-          aria-label="Close dialog"
+          aria-label="Fechar janela"
         >
-          {" "}
           ×
         </button>
         <div className={styles.header}>
@@ -334,7 +345,7 @@ export function LoginModalDialog({ model }: { model: LoginModalModel }) {
               className={`${styles.tabItem} ${model.tab === tabName ? styles.tabItemActive : ""}`.trim()}
               onClick={() => model.resetAuthViews(tabName)}
             >
-              {tabName === "signin" ? "Sign In" : "Register"}
+              {tabName === "signin" ? "Entrar" : "Cadastrar"}
             </button>
           ))}
         </div>

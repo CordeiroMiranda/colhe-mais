@@ -50,49 +50,49 @@ export const AUTH_TABS = [
 ] as const satisfies readonly AuthTab[];
 
 export const DEMO_SIGNIN_ACCOUNTS = [
-  "Platform Admin: admin@foodbank.com / admin123",
-  "Local Admin (Jubilee Storehouse): localadmin@foodbank.com / localadmin123",
-  "Local Admin (Westside Food Support Centre): local1admin@foodbank.com / local1admin123",
-  "Supermarket: supermarket@foodbank.com / supermarket123",
-  "Public User: user@example.com / user12345",
+  "Administrador Geral: admin@foodbank.com / admin123",
+  "Resp. Ponto de Coleta (Ponto Central): localadmin@foodbank.com / localadmin123",
+  "Resp. Ponto de Coleta (Ponto Oeste): local1admin@foodbank.com / local1admin123",
+  "Comércio Parceiro: supermarket@foodbank.com / supermarket123",
+  "Doador / Morador: user@example.com / user12345",
 ] as const;
 
 export const SIGNIN_FIELDS: FieldConfig<SignInFormState>[] = [
-  ["Email Address", "email", "email", "you@example.com"],
-  ["Password", "password", "password", "Enter password"],
+  ["E-mail", "email", "email", "seuemail@exemplo.com"],
+  ["Senha", "password", "password", "Digite sua senha"],
 ];
 
 export const FORGOT_FIELDS: FieldConfig<Pick<SignInFormState, "email">>[] = [
-  ["Email Address", "email", "email", "you@example.com"],
+  ["E-mail", "email", "email", "seuemail@exemplo.com"],
 ];
 
 export const REGISTER_FIELDS: FieldConfig<RegisterFormState>[] = [
-  ["Full Name", "name", "text", "Your name"],
-  ["Email Address", "email", "email", "you@example.com"],
+  ["Nome Completo", "name", "text", "Seu nome completo"],
+  ["E-mail", "email", "email", "seuemail@exemplo.com"],
   [
-    "Password",
+    "Senha",
     "password",
     "password",
-    "At least 8 chars with letters, numbers, and symbols",
+    "Mínimo 8 caracteres com letras, números e símbolos",
   ],
-  ["Confirm Password", "confirm", "password", "Repeat password"],
+  ["Confirmar Senha", "confirm", "password", "Repita a senha"],
 ];
 
 export const RESET_FIELDS: FieldConfig<ResetFormState>[] = [
-  ["Email Address", "email", "email", "you@example.com"],
+  ["E-mail", "email", "email", "seuemail@exemplo.com"],
   [
-    "Verification Code",
+    "Código de Verificação",
     "verificationCode",
     "text",
-    "Enter the 6-digit code from your email",
+    "Digite o código de 6 dígitos recebido por e-mail",
   ],
   [
-    "New Password",
+    "Nova Senha",
     "newPassword",
     "password",
-    "At least 8 chars with letters, numbers, and symbols",
+    "Mínimo 8 caracteres com letras, números e símbolos",
   ],
-  ["Confirm Password", "confirm", "password", "Repeat new password"],
+  ["Confirmar Senha", "confirm", "password", "Repita a nova senha"],
 ];
 
 const EMPTY_PASSWORD_VISIBILITY = {
@@ -113,7 +113,7 @@ export type PasswordVisibilityKey =
 export type FormErrors = Record<string, string>;
 
 const PASSWORD_RULE_MESSAGE =
-  "Password must include letters, numbers, and special characters (no spaces).";
+  "A senha deve conter letras, números e caracteres especiais (sem espaços).";
 
 export function createEmptySignInForm(): SignInFormState {
   return { email: "", password: "" };
@@ -148,21 +148,21 @@ export function validateResetForm(resetForm: ResetFormState): FormErrors {
   const passwordIsStrong = isStrongPassword(resetForm.newPassword);
 
   if (!isValidEmail(resetForm.email)) {
-    errors.email = "Please enter a valid email.";
+    errors.email = "Por favor, informe um e-mail válido.";
   }
   if (!resetForm.verificationCode.trim()) {
-    errors.verificationCode = "Verification code is required.";
+    errors.verificationCode = "O código de verificação é obrigatório.";
   } else if (!/^\d{6}$/.test(resetForm.verificationCode.trim())) {
     errors.verificationCode =
-      "Verification code must contain exactly 6 digits.";
+      "O código de verificação deve conter exatamente 6 dígitos.";
   }
   if (!passwordIsStrong) {
     errors.newPassword = PASSWORD_RULE_MESSAGE;
   }
   if (!resetForm.confirm) {
-    errors.confirm = "Please confirm password.";
+    errors.confirm = "Por favor, confirme a nova senha.";
   } else if (passwordIsStrong && resetForm.newPassword !== resetForm.confirm) {
-    errors.confirm = "Passwords do not match.";
+    errors.confirm = "As senhas não coincidem.";
   }
 
   return errors;
@@ -173,18 +173,18 @@ export function validateRegisterForm(regForm: RegisterFormState): FormErrors {
   const passwordIsStrong = isStrongPassword(regForm.password);
 
   if (!regForm.name.trim()) {
-    errors.name = "Name is required.";
+    errors.name = "O nome é obrigatório.";
   }
   if (!isValidEmail(regForm.email)) {
-    errors.email = "Please enter a valid email.";
+    errors.email = "Por favor, informe um e-mail válido.";
   }
   if (!passwordIsStrong) {
     errors.password = PASSWORD_RULE_MESSAGE;
   }
   if (!regForm.confirm) {
-    errors.confirm = "Please confirm password.";
+    errors.confirm = "Por favor, confirme a senha.";
   } else if (passwordIsStrong && regForm.password !== regForm.confirm) {
-    errors.confirm = "Passwords do not match.";
+    errors.confirm = "As senhas não coincidem.";
   }
 
   return errors;
@@ -192,15 +192,15 @@ export function validateRegisterForm(regForm: RegisterFormState): FormErrors {
 
 export function modalTitleFor(tab: AuthTab, signInView: SignInView) {
   if (tab === "register") {
-    return "Create Account";
+    return "Criar Conta";
   }
   if (signInView === "forgot") {
-    return "Forgot Password";
+    return "Recuperar Senha";
   }
   if (signInView === "reset") {
-    return "Reset Password";
+    return "Redefinir Senha";
   }
-  return "Welcome Back";
+  return "Entrar no Colhe+";
 }
 
 export type LoginModalControllerOptions = {
@@ -208,13 +208,16 @@ export type LoginModalControllerOptions = {
   redirectTo?: string | null;
   requiredRole?: AllowedRole;
 };
+
 type LoginModalControllerState = {
   open: boolean;
   initialTab: AuthTab;
   redirectTo: string | null;
   requiredRole: AllowedRole;
 };
+
 type OpenLoginModalOptions = Partial<LoginModalControllerOptions>;
+
 const createControllerState = ({
   initialTab = "signin",
   redirectTo = null,
@@ -225,16 +228,18 @@ const createControllerState = ({
   redirectTo,
   requiredRole,
 });
+
 export function useLoginModalController(
   defaults: LoginModalControllerOptions = {},
 ) {
-  // 路由和页面外壳都会打开此弹窗,因此控制器在开关状态旁边一并保存触发意图
   const [state, setState] = useState<LoginModalControllerState>(() =>
     createControllerState(defaults),
   );
+
   const close = useCallback(() => {
     setState((current) => ({ ...current, open: false }));
   }, []);
+
   const open = useCallback(
     (options: OpenLoginModalOptions = {}) => {
       setState({
@@ -246,18 +251,21 @@ export function useLoginModalController(
     },
     [defaults.initialTab, defaults.redirectTo, defaults.requiredRole],
   );
+
   const openSignIn = useCallback(
     (options: Omit<OpenLoginModalOptions, "initialTab"> = {}) => {
       open({ ...options, initialTab: "signin" });
     },
     [open],
   );
+
   const openRegister = useCallback(
     (options: Omit<OpenLoginModalOptions, "initialTab"> = {}) => {
       open({ ...options, initialTab: "register" });
     },
     [open],
   );
+
   const modalProps: LoginModalProps = useMemo(
     () => ({
       isOpen: state.open,
@@ -268,6 +276,7 @@ export function useLoginModalController(
     }),
     [close, state.initialTab, state.open, state.redirectTo, state.requiredRole],
   );
+
   return useMemo(
     () => ({
       isOpen: state.open,
@@ -285,6 +294,7 @@ type UseLoginModalModelOptions = Pick<
   LoginModalProps,
   "initialTab" | "isOpen" | "onClose" | "redirectTo" | "requiredRole"
 >;
+
 export function useLoginModalModel({
   initialTab = "signin",
   isOpen,
@@ -292,7 +302,6 @@ export function useLoginModalModel({
   redirectTo,
   requiredRole,
 }: UseLoginModalModelOptions) {
-  // 将登录、注册、忘记密码和重置密码流程都放在一个 model 里,使弹窗切换视图时不丢失共享上下文
   const { login, register } = useAuthStore();
   const navigate = useNavigate();
   const [tab, setTab] = useState<AuthTab>(initialTab);
@@ -315,36 +324,41 @@ export function useLoginModalModel({
   const [passwordVisibility, setPasswordVisibility] = useState(
     createPasswordVisibilityState,
   );
+
   const clearSignInStatus = useCallback(() => {
     setSignInError("");
     setSignInNotice("");
   }, []);
+
   const updateSignInField = (key: keyof typeof signInForm, value: string) => {
     setSignInForm((form) => ({ ...form, [key]: value }));
   };
+
   const syncSignInEmail = useCallback((email: string) => {
     setSignInForm((form) => ({ ...form, email }));
   }, []);
+
   const completePasswordReset = useCallback((email: string, notice: string) => {
     setSignInForm((form) => ({ ...form, email, password: "" }));
     setSignInError("");
     setSignInNotice(notice);
   }, []);
+
   const handleSignIn = async () => {
     clearSignInStatus();
     if (!signInForm.email || !signInForm.password) {
-      setSignInError("Please fill in all fields.");
+      setSignInError("Por favor, preencha todos os campos.");
       return;
     }
     if (!isValidEmail(signInForm.email)) {
-      setSignInError("Please enter a valid email.");
+      setSignInError("Por favor, informe um e-mail válido.");
       return;
     }
     setSignInLoading(true);
     const result = await login(signInForm.email, signInForm.password);
     setSignInLoading(false);
     if (!result.success) {
-      setSignInError(result.message ?? "Login failed.");
+      setSignInError(result.message ?? "Falha ao entrar.");
       return;
     }
     onClose();
@@ -359,6 +373,7 @@ export function useLoginModalModel({
       );
     }
   };
+
   const updateRegisterField = (key: keyof typeof regForm, value: string) => {
     setRegForm((form) => ({ ...form, [key]: value }));
     setRegErrors((current) =>
@@ -369,6 +384,7 @@ export function useLoginModalModel({
       ),
     );
   };
+
   const handleRegister = async () => {
     const errors = validateRegisterForm(regForm);
     setRegErrors(errors);
@@ -381,8 +397,9 @@ export function useLoginModalModel({
     );
     setRegLoading(false);
     if (result.success) onClose();
-    else setRegErrors({ email: result.message ?? "Registration failed." });
+    else setRegErrors({ email: result.message ?? "Falha ao cadastrar." });
   };
+
   const resetState = useCallback(() => {
     setSignInView("signin");
     clearSignInStatus();
@@ -392,6 +409,7 @@ export function useLoginModalModel({
     setResetErrors({});
     setResetFeedback(null);
   }, [clearSignInStatus]);
+
   const openForgotPassword = () => {
     setSignInView("forgot");
     clearSignInStatus();
@@ -399,11 +417,12 @@ export function useLoginModalModel({
     setResetFeedback(null);
     setForgotEmail((current) => current || signInForm.email);
   };
+
   const handleForgotPassword = async () => {
     if (!isValidEmail(forgotEmail)) {
       setForgotFeedback({
         tone: "error",
-        message: "Please enter a valid email.",
+        message: "Por favor, informe um e-mail válido.",
       });
       return;
     }
@@ -414,7 +433,7 @@ export function useLoginModalModel({
     if (!result.success) {
       setForgotFeedback({
         tone: "error",
-        message: result.message ?? "Unable to start password reset.",
+        message: result.message ?? "Não foi possível iniciar a recuperação de senha.",
       });
       return;
     }
@@ -431,17 +450,20 @@ export function useLoginModalModel({
       tone: "success",
       message:
         result.message ??
-        "If this email exists, a verification code has been sent. Enter it below with your new password.",
+        "Se este e-mail estiver cadastrado, um código de verificação foi enviado. Digite-o abaixo junto com sua nova senha.",
     });
   };
+
   const changeForgotEmail = (value: string) => {
     setForgotEmail(value);
     setForgotFeedback(null);
   };
+
   const backToSignInFromForgot = () => {
     setSignInView("signin");
     setForgotFeedback(null);
   };
+
   const updateResetField = (key: keyof ResetFormState, value: string) => {
     setResetForm((form) => ({ ...form, [key]: value }));
     setResetErrors((current) =>
@@ -453,6 +475,7 @@ export function useLoginModalModel({
     );
     setResetFeedback((current) => (current?.tone === "error" ? null : current));
   };
+
   const handleResetPassword = async () => {
     const errors = validateResetForm(resetForm);
     setResetErrors(errors);
@@ -471,7 +494,7 @@ export function useLoginModalModel({
     if (!result.success) {
       setResetFeedback({
         tone: "error",
-        message: result.message ?? "Password reset failed.",
+        message: result.message ?? "Falha ao redefinir a senha.",
       });
       return;
     }
@@ -482,33 +505,39 @@ export function useLoginModalModel({
     completePasswordReset(
       email,
       result.message ??
-        "Password reset successful. Please sign in with your new password.",
+        "Senha redefinida com sucesso. Por favor, entre com sua nova senha.",
     );
   };
+
   const useAnotherEmail = () => {
     setForgotEmail(resetForm.email);
     setSignInView("forgot");
     setResetFeedback(null);
   };
+
   const backToSignInFromReset = () => {
     setSignInView("signin");
     setResetFeedback(null);
     setResetErrors({});
   };
+
   const togglePasswordVisibility = (key: PasswordVisibilityKey) => {
     setPasswordVisibility((state) => ({ ...state, [key]: !state[key] }));
   };
+
   const resetAuthViews = (nextTab: AuthTab) => {
     setTab(nextTab);
     resetState();
     setPasswordVisibility(createPasswordVisibilityState());
   };
+
   useEffect(() => {
     if (!isOpen) return;
     setTab(initialTab);
     resetState();
     setPasswordVisibility(createPasswordVisibilityState());
   }, [initialTab, isOpen, resetState]);
+
   useEffect(() => {
     if (!isOpen) return;
     const originalOverflow = document.body.style.overflow;
@@ -517,6 +546,7 @@ export function useLoginModalModel({
       document.body.style.overflow = originalOverflow;
     };
   }, [isOpen]);
+
   return {
     isOpen,
     onClose,
@@ -554,4 +584,5 @@ export function useLoginModalModel({
     handleRegister,
   };
 }
+
 export type LoginModalModel = ReturnType<typeof useLoginModalModel>;

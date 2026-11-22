@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#1B998B"/>
-  <text x="16" y="22" font-size="18" text-anchor="middle" fill="white" font-family="serif" font-weight="bold">F</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#1B4D2A"/>
+  <!-- Arco laranja superior -->
+  <path d="M 14 26 A 18 18 0 0 1 50 26" fill="none" stroke="#F67C01" stroke-width="5" stroke-linecap="round"/>
+  <!-- Círculo verde central -->
+  <circle cx="32" cy="38" r="18" fill="#2F7D32"/>
+  <!-- Folha branca estilizada -->
+  <path d="M 24 44 C 24 35, 31 30, 40 30 C 40 39, 33 46, 24 46 Z" fill="#FFFFFF"/>
+  <path d="M 24 46 C 28 41, 33 36, 40 30" fill="none" stroke="#2F7D32" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Símbolo de + laranja -->
+  <path d="M 48 16 H 56 M 52 12 V 20" stroke="#F67C01" stroke-width="3" stroke-linecap="round"/>
 </svg>

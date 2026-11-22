@@ -1,30 +1,100 @@
 :root {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-sans-alt: "DM Sans", system-ui, sans-serif;
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-ui:
-    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --color-brand-primary: #ffb703;
-  --color-brand-primary-hover: #fb8500;
-  --color-brand-primary-soft: #fff8e6;
-  --color-brand-accent: #f5a623;
-  --color-brand-accent-hover: #e09515;
-  --color-brand-accent-strong: #d4870a;
-  --color-text-strong: #121212;
-  --color-text-primary: #111111;
-  --color-text-base: #1a1a1a;
-  --color-text-body: #333333;
-  --color-text-muted: #525252;
-  --color-text-subtle: #6b7280;
-  --color-surface-page: #ffffff;
-  --color-surface-muted: #f2f4f3;
-  --color-surface-alt: #f8f9fa;
-  --color-surface-elevated: #fafafa;
-  --color-border-default: #e5e5e5;
-  --color-border-soft: #e5e7eb;
-  --color-border-strong: #d1d5db;
-  --color-success: #22c55e;
-  --color-success-strong: #2e7d32;
-  --color-danger-strong: #d32f2f;
+  /* ========================================================================
+     TIPOGRAFIA (Nunito para textos, Poppins para títulos)
+     ======================================================================== */
+  --font-sans: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans-alt: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-title: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* ========================================================================
+     CORES DE MARCA (COLHE+)
+     - Verde escuro extraído do texto "COLHE" do logo: #1B4D2A
+     - Verde médio extraído do círculo da folha: #2F7D32
+     - Laranja/Dourado de destaque extraído do "+" e arco: #F67C01
+     ======================================================================== */
+  --color-brand-dark: #1b4d2a;
+  --color-brand-dark-hover: #143b20;
+  --color-brand-dark-subtle: #245e35;
+
+  --color-brand-primary: #2f7d32;
+  --color-brand-primary-hover: #256628;
+  --color-brand-primary-soft: #ebf5ec;
+  --color-brand-primary-light: #e0efe2;
+
+  --color-brand-accent: #f67c01;
+  --color-brand-accent-hover: #e06d00;
+  --color-brand-accent-soft: #fff4e8;
+  --color-brand-accent-strong: #d36500;
+
+  /* ========================================================================
+     SUPERFÍCIES E FUNDOS (Claro, acolhedor e limpo)
+     ======================================================================== */
+  --color-surface-page: #f8faf8;
+  --color-surface-card: #ffffff;
+  --color-surface-muted: #f0f4f1;
+  --color-surface-alt: #f4f7f4;
+  --color-surface-elevated: #ffffff;
+
+  /* ========================================================================
+     TEXTOS E CONTRASTE
+     ======================================================================== */
+  --color-text-title: #1b4d2a;
+  --color-text-strong: #1b4d2a;
+  --color-text-primary: #1c2b20;
+  --color-text-base: #2d3b31;
+  --color-text-body: #3c4a40;
+  --color-text-muted: #5c6e61;
+  --color-text-subtle: #738578;
+  --color-text-inverse: #ffffff;
+
+  /* ========================================================================
+     BORDAS E DIVISORES
+     ======================================================================== */
+  --color-border-default: #e2eae3;
+  --color-border-soft: #edf3ee;
+  --color-border-strong: #c5d4c8;
+
+  /* ========================================================================
+     STATUS E FEEDBACK
+     ======================================================================== */
+  --color-success: #2f7d32;
+  --color-success-strong: #1b4d2a;
+  --color-warning: #f67c01;
+  --color-danger: #dc2626;
+  --color-danger-strong: #b91c1c;
+
+  /* ========================================================================
+     ESPAÇAMENTOS
+     ======================================================================== */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+
+  /* ========================================================================
+     RAIOS DE BORDA (Cantos arredondados, estilo acolhedor)
+     ======================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* ========================================================================
+     SOMBRAS
+     ======================================================================== */
+  --shadow-sm: 0 1px 3px rgba(27, 77, 42, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 8px -1px rgba(27, 77, 42, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(27, 77, 42, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-soft: 0 6px 24px rgba(27, 77, 42, 0.07);
 }

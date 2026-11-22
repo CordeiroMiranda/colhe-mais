@@ -1,5 +1,7 @@
 import type { User } from "@/shared/types/auth";
+
 type AdminScopeKind = "platform" | "local" | "unknown";
+
 export interface AdminScopeMeta {
   scopeKind: AdminScopeKind;
   isPlatformAdmin: boolean;
@@ -9,6 +11,7 @@ export interface AdminScopeMeta {
   foodBankId: number | null;
   foodBankName: string | null;
 }
+
 export interface AdminFoodBankScopeState {
   scopeKey: string;
   effectiveFoodBankId: number | null;
@@ -16,9 +19,11 @@ export interface AdminFoodBankScopeState {
   canChooseFoodBank: boolean;
   isFoodBankSelectionRequired: boolean;
 }
+
 function normalizeFoodBankId(value: number | null | undefined): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
+
 function resolveAdminTargetFoodBankId(
   scope: AdminScopeMeta,
   preferredFoodBankId?: number | null,
@@ -30,6 +35,7 @@ function resolveAdminTargetFoodBankId(
     normalizeFoodBankId(fallbackFoodBankId)
   );
 }
+
 export function getAdminFoodBankScopeState(
   scope: AdminScopeMeta,
   selectedFoodBankId: number | null,
@@ -41,6 +47,7 @@ export function getAdminFoodBankScopeState(
   );
   const hasFixedFoodBank = scope.foodBankId != null;
   const canChooseFoodBank = scope.isPlatformAdmin && !hasFixedFoodBank;
+
   return {
     scopeKey: `${scope.scopeKind}:${effectiveFoodBankId ?? "none"}`,
     effectiveFoodBankId,
@@ -50,6 +57,7 @@ export function getAdminFoodBankScopeState(
       canChooseFoodBank && effectiveFoodBankId == null,
   };
 }
+
 export function getAdminScopeMeta(
   user: User | null | undefined,
 ): AdminScopeMeta {
@@ -58,36 +66,39 @@ export function getAdminScopeMeta(
     typeof user?.food_bank_name === "string" && user.food_bank_name.trim()
       ? user.food_bank_name.trim()
       : foodBankId != null
-        ? `Food Bank #${foodBankId}`
+        ? `Ponto de Coleta #${foodBankId}`
         : null;
+
   if (user?.role === "admin" && foodBankId != null) {
     return {
       scopeKind: "local",
       isPlatformAdmin: false,
       isLocalFoodBankAdmin: true,
-      roleLabel: `${foodBankName} Local Admin`,
-      viewingLabel: `Viewing: ${foodBankName} only`,
+      roleLabel: `Resp. ${foodBankName}`,
+      viewingLabel: `Visualizando: Apenas ${foodBankName}`,
       foodBankId,
       foodBankName,
     };
   }
+
   if (user?.role === "admin") {
     return {
       scopeKind: "platform",
       isPlatformAdmin: true,
       isLocalFoodBankAdmin: false,
-      roleLabel: "Platform Admin",
-      viewingLabel: "Viewing: Platform-wide data",
+      roleLabel: "Administrador Geral",
+      viewingLabel: "Visualizando: Dados gerais da rede",
       foodBankId: null,
       foodBankName: null,
     };
   }
+
   return {
     scopeKind: "unknown",
     isPlatformAdmin: false,
     isLocalFoodBankAdmin: false,
-    roleLabel: "Guest",
-    viewingLabel: "Viewing: Role unavailable",
+    roleLabel: "Visitante",
+    viewingLabel: "Visualizando: Perfil indisponível",
     foodBankId: null,
     foodBankName: null,
   };

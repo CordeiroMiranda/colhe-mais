@@ -1,0 +1,39 @@
+.logoWrapper {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+.logoImage {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.header {
+  height: 44px;
+}
+
+.footer {
+  height: 32px;
+}
+
+.icon {
+  height: 28px;
+}
+
+.hero {
+  height: 60px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    height: 38px;
+  }
+
+  .footer {
+    height: 28px;
+  }
+}

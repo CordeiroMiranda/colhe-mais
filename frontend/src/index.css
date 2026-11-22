@@ -3,35 +3,45 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
-  font-family: var(--font-sans-alt);
+  font-family: var(--font-sans);
   background-color: var(--color-surface-page);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
+
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
+  color: var(--color-brand-dark);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
-.public-page-font,
+
+.public-page-font {
+  font-family: var(--font-sans);
+}
+
 .public-page-font h1,
 .public-page-font h2,
 .public-page-font h3,
 .public-page-font h4,
-.public-page-font p,
-.public-page-font span,
-.public-page-font div,
-.public-page-font button,
-.public-page-font a,
-.public-page-font input {
-  font-family: var(--font-sans);
+.public-page-font h5,
+.public-page-font h6 {
+  font-family: var(--font-display);
 }
+
 .leaflet-container,
 .leaflet-pane,
 .leaflet-top,

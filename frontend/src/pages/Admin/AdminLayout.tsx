@@ -5,18 +5,22 @@ import { useAuthStore } from "@/app/store/authStore";
 import { getAdminScopeMeta } from "@/shared/lib/adminScope";
 import { cn } from "@/shared/lib/cn";
 import { scrollToTop, useBackToTopVisibility } from "@/shared/lib/scroll";
+import Logo from "@/shared/ui/Logo";
 import PublicSiteFooter from "@/shared/ui/PublicSiteFooter";
 import { AdminButton, AdminNavButton } from "./chrome";
 import adminStyles from "./admin.module.css";
 import { getAdminTabs, makeWorkspaceUrl, type AdminTab } from "./workspaceTabs";
+
 export interface HeroAction {
   label: string;
   sectionId?: string;
   href?: string;
   onClick?: () => void;
 }
+
 export type HeroFeatureGroupClassName = "hero-benefits" | "hero-features";
 export type HeroFeatureItemClassName = "benefit-item" | "feature-item";
+
 export interface PageMeta {
   section: AdminTab;
   title: string;
@@ -27,39 +31,42 @@ export interface PageMeta {
   featureItemClassName?: HeroFeatureItemClassName;
   showBackToTop?: boolean;
 }
+
 interface AdminLayoutProps extends PageMeta {
   children: ReactNode;
 }
+
 const sectionConfig: Record<AdminTab, Omit<PageMeta, "section">> = {
   food: {
-    title: "Inventory Management",
+    title: "Gestão de Alimentos e Estoque",
     description: "",
     features: [],
     actions: [
-      { label: "New Donation", href: "#donation-intake" },
-      { label: "Inventory Items", href: "#inventory-items" },
-      { label: "Package Management", href: "#package-management" },
-      { label: "Expiry Tracking", href: "#expiry-tracking" },
-      { label: "Code Verification", href: "#code-verification" },
+      { label: "Nova Doação", href: "#donation-intake" },
+      { label: "Itens em Estoque", href: "#inventory-items" },
+      { label: "Montagem de Pacotes", href: "#package-management" },
+      { label: "Controle de Validade", href: "#expiry-tracking" },
+      { label: "Conferir Código", href: "#code-verification" },
     ],
     showBackToTop: true,
   },
   statistics: {
-    title: "Data Dashboard",
+    title: "Painel de Impacto e Métricas",
     description: "",
     features: [],
     actions: [
-      { sectionId: "donation-analysis", label: "Donation Analysis" },
-      { sectionId: "inventory-health", label: "Inventory Health" },
-      { sectionId: "distribution-analysis", label: "Package Management" },
-      { sectionId: "waste-analysis", label: "Expiry Tracking" },
-      { sectionId: "code-verification", label: "Code Verification" },
+      { sectionId: "donation-analysis", label: "Análise de Doações" },
+      { sectionId: "inventory-health", label: "Saúde do Estoque" },
+      { sectionId: "distribution-analysis", label: "Pacotes Distribuídos" },
+      { sectionId: "waste-analysis", label: "Controle de Validade" },
+      { sectionId: "code-verification", label: "Conferir Código" },
     ],
     featureClassName: "hero-features",
     featureItemClassName: "feature-item",
     showBackToTop: true,
   },
 };
+
 // This helper is intentionally colocated with the shell metadata it serves.
 // eslint-disable-next-line react-refresh/only-export-components
 export function getPageMeta(section: AdminTab): PageMeta {
@@ -68,6 +75,7 @@ export function getPageMeta(section: AdminTab): PageMeta {
     ...sectionConfig[section],
   };
 }
+
 export default function AdminLayout({
   section,
   title,
@@ -90,11 +98,13 @@ export default function AdminLayout({
   const currentPath = location.pathname;
   const navSections = getAdminTabs();
   const shouldAddHeroButtonGap = features.length === 0 && !description;
+
   // Preserve the current workspace path when switching tabs so scoped admin
   // URLs keep the same deployment or base-route context.
   const navigateToSection = (nextSection: AdminTab) => {
     navigate(makeWorkspaceUrl(nextSection, currentPath));
   };
+
   return (
     <>
       <div
@@ -112,8 +122,8 @@ export default function AdminLayout({
               backToTopVisible && adminStyles.show,
             )}
             onClick={() => scrollToTop()}
-            aria-label="Back to top"
-            title="Back to top"
+            aria-label="Voltar ao topo"
+            title="Voltar ao topo"
           >
             <ArrowUp
               className={adminStyles["scroll-top-btn-icon"]}
@@ -130,11 +140,11 @@ export default function AdminLayout({
                 event.preventDefault();
                 navigate(makeWorkspaceUrl(section, currentPath));
               }}
+              aria-label="Ir para a página inicial da gestão"
             >
-              {" "}
-              ABC Foodbank
+              <Logo variant="header" alt="Colhe+" />
             </a>
-            <nav aria-label="Admin navigation">
+            <nav aria-label="Navegação administrativa">
               <ul className={adminStyles["nav-links"]}>
                 {navSections.map((navSection) => (
                   <li key={navSection.key}>
@@ -166,8 +176,7 @@ export default function AdminLayout({
                   navigate("/home", { replace: true });
                 }}
               >
-                {" "}
-                Sign Out
+                Sair
               </AdminButton>
             </div>
           </div>

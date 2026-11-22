@@ -10,48 +10,52 @@ import { useAuthStore } from "@/app/store/authStore";
 import type { RestrictedRole } from "@/features/auth/auth.helpers";
 import LoginModal from "@/features/auth/components/LoginModal";
 import { useLoginModalController } from "@/features/auth/components/loginModal.model";
+import Logo from "@/shared/ui/Logo";
 import styles from "./PublicSiteFooter.module.css";
+
 type FooterLink = {
   label: string;
   path: string;
   requiredRole?: RestrictedRole;
 };
+
 const footerSections: Array<{ title: string; links: FooterLink[] }> = [
   {
-    title: "Community",
+    title: "Comunidade",
     links: [
-      { label: "Home", path: "/home" },
-      { label: "Get Support", path: "/find-foodbank" },
-      { label: "Donate Cash", path: "/donate/cash" },
-      { label: "Donate Goods", path: "/donate/goods" },
+      { label: "Início", path: "/home" },
+      { label: "Pontos de Coleta", path: "/find-foodbank" },
+      { label: "Doar Alimentos", path: "/donate/goods" },
+      { label: "Apoiar Projeto", path: "/donate/cash" },
     ],
   },
   {
-    title: "Admin Tools",
+    title: "Pontos de Coleta",
     links: [
       {
-        label: "Inventory Management",
+        label: "Gestão de Alimentos",
         path: "/workspace?section=food",
         requiredRole: "admin",
       },
       {
-        label: "Data Dashboard",
+        label: "Painel de Impacto",
         path: "/workspace?section=statistics",
         requiredRole: "admin",
       },
     ],
   },
   {
-    title: "Partner Access",
+    title: "Parceiros",
     links: [
       {
-        label: "Donation Form",
+        label: "Doação de Excedentes",
         path: "/workspace?section=restock",
         requiredRole: "supermarket",
       },
     ],
   },
 ];
+
 const SOCIAL_LINKS = [
   {
     href: "#twitter",
@@ -69,6 +73,7 @@ const SOCIAL_LINKS = [
     icon: Camera,
   },
 ];
+
 function SocialIconLink({
   href,
   label,
@@ -80,16 +85,17 @@ function SocialIconLink({
     </a>
   );
 }
+
 export default function PublicSiteFooter() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const loginModal = useLoginModalController({ initialTab: "signin" });
+
   const handleFooterLinkClick = (
     event: MouseEvent<HTMLAnchorElement>,
     link: FooterLink,
   ) => {
     event.preventDefault();
-    // 受保护的 workspace 链接出现在公开页脚,未登录访客点击后进入登录流程并保留目标重定向
     if (link.requiredRole && !isAuthenticated) {
       loginModal.openSignIn({
         redirectTo: link.path,
@@ -99,23 +105,26 @@ export default function PublicSiteFooter() {
     }
     navigate(link.path);
   };
+
   return (
     <>
       <footer className={styles.footer}>
         <div className={styles.inner}>
           <div className={styles.topGrid}>
             <div className={styles.brandColumn}>
-              <h3 className={styles.brandTitle}>ABC Foodbank</h3>
+              <div style={{ marginBottom: "1rem" }}>
+                <Logo variant="footer" alt="Colhe+" />
+              </div>
               <p className={styles.brandDescription}>
-                A platform for searching nearby food banks, requesting food
-                support online, and submitting cash or goods donations. Used by
-                public users, food bank administrators, and supermarket
-                partners.
+                Conectando alimentos e comunidades. Plataforma solidária que
+                conecta produtores, comerciantes e moradores com excedentes a
+                pontos de coleta, para redistribuí-los a instituições sociais e
+                pessoas em vulnerabilidade.
               </p>
               <div className={styles.contactBlock}>
-                <div className={styles.sectionTitle}>Contact Office</div>
+                <div className={styles.sectionTitle}>Localização</div>
                 <div className={styles.contactText}>
-                  Penglais, Aberystwyth SY23 3FL
+                  São José dos Campos – SP
                 </div>
               </div>
               <div className={styles.socialLinks}>
@@ -124,6 +133,7 @@ export default function PublicSiteFooter() {
                 ))}
               </div>
             </div>
+
             {footerSections.map((section) => (
               <div key={section.title} className={styles.linkColumn}>
                 <h4 className={styles.linkHeading}>{section.title}</h4>
@@ -143,10 +153,11 @@ export default function PublicSiteFooter() {
               </div>
             ))}
           </div>
+
           <div className={styles.bottomBar}>
             <div className={styles.bottomRow}>
               <p className={styles.copyright}>
-                Copyright 2026 ABC Foodbank. All rights reserved.
+                Copyright © 2026 Colhe+. Todos os direitos reservados. Etep São José dos Campos.
               </p>
               <span className={styles.statusDot} />
             </div>

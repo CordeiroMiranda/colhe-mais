@@ -1,9 +1,11 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 import type { AllowedRole } from "@/features/auth/auth.helpers";
 import { lazyWithRetry } from "@/shared/lib/lazyWithRetry";
+
 export type AdminTab = "food" | "statistics";
 type WorkspaceTab = AdminTab | "restock";
 type WorkspaceComponent = LazyExoticComponent<ComponentType>;
+
 interface WorkspaceTabDef {
   key: WorkspaceTab;
   label: string;
@@ -11,7 +13,9 @@ interface WorkspaceTabDef {
   component: WorkspaceComponent;
   preload: () => Promise<unknown>;
 }
+
 type AdminTabDef = WorkspaceTabDef & { key: AdminTab };
+
 const loadAdminFoodManagement = lazyWithRetry(
   "workspace-food",
   () => import("./AdminFoodManagement"),
@@ -24,47 +28,53 @@ const loadSupermarketWorkspace = lazyWithRetry(
   "workspace-restock",
   () => import("@/pages/Supermarket/Supermarket"),
 );
+
 // Keep the workspace tab registry here so routing, tab chrome, and idle
 // preloading all read from the same role-aware source of truth.
 const workspaceTabs: Record<WorkspaceTab, WorkspaceTabDef> = {
   food: {
     key: "food",
-    label: "Inventory Management",
+    label: "Gestão de Alimentos",
     allowedRole: "admin",
     component: lazy(loadAdminFoodManagement),
     preload: loadAdminFoodManagement,
   },
   statistics: {
     key: "statistics",
-    label: "Data Dashboard",
+    label: "Painel de Impacto",
     allowedRole: "admin",
     component: lazy(loadAdminStatistics),
     preload: loadAdminStatistics,
   },
   restock: {
     key: "restock",
-    label: "Donation Form",
+    label: "Doação de Excedentes",
     allowedRole: "supermarket",
     component: lazy(loadSupermarketWorkspace),
     preload: loadSupermarketWorkspace,
   },
 };
+
 const adminTabs: AdminTabDef[] = [
   workspaceTabs.food as AdminTabDef,
   workspaceTabs.statistics as AdminTabDef,
 ];
+
 export function makeWorkspaceUrl(tab: WorkspaceTab, pathname = "/workspace") {
   return `${pathname}?section=${tab}`;
 }
+
 function getTabsForRole(userRole: string | null | undefined) {
   if (userRole === "supermarket") {
     return [workspaceTabs.restock];
   }
   return adminTabs;
 }
+
 export function getAdminTabs() {
   return adminTabs;
 }
+
 export function pickActiveTab(
   userRole: string | null | undefined,
   requestedSection: string | null | undefined,
@@ -77,6 +87,7 @@ export function pickActiveTab(
   }
   return workspaceTabs.food;
 }
+
 export function getPrefetchTab(
   currentSection: WorkspaceTab,
   userRole: string | null | undefined,
