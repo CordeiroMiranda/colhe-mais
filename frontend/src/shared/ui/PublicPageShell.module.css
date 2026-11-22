@@ -4,6 +4,7 @@
   flex-direction: column;
   background: var(--color-surface-page);
 }
+
 .main {
   flex: 1;
 }
@@ -19,226 +20,235 @@
   line-height: 1.5;
 }
 
-.pageRoot,
-.pageRoot *,
-.pageRoot *::before,
-.pageRoot *::after {
-  box-sizing: border-box;
-}
-
-.pageRoot :where(
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    span,
-    a,
-    button,
-    label,
-    input,
-    textarea,
-    select,
-    blockquote,
-    ul,
-    li,
-    div,
-    strong,
-    small
-  ) {
-  font-family: inherit;
-}
-
-.pageRoot :where(h1, h2, h3, h4, h5, h6, p, blockquote, ul, ol) {
-  margin: 0;
-}
-
-.pageRoot :where(ul, ol) {
-  padding: 0;
-}
-
-.pageRoot :where(button, a, input, textarea, select) {
-  font: inherit;
-}
-
-.pageRoot button {
-  font-size: 16px;
-}
-
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--color-surface-page);
   border-bottom: 1px solid var(--color-border-default);
+  box-shadow: var(--shadow-sm);
   font-family: var(--font-sans);
 }
+
 .bar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 32px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  gap: var(--space-6);
 }
+
 .brandButton {
   display: inline-flex;
   align-items: center;
-  justify-self: start;
-  padding: 0;
+  padding: var(--space-1);
   border: 0;
   background: transparent;
   cursor: pointer;
+  border-radius: var(--radius-sm);
 }
-.brand {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--color-text-primary);
-  white-space: nowrap;
+
+.brandButton:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
 }
-.nav {
-  justify-self: center;
+
+.centerText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.desktopNav {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 32px 24px;
+  gap: var(--space-6);
 }
+
 .navButton {
-  padding: 0 0 2px;
+  padding: var(--space-2) var(--space-1);
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--color-text-body);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.2;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background-color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
   font-family: inherit;
 }
+
 .navButton:hover,
 .navButtonActive {
-  color: var(--color-text-primary);
+  color: var(--color-brand-dark);
   border-bottom-color: var(--color-brand-primary);
 }
-.actions {
-  justify-self: end;
+
+.desktopActions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
 }
+
 .roleBadge {
-  padding: 6px 16px;
-  border-radius: 100px;
-  background: var(--color-brand-primary);
-  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-brand-primary-soft);
+  color: var(--color-brand-dark);
+  border: 1px solid var(--color-border-soft);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
   white-space: nowrap;
 }
+
 .authButton {
-  padding: 0.85rem 1rem;
-  min-height: 48px;
-  border-radius: 6px;
-  border: 1px solid var(--color-text-strong);
+  padding: var(--space-2) var(--space-5);
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-brand-dark);
   background: var(--color-surface-page);
-  color: var(--color-text-strong);
-  font-size: 0.95rem;
-  font-weight: 600;
+  color: var(--color-brand-dark);
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.2;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-family: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  text-align: center;
   white-space: nowrap;
 }
+
 .authButton:hover {
-  background: var(--color-surface-alt);
+  background: var(--color-brand-primary-soft);
   transform: translateY(-1px);
 }
+
 .authButton:active {
   transform: scale(0.98);
 }
-@media (max-width: 1100px) {
-  .bar {
-    padding: 16px 20px;
-    gap: 18px;
+
+.hamburgerButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-card);
+  color: var(--color-brand-dark);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hamburgerButton:hover {
+  background: var(--color-brand-primary-soft);
+}
+
+/* Mobile dropdown menu */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  padding: var(--space-4) var(--space-6) var(--space-6);
+  background: var(--color-surface-card);
+  border-top: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-md);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
-  .nav {
-    gap: 20px 16px;
-  }
-  .actions {
-    gap: 12px;
-  }
-  .roleBadge {
-    padding: 6px 12px;
-  }
-  .authButton {
-    padding: 0.75rem 0.95rem;
-    min-height: 44px;
-    font-size: 0.9rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-@media (max-width: 900px) {
-  .bar {
-    grid-template-columns: 1fr auto;
-    align-items: start;
-  }
-  .nav {
-    grid-column: 1 / -1;
-    justify-self: stretch;
-    gap: 12px 18px;
-    padding-top: 4px;
-  }
-  .actions {
-    gap: 10px;
-  }
-  .roleBadge {
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.mobileNavLink:hover,
+.mobileNavLinkActive {
+  background: var(--color-brand-primary-soft);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-dark);
+}
+
+.mobileMenuFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-soft);
+  gap: var(--space-3);
+}
+
+.mobileRoleBadge {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-brand-dark);
+}
+
+.mobileAuthButton {
+  min-height: 44px;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-brand-dark);
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@media (max-width: 860px) {
+  .desktopNav {
     display: none;
   }
-}
-@media (max-width: 560px) {
-  .bar {
-    gap: 12px;
+
+  .desktopActions {
+    display: none;
   }
-  .nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+
+  .hamburgerButton {
+    display: inline-flex;
   }
-  .navButton {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--color-border-default);
-    border-radius: 999px;
-    background: var(--color-surface-elevated);
-    text-align: left;
-  }
-  .navButton:hover,
-  .navButtonActive {
-    background: var(--color-brand-primary-soft);
-    border-color: var(--color-brand-primary);
-  }
-  .actions {
-    grid-column: 1 / -1;
-    justify-content: flex-end;
-    width: 100%;
-  }
-  .authButton {
-    padding: 0.75rem 0.95rem;
-    min-height: 44px;
-    font-size: 0.9rem;
+
+  .mobileMenu {
+    display: flex;
   }
 }

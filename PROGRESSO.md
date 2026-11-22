@@ -1,0 +1,51 @@
+# Progresso da Transformação Colhe+
+
+Projeto: **Colhe+** (Etep São José dos Campos)
+Slogan: "Conectando alimentos e comunidades"
+
+## Status dos Blocos
+
+- [x] **Bloco 0: Identidade Visual e Componentes Base**
+  - Configuração de tokens em `tokens.css` (cores `#1B4D2A`, `#2F7D32`, `#F67C01`, fontes Nunito/Poppins, raios e sombras).
+  - Componente único `Logo` com variantes header e footer.
+  - Favicon e título pt-BR ("Colhe+ | Conectando alimentos e comunidades").
+  - Tradução e padronização de `PublicPageShell`, `PublicSiteFooter`, `LoginModal`, `AdminLayout`, `workspaceTabs`, `adminScope` e `nativeValidation`.
+  - Menu mobile com botão hambúrguer responsivo (mínimo 44px).
+  - Rodapé com fundo verde escuro do tema (`--color-brand-dark`), sem referências ao Reino Unido, endereço "São José dos Campos – SP".
+
+- [ ] **Bloco 1: Página Inicial (Home)**
+  - Destaques do Colhe+: cadastrar doação, localizar pontos de coleta, acompanhar a doação até a destinação final e painel de impacto.
+  - Tradução de todos os textos para pt-BR.
+  - Correção de legibilidade e contraste de textos sobre imagens.
+
+- [ ] **Bloco 2: Localizar Pontos de Coleta (FindFoodBank)**
+  - Tradução para pt-BR ("Pontos de Coleta", "Buscar por CEP ou bairro").
+  - CEP no formato brasileiro (ex: 12245-000).
+  - Listagem e mapa com identidade visual Colhe+.
+
+- [ ] **Bloco 3: Doar Alimentos (DonateGoods)**
+  - Cadastro de doação por produtor, comerciante ou morador.
+  - Formulário, seleção de ponto de coleta, geração de código de doação e acompanhamento da entrega.
+  - Tradução completa e estilo acolhedor.
+
+- [ ] **Bloco 4: Doar Dinheiro / Apoiar Projeto (DonateCash)**
+  - Exibição de valores em R$.
+  - Correção do espaçamento superior sob cabeçalho fixo (título não cortado).
+  - Tradução e adaptação ao tom do Colhe+.
+
+- [ ] **Bloco 5: Pacotes de Alimentos (FoodPackages)**
+  - Solicitação e acompanhamento da destinação e retirada de alimentos.
+  - Tradução pt-BR e mensagens de status legíveis.
+
+- [ ] **Bloco 6: Supermercado / Comércio Parceiro (Supermarket)**
+  - Registro de excedentes comerciais em lote.
+  - Tradução e adequação aos termos do Colhe+.
+
+- [ ] **Bloco 7: Telas Admin (Gestão de Alimentos e Estatísticas/Impacto)**
+  - Verificação de código de doação, triagem, avaliação e estoque.
+  - Painel de impacto com gráficos Recharts traduzidos e formatados em pt-BR.
+
+- [ ] **Bloco 8: Varredura de Textos em Inglês, Acessibilidade e Build Final**
+  - Busca por termos remanescentes em inglês.
+  - Validação de contrastes, tamanhos mínimos de botões (44px).
+  - Execução única de `npm run build`.

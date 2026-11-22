@@ -1,7 +1,7 @@
 .footer {
-  border-top: 1px solid #1f2937;
-  background: #0d1117;
-  color: #fff;
+  border-top: 1px solid var(--color-border-footer);
+  background: var(--color-surface-footer);
+  color: var(--color-text-footer);
   font-family: var(--font-sans);
 }
 
@@ -22,138 +22,166 @@
   ) {
   font-family: inherit;
 }
+
 .inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: var(--space-12) var(--space-6);
 }
+
 .topGrid {
   display: grid;
-  gap: 3rem;
-  margin-bottom: 3rem;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
 }
+
 .brandColumn {
   min-width: 0;
 }
+
 .brandTitle {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-3);
   font-size: 20px;
   font-weight: 700;
-  line-height: 30px;
-  color: #fff;
+  line-height: 1.5;
+  color: var(--color-text-footer);
+  font-family: var(--font-display);
 }
+
 .brandDescription {
   max-width: 480px;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
   font-size: 15px;
-  line-height: 24px;
-  color: #8b949e;
+  line-height: 1.6;
+  color: var(--color-text-footer-muted);
 }
+
 .contactBlock {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
 }
+
 .sectionTitle {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-2);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.4;
-  letter-spacing: 0.325px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--color-brand-accent);
 }
+
 .contactText {
   font-size: 15px;
-  line-height: 22.5px;
-  color: #fff;
+  line-height: 1.5;
+  color: var(--color-text-footer);
 }
+
 .socialLinks {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
+
 .socialLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 4px;
-  background: #21262d;
-  transition: background-color 0.2s ease;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-footer-alt);
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
 .socialLink:hover {
-  background: #ffb800;
+  background: var(--color-brand-primary);
+  transform: translateY(-2px);
 }
+
 .socialIcon {
-  width: 1rem;
-  height: 1rem;
-  color: #8b949e;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-footer-muted);
   transition: color 0.2s ease;
 }
+
 .socialLink:hover .socialIcon {
-  color: #0d1117;
+  color: var(--color-text-inverse);
 }
+
 .linkColumn {
   min-width: 0;
 }
+
 .linkHeading {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.4;
-  letter-spacing: 0.325px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #8b949e;
+  color: var(--color-brand-accent);
 }
+
 .linkList {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-3);
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .footerLink {
   font-size: 15px;
-  line-height: 22.5px;
-  color: #fff;
+  line-height: 1.5;
+  color: var(--color-text-footer);
   text-decoration: none;
   transition: color 0.2s ease;
 }
+
 .footerLink:hover {
-  color: #ffb800;
+  color: var(--color-brand-accent);
 }
+
 .bottomBar {
-  border-top: 1px solid #21262d;
-  padding-top: 2rem;
+  border-top: 1px solid var(--color-border-footer);
+  padding-top: var(--space-6);
 }
+
 .bottomRow {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-4);
 }
+
 .copyright {
   font-size: 13px;
-  line-height: 19.5px;
-  color: #8b949e;
+  line-height: 1.5;
+  color: var(--color-text-footer-muted);
 }
+
 .statusDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 9999px;
-  background: #48c774;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-accent);
 }
+
 @media (min-width: 768px) {
   .topGrid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
+
   .brandColumn {
     grid-column: span 6 / span 6;
   }
+
   .linkColumn {
     grid-column: span 2 / span 2;
   }
+
   .bottomRow {
     flex-direction: row;
   }

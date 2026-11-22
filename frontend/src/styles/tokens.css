@@ -36,6 +36,8 @@
   --color-surface-muted: #f0f4f1;
   --color-surface-alt: #f4f7f4;
   --color-surface-elevated: #ffffff;
+  --color-surface-footer: #133a1e;
+  --color-surface-footer-alt: #1a4927;
 
   /* ========================================================================
      TEXTOS E CONTRASTE
@@ -48,6 +50,8 @@
   --color-text-muted: #5c6e61;
   --color-text-subtle: #738578;
   --color-text-inverse: #ffffff;
+  --color-text-footer: #ffffff;
+  --color-text-footer-muted: #a3c2aa;
 
   /* ========================================================================
      BORDAS E DIVISORES
@@ -55,6 +59,7 @@
   --color-border-default: #e2eae3;
   --color-border-soft: #edf3ee;
   --color-border-strong: #c5d4c8;
+  --color-border-footer: #1f562e;
 
   /* ========================================================================
      STATUS E FEEDBACK

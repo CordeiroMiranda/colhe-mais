@@ -1,4 +1,5 @@
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { Menu, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/app/store/authStore";
 import LoginModal from "@/features/auth/components/LoginModal";
@@ -50,7 +51,6 @@ function getActiveKey(
   variant: PublicPageShellVariant,
 ) {
   if (variant === "supermarket") {
-    // 超市页面可在独立路由或共享 workspace shell 内渲染,导航栏将二者视为同一目的地
     const section = new URLSearchParams(search).get("section");
     return pathname === "/supermarket" ||
       (pathname === "/workspace" && section === "restock")
@@ -87,6 +87,8 @@ function PrimaryNavbar({
   const location = useLocation();
   const { isAuthenticated, signOut } = useAuthStore();
   const loginModal = useLoginModalController({ initialTab: "signin" });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navItems =
     variant === "supermarket" ? supermarketNavItems : publicNavItems;
   const activeKey = getActiveKey(location.pathname, location.search, variant);
@@ -95,7 +97,7 @@ function PrimaryNavbar({
   const currentPath = `${location.pathname}${location.search}`;
 
   const goTo = (path: string) => {
-    // 再次点击当前顶级目标时回到页面顶部,不推入重复的历史记录
+    setMobileMenuOpen(false);
     if (currentPath === path) {
       scrollToTop();
       return;
@@ -104,6 +106,7 @@ function PrimaryNavbar({
   };
 
   const handleAuthClick = () => {
+    setMobileMenuOpen(false);
     if (isAuthenticated) {
       void signOut();
       navigate("/home");
@@ -124,10 +127,11 @@ function PrimaryNavbar({
           >
             <Logo variant="header" alt="Colhe+" />
           </button>
+
           {centerText ? (
-            <span>{centerText}</span>
+            <span className={styles.centerText}>{centerText}</span>
           ) : (
-            <nav className={styles.nav} aria-label={variant === "supermarket" ? "Navegação do parceiro" : "Navegação principal"}>
+            <nav className={styles.desktopNav} aria-label={variant === "supermarket" ? "Navegação do parceiro" : "Navegação principal"}>
               {navItems.map((item) => (
                 <button
                   key={item.key}
@@ -143,7 +147,8 @@ function PrimaryNavbar({
               ))}
             </nav>
           )}
-          <div className={styles.actions}>
+
+          <div className={styles.desktopActions}>
             <span className={styles.roleBadge}>{roleLabel}</span>
             <button
               type="button"
@@ -153,7 +158,48 @@ function PrimaryNavbar({
               {authLabel}
             </button>
           </div>
+
+          <button
+            type="button"
+            className={styles.hamburgerButton}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-expanded={mobileMenuOpen}
+            aria-label={mobileMenuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"}
+          >
+            {mobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+          </button>
         </div>
+
+        {mobileMenuOpen && (
+          <nav className={styles.mobileMenu} aria-label="Menu móvel">
+            <div className={styles.mobileNavLinks}>
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => goTo(item.path)}
+                  className={cn(
+                    styles.mobileNavLink,
+                    activeKey === item.key && styles.mobileNavLinkActive,
+                  )}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.mobileMenuFooter}>
+              <span className={styles.mobileRoleBadge}>{roleLabel}</span>
+              <button
+                type="button"
+                onClick={handleAuthClick}
+                className={styles.mobileAuthButton}
+              >
+                {authLabel}
+              </button>
+            </div>
+          </nav>
+        )}
       </header>
       <LoginModal {...loginModal.modalProps} />
     </>
