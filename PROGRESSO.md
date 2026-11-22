@@ -13,10 +13,12 @@ Slogan: "Conectando alimentos e comunidades"
   - Menu mobile com botão hambúrguer responsivo (mínimo 44px).
   - Rodapé com fundo verde escuro do tema (`--color-brand-dark`), sem referências ao Reino Unido, endereço "São José dos Campos – SP".
 
-- [ ] **Bloco 1: Página Inicial (Home)**
-  - Destaques do Colhe+: cadastrar doação, localizar pontos de coleta, acompanhar a doação até a destinação final e painel de impacto.
-  - Tradução de todos os textos para pt-BR.
-  - Correção de legibilidade e contraste de textos sobre imagens.
+- [x] **Bloco 1: Página Inicial (Home)**
+  - Destaques do Colhe+: cadastrar doação, localizar pontos de coleta, acompanhar a doação até a destinação final (recebida → avaliada → organizada → encaminhada) e painel de impacto.
+  - Tradução integral de todos os textos, categorias e chamadas para pt-BR.
+  - Correção de legibilidade e contraste com sobreposição escura com gradiente nas imagens.
+  - Valores dos planos de apoio financeiro em R$ (R$ 20, R$ 50, R$ 100).
+  - Mapeamento pt-BR das métricas e notas de impacto em `usePublicImpactMetrics.ts`.
 
 - [ ] **Bloco 2: Localizar Pontos de Coleta (FindFoodBank)**
   - Tradução para pt-BR ("Pontos de Coleta", "Buscar por CEP ou bairro").

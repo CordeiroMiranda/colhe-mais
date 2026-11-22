@@ -1,8 +1,10 @@
-﻿import { cn } from "@/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import {
   ClipboardPenLine,
   HeartHandshake,
+  MapPin,
   Search,
+  Truck,
 } from "lucide-react";
 import type {
   PublicImpactMetricCard,
@@ -16,106 +18,107 @@ import {
 } from "@/shared/ui/PublicPagePatterns";
 import styles from "./Home.module.css";
 
-const gbp = "\u00A3";
 const workflowSteps = [
   {
     number: "01",
-    title: "Search by postcode",
+    title: "Cadastrar a doação",
     description:
-      "Enter a postcode to find food banks within 5 km. Results include the platform's own list and nearby matches from public food bank listings.",
-    icon: Search,
-  },
-  {
-    number: "02",
-    title: "Apply or donate",
-    description:
-      "Submit a food package application, or send a cash or goods donation. Each request goes to the food bank you select.",
+      "Produtores, feirantes, comerciantes ou moradores cadastram seus alimentos excedentes e escolhem o ponto de coleta mais conveniente.",
     icon: ClipboardPenLine,
   },
   {
-    number: "03",
-    title: "Local team follows up",
+    number: "02",
+    title: "Entrega e triagem",
     description:
-      "The food bank's admin reviews your request and confirms collection, redemption, or that stock has been received.",
+      "O responsável pelo ponto de coleta recebe os alimentos, confere o código, avalia o estado de conservação e organiza os lotes.",
+    icon: Search,
+  },
+  {
+    number: "03",
+    title: "Destinação transparente",
+    description:
+      "Os alimentos são organizados em pacotes e distribuídos a instituições sociais e famílias em vulnerabilidade em São José dos Campos.",
     icon: HeartHandshake,
   },
 ] as const;
 
 const goodsCategories = [
   {
-    title: "Non-Perishable Food",
+    title: "Alimentos Não Perecíveis",
     items: [
-      "Tinned vegetables & fruit",
-      "Rice, pasta & cereals",
-      "Tinned meat & fish",
-      "UHT milk & plant-based drinks",
-      "Cooking oil & sauces",
-      "Tea, coffee & long-life juice",
+      "Arroz, feijão e grãos diversos",
+      "Macarrão, farinhas e cereais",
+      "Leite UHT e bebidas vegetais",
+      "Óleo de cozinha e molhos prontos",
+      "Legumes e frutas em conserva",
+      "Café, chá e sucos integrais",
     ],
   },
   {
-    title: "Hygiene Essentials",
+    title: "Hortifrúti e Excedentes",
     items: [
-      "Shampoo & conditioner",
-      "Soap & body wash",
-      "Toothpaste & toothbrushes",
-      "Deodorant",
-      "Sanitary pads & tampons",
-      "Shaving foam & razors",
+      "Frutas frescas da estação",
+      "Legumes, batatas e raízes",
+      "Verduras e hortaliças higienizadas",
+      "Excedentes de colheita e feiras livres",
+      "Lotes próximos à maturação",
+      "Alimentos próprios para consumo imediato",
     ],
   },
   {
-    title: "Baby & Child Care",
+    title: "Higiene e Cuidados",
     items: [
-      "Baby formula & baby food",
-      "Nappies & wet wipes",
-      "Children's snacks & cereals",
-      "Baby toiletries",
-      "Children's books & toys",
+      "Sabonete e xampu",
+      "Creme dental e escovas de dente",
+      "Absorventes e itens de higiene feminina",
+      "Fraldas infantis e lenços umedecidos",
+      "Fórmulas e mingaus infantis",
+      "Desodorantes e sabão neutro",
     ],
   },
   {
-    title: "Household Items",
+    title: "Limpeza e Despensa",
     items: [
-      "Toilet roll & kitchen roll",
-      "Laundry detergent",
-      "Surface cleaner & disinfectant",
-      "Dishwashing liquid",
-      "Bin bags",
+      "Detergente e sabão em barra",
+      "Desinfetante e água sanitária",
+      "Papel higiênico e papel toalha",
+      "Sacos para lixo e caixas de transporte",
+      "Luvas e esponjas de limpeza",
+      "Embalagens para conservação de alimentos",
     ],
   },
 ] as const;
 
 const goodsBannerBenefits = [
-  "Search for a nearby food bank",
-  "Send donation details to the selected team",
-  "Arrange collection or drop-off locally",
-  "Keep stock records aligned across the network",
+  "Localize pontos de coleta em São José dos Campos",
+  "Cadastre os excedentes e gere seu código de entrega",
+  "Triagem ágil e pesagem no ato do recebimento",
+  "Acompanhamento transparente até a mesa de quem precisa",
 ] as const;
 
 const uniqueCards = [
   {
-    title: "Pre-made packages",
+    title: "1. Doação Recebida",
     description:
-      "Packages bundle non-perishable food and household basics. Each package consumes specific lots, and the application page shows live availability.",
+      "Geração de código de verificação para que o doador acompanhe a entrega com segurança e rastreabilidade total.",
     image: "/home-gallery/photo-1701914446310-8b63a547ab37",
   },
   {
-    title: "Lot tracking",
+    title: "2. Avaliação e Triagem",
     description:
-      "Inventory is managed by lot with expiry dates. The dashboard surfaces lots expiring within 30 days so admins can move them out in time.",
+      "O responsável pelo ponto de coleta avalia a qualidade e registra peso e validade para garantir a segurança alimentar.",
     image: "/home-gallery/photo-1603418735094-800d47a56ea1",
   },
   {
-    title: "Per-bank scope",
+    title: "3. Organização de Estoque",
     description:
-      "Each food bank has its own inventory, packages, and admin scope. Platform admins see the full network; local admins see only their own bank.",
+      "Alimentos organizados por categorias e lotes para distribuição eficiente, sem desperdício e com rotatividade adequada.",
     image: "/home-gallery/photo-1588822534638-028d5ddc07ac",
   },
   {
-    title: "Supermarket workspace",
+    title: "4. Encaminhamento Solidário",
     description:
-      "Supermarket partners log into a separate workspace to file pending donations against current low-stock items.",
+      "Montagem de pacotes equilibrados destinados a instituições sociais parceiras e pessoas cadastradas na região.",
     image: "/home-gallery/photo-1758599668178-d9716bbda9d5",
   },
 ] as const;
@@ -128,51 +131,53 @@ type HomeDonationTier = {
   features: string[];
   featured?: boolean;
 };
+
 const donationTiers: HomeDonationTier[] = [
   {
-    amount: `${gbp}5`,
-    description: "Roughly the cost of a single hygiene or household item on the application page.",
-    cta: `Give ${gbp}5 Monthly`,
-    href: "/donate/cash?type=monthly&amount=5#donate-form",
+    amount: "R$ 20",
+    description: "Ajuda a custear embalagens ecológicas e insumos para higienização e triagem dos alimentos.",
+    cta: "Apoiar com R$ 20 / mês",
+    href: "/donate/cash?type=monthly&amount=20#donate-form",
     features: [
-      "Email receipt with payment reference",
-      "Subscription reference for monthly billing",
-      "Notification routed to your chosen food bank",
+      "Recibo por e-mail com identificação da contribuição",
+      "Assinatura mensal com cancelamento a qualquer momento",
+      "Recursos direcionados à manutenção dos pontos de coleta",
+      "Contribui com as metas públicas de impacto social",
     ],
   },
   {
-    amount: `${gbp}15`,
-    description: "Approximately the cost of one pre-made package on the application page.",
-    cta: `Give ${gbp}15 Monthly`,
-    href: "/donate/cash?type=monthly&amount=15#donate-form",
+    amount: "R$ 50",
+    description: "Viabiliza a triagem, pesagem e logística de pacotes completos para famílias atendidas.",
+    cta: "Apoiar com R$ 50 / mês",
+    href: "/donate/cash?type=monthly&amount=50#donate-form",
     features: [
-      "Email receipt with payment reference",
-      "Subscription reference for monthly billing",
-      "Counts towards public impact totals on home",
-      "Notification routed to your chosen food bank",
+      "Recibo por e-mail com identificação da contribuição",
+      "Assinatura mensal com cancelamento a qualquer momento",
+      "Recursos direcionados à manutenção dos pontos de coleta",
+      "Contribui com as metas públicas de impacto social",
     ],
     featured: true,
   },
   {
-    amount: `${gbp}30`,
-    description:
-      "Covers a full package plus a few individual items chosen from the inventory list.",
-    cta: `Give ${gbp}30 Monthly`,
-    href: "/donate/cash?type=monthly&amount=30#donate-form",
+    amount: "R$ 100",
+    description: "Fortalece a infraestrutura regional dos pontos de coleta em São José dos Campos.",
+    cta: "Apoiar com R$ 100 / mês",
+    href: "/donate/cash?type=monthly&amount=100#donate-form",
     features: [
-      "Email receipt with payment reference",
-      "Subscription reference for monthly billing",
-      "Counts towards public impact totals on home",
-      "Notification routed to your chosen food bank",
+      "Recibo por e-mail com identificação da contribuição",
+      "Assinatura mensal com cancelamento a qualquer momento",
+      "Recursos direcionados à manutenção dos pontos de coleta",
+      "Contribui com as metas públicas de impacto social",
     ],
   },
-] as const;
+];
 
 const trustItems = [
-  "Payment reference issued",
-  "Email confirmation",
-  "Cancel any time",
+  "Identificação de contribuição emitida",
+  "Confirmação por e-mail",
+  "Transparência total dos recursos",
 ] as const;
+
 type HomeNavigationProps = { goTo: (path: string) => void };
 type HomeScrollProps = { goToSection: (id: string) => void };
 type HomeHeroProps = HomeNavigationProps & HomeScrollProps;
@@ -180,6 +185,7 @@ type HomeImpactSectionProps = {
   impactMetrics: PublicImpactMetricCard[];
   status: PublicImpactMetricsStatus;
 };
+
 const impactLoadingCardCount = 4;
 
 function BannerCheckIcon() {
@@ -189,6 +195,7 @@ function BannerCheckIcon() {
     </span>
   );
 }
+
 function StepCard({
   number,
   title,
@@ -212,35 +219,45 @@ function StepCard({
     </div>
   );
 }
+
 export function HomeHero({
   goTo,
   goToSection,
 }: HomeHeroProps) {
   const actions = [
     {
-      label: "Find a Food Bank",
-      onClick: () => goTo("/find-foodbank"),
+      label: "Cadastrar Doação de Alimentos",
+      onClick: () => goTo("/donate/goods"),
       tone: "primary" as const,
     },
     {
-      label: "Donate Goods",
-      onClick: () => goToSection("donate-goods"),
+      label: "Localizar Pontos de Coleta",
+      onClick: () => goTo("/find-foodbank"),
       tone: "outline" as const,
     },
     {
-      label: "Donate Cash",
+      label: "Apoiar o Projeto",
       onClick: () => goToSection("donate-cash"),
       tone: "outline" as const,
     },
+    {
+      label: "Painel de Impacto",
+      onClick: () => goToSection("impact"),
+      tone: "outline" as const,
+    },
   ];
+
   return (
     <div className={styles.heroSection}>
       <div className={cn(styles.pageSection, styles.heroInner)}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
+            <div className={styles.heroBadge}>
+              <span>Projeto Solidário Etep • São José dos Campos</span>
+            </div>
             <PublicSectionIntro
-              title="ABC Community Food Bank"
-              description="Search nearby food banks by postcode, request food packages online, or submit cash and goods donations. Local administrators manage stock and applications from a shared workspace."
+              title="Conectando Alimentos e Comunidades"
+              description="Conectamos produtores rurais, comerciantes e moradores com excedentes de alimentos a pontos de coleta em São José dos Campos, garantindo refeições dignas e combatendo o desperdício."
               titleAs="h1"
               size="hero"
               align="left"
@@ -268,9 +285,14 @@ export function HomeHero({
               <div className={styles.heroImageWrap}>
                 <img
                   src="/home-gallery/photo-1710092784814-4a6f158913b8"
-                  alt="Food bank operations"
+                  alt="Ações solidárias de arrecadação do Colhe+"
                   className={styles.heroImage}
                 />
+                <div className={styles.heroImageOverlay}>
+                  <p className={styles.heroImageCaption}>
+                    Mais de centenas de famílias atendidas com alimentos frescos e de qualidade.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -279,6 +301,7 @@ export function HomeHero({
     </div>
   );
 }
+
 export function HomeImpactSection({
   impactMetrics,
   status,
@@ -286,26 +309,25 @@ export function HomeImpactSection({
   const hasImpactMetrics = impactMetrics.length > 0;
   const isLoadingWithoutMetrics = status === "loading" && !hasImpactMetrics;
   const isUnavailable = status === "error" && !hasImpactMetrics;
-  // 在刷新和短暂失败期间保留最近一次成功的总计数据,
-  // 避免首页回退到空状态。
+
   const footnote =
     status === "error"
       ? hasImpactMetrics
-        ? "Showing the most recent live totals while the next refresh is retried."
-        : "Live reporting is temporarily unavailable."
+        ? "Exibindo os dados consolidados mais recentes enquanto a conexão é restabelecida."
+        : "Relatório de impacto temporariamente indisponível."
       : status === "loading"
         ? hasImpactMetrics
-          ? "Refreshing live totals."
-          : "Loading live totals."
-        : "Uses current reporting when available and refreshes automatically.";
+          ? "Atualizando indicadores em tempo real..."
+          : "Carregando indicadores de impacto..."
+        : "Dados atualizados automaticamente conforme novas doações são recebidas e distribuídas.";
 
   return (
     <div id="impact" className={styles.impactSection}>
       <div className={cn(styles.pageSection, styles.impactInner)}>
         <PublicSectionIntro
-          title="Community Impact"
-          className={cn(styles.sectionHeading, styles.sectionHeadingTitleOnly)}
-          titleClassName={styles.sectionHeadingTitleOnlyTitle}
+          title="Painel de Impacto Social"
+          description="Transparência total sobre os alimentos arrecadados e o alcance das ações na comunidade de São José dos Campos."
+          className={styles.sectionHeading}
         />
         <div className={styles.impactGrid}>
           {isLoadingWithoutMetrics
@@ -366,14 +388,14 @@ export function HomeImpactSection({
               : (
                 <div className={cn(styles.impactCard, styles.impactStateCard)}>
                   <div className={styles.impactLabel}>
-                    Live totals unavailable
+                    Indicadores em consolidação
                   </div>
                   <div className={styles.impactNote}>
-                    We could not load the latest network snapshot right now.
+                    Não foi possível carregar os números em tempo real no momento.
                   </div>
                   {isUnavailable ? (
                     <div className={styles.impactFootnoteInline}>
-                      Please retry in a moment.
+                      Por favor, tente novamente em alguns instantes.
                     </div>
                   ) : null}
                 </div>
@@ -384,14 +406,15 @@ export function HomeImpactSection({
     </div>
   );
 }
+
 export function HomeWorkflowSection() {
   return (
     <div id="how-it-works" className={styles.workflowSection}>
       <div className={cn(styles.pageSection, styles.workflowInner)}>
         <PublicSectionIntro
-          title="How it works"
-          className={cn(styles.sectionHeading, styles.sectionHeadingTitleOnly)}
-          titleClassName={styles.sectionHeadingTitleOnlyTitle}
+          title="Como Funciona o Colhe+"
+          description="Um fluxo simples, seguro e transparente para conectar a solidariedade a quem mais precisa."
+          className={styles.sectionHeading}
         />
         <div className={styles.workflowWrap}>
           <div className={styles.workflowLine}>
@@ -407,14 +430,15 @@ export function HomeWorkflowSection() {
     </div>
   );
 }
+
 export function HomeAboutSection() {
   return (
     <div id="about" className={styles.aboutSection}>
       <div className={cn(styles.pageSection, styles.aboutInner)}>
         <PublicSectionIntro
-          title="What the platform handles"
-          className={cn(styles.sectionHeading, styles.sectionHeadingTitleOnly)}
-          titleClassName={styles.sectionHeadingTitleOnlyTitle}
+          title="Transparência do Início ao Fim"
+          description="Acompanhe a trajetória de cada doação: desde a chegada ao ponto de coleta até a entrega aos beneficiários."
+          className={styles.sectionHeading}
         />
         <div className={styles.aboutGrid}>
           {uniqueCards.map((card) => (
@@ -437,6 +461,7 @@ export function HomeAboutSection() {
     </div>
   );
 }
+
 export function DonateGoodsSection({
   goTo,
 }: HomeNavigationProps) {
@@ -444,9 +469,9 @@ export function DonateGoodsSection({
     <div id="donate-goods" className={styles.goodsSection}>
       <div className={cn(styles.pageSection, styles.goodsInner)}>
         <PublicSectionIntro
-          title="Donate Goods"
-          className={cn(styles.sectionHeading, styles.sectionHeadingTitleOnly)}
-          titleClassName={styles.sectionHeadingTitleOnlyTitle}
+          title="O Que Você Pode Doar?"
+          description="Aceitamos desde excedentes de hortifrúti de produtores rurais até alimentos não perecíveis e itens básicos de higiene."
+          className={styles.sectionHeading}
         />
         <div className={styles.goodsGrid}>
           {goodsCategories.map((category) => (
@@ -473,13 +498,13 @@ export function DonateGoodsSection({
           tone="warning"
           split
           className={styles.goodsBanner}
-          title="Donate Through a Local Food Bank"
+          title="Doe Diretamente a um Ponto de Coleta"
           actions={
             <ActionButton
               onClick={() => goTo("/donate/goods")}
               className={styles.goodsBannerButton}
             >
-              Open Donation Form
+              Cadastrar Doação de Alimentos
             </ActionButton>
           }
         >
@@ -496,6 +521,7 @@ export function DonateGoodsSection({
     </div>
   );
 }
+
 export function DonateCashSection({
   goTo,
 }: HomeNavigationProps) {
@@ -503,9 +529,9 @@ export function DonateCashSection({
     <div id="donate-cash" className={styles.cashSection}>
       <div className={cn(styles.pageSection, styles.cashInner)}>
         <PublicSectionIntro
-          title="Cash donation tiers"
-          className={cn(styles.sectionHeading, styles.sectionHeadingTitleOnly)}
-          titleClassName={styles.sectionHeadingTitleOnlyTitle}
+          title="Apoie Financeiramente o Projeto"
+          description="Sua contribuição solidária ajuda a manter a logística, os pontos de coleta e a montagem dos pacotes para quem mais precisa."
+          className={styles.sectionHeading}
         />
         <div className={styles.tierGrid}>
           {donationTiers.map((tier) => (
@@ -518,12 +544,12 @@ export function DonateCashSection({
             >
               {tier.featured ? (
                 <div className={styles.tierBadgeWrap}>
-                  <span className={styles.tierBadge}> Most Popular</span>
+                  <span className={styles.tierBadge}>Mais Escolhido</span>
                 </div>
               ) : null}
               <div className={styles.tierAmount}>
                 {tier.amount}
-                <span className={styles.tierPeriod}>/ month</span>
+                <span className={styles.tierPeriod}>/ mês</span>
               </div>
               <div className={styles.tierDescription}>{tier.description}</div>
               <ActionButton
@@ -554,9 +580,9 @@ export function DonateCashSection({
         <div className={styles.oneTimeCard}>
           <div className={styles.oneTimeRow}>
             <div className={styles.oneTimeContent}>
-              <p className={styles.oneTimeTitle}>Prefer a one-off donation?</p>
+              <p className={styles.oneTimeTitle}>Prefere fazer uma contribuição única?</p>
               <p className={styles.oneTimeDescription}>
-                Use the same form to make a single contribution of any amount.
+                Você também pode fazer uma doação avulsa de qualquer valor para apoiar as ações do Colhe+.
               </p>
             </div>
             <ActionButton
@@ -566,7 +592,7 @@ export function DonateCashSection({
               tone="dark"
               className={styles.oneTimeButton}
             >
-              One-Time Donation
+              Fazer Doação Única
             </ActionButton>
           </div>
         </div>
@@ -582,4 +608,3 @@ export function DonateCashSection({
     </div>
   );
 }
-
