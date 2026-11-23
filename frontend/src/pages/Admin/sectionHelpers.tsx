@@ -13,16 +13,16 @@ export type RowActionSet<Row> = {
   actions: RowActionConfig<Row>[];
 };
 export const DONATION_FILTER_DONOR_TYPE_OPTIONS = [
-  { value: "supermarket", label: "Supermarket" },
-  { value: "individual", label: "Individual" },
-  { value: "organization", label: "Organization" },
+  { value: "supermarket", label: "Comércio / Supermercado" },
+  { value: "individual", label: "Pessoa Física" },
+  { value: "organization", label: "Organização / Empresa" },
 ];
 export const DONATION_STATUS_OPTIONS = [
-  { value: "pending", label: "Pending" },
-  { value: "fulfilled", label: "Received / Completed" },
-  { value: "rejected", label: "Rejected" },
-  { value: "failed", label: "Failed" },
-  { value: "refunded", label: "Refunded" },
+  { value: "pending", label: "Pendente" },
+  { value: "fulfilled", label: "Recebida / Concluída" },
+  { value: "rejected", label: "Rejeitada" },
+  { value: "failed", label: "Falhou" },
+  { value: "refunded", label: "Reembolsada" },
 ];
 export const getStatusToneClasses = (tone?: string) =>
   cn(

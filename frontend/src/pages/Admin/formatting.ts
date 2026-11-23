@@ -2,14 +2,14 @@
 import type { DonationListRow } from "@/shared/types/donations";
 
 export const donorTypeLabelMap = {
-  supermarket: "Supermarket",
-  individual: "Individual",
-  organization: "Organization",
+  supermarket: "Comércio / Supermercado",
+  individual: "Pessoa Física",
+  organization: "Organização / Empresa",
 } as const;
 
-const currencyFormatter = new Intl.NumberFormat("en-GB", {
+const currencyFormatter = new Intl.NumberFormat("pt-BR", {
   style: "currency",
-  currency: "GBP",
+  currency: "BRL",
 });
 
 const buildIsoDate = (
@@ -167,17 +167,17 @@ export const inferDonationDonorType = (
 export const donationStatusLabel = (status?: string): string => {
   switch (status) {
     case "received":
-      return "Received";
+      return "Recebida";
     case "rejected":
-      return "Rejected";
+      return "Rejeitada";
     case "completed":
-      return "Completed";
+      return "Concluída";
     case "failed":
-      return "Failed";
+      return "Falhou";
     case "refunded":
-      return "Refunded";
+      return "Reembolsada";
     default:
-      return "Pending";
+      return "Pendente";
   }
 };
 
@@ -193,20 +193,20 @@ export const buildDonationTotalLabel = (row: DonationListRow): string => {
     return formatMoney(row.amount_pence);
   }
   const total = (row.items ?? []).reduce((sum, item) => sum + item.quantity, 0);
-  return String(total);
+  return `${total} un.`;
 };
 
 export const getCodeStatusMeta = (
   record: AdminApplicationRecord,
 ): { label: string; color: string } => {
   if (record.is_voided) {
-    return { label: "Void", color: "var(--color-error)" };
+    return { label: "Anulado", color: "var(--color-error)" };
   }
   if (record.status === "collected") {
-    return { label: "Redeemed", color: "var(--color-success)" };
+    return { label: "Resgatado", color: "var(--color-success)" };
   }
   if (record.status === "expired") {
-    return { label: "Expired", color: "var(--color-warning)" };
+    return { label: "Expirado", color: "var(--color-warning)" };
   }
-  return { label: "Pending", color: "var(--color-text-medium)" };
+  return { label: "Pendente", color: "var(--color-text-medium)" };
 };

@@ -22,7 +22,7 @@ function CodeDetailsSection({ record }: { record: AdminApplicationRecord }) {
       {
         key: "code",
         kind: "readonly",
-        label: "Redemption Code",
+        label: "Código de Retirada",
         value: record.redemption_code,
       },
       {
@@ -36,13 +36,13 @@ function CodeDetailsSection({ record }: { record: AdminApplicationRecord }) {
       {
         key: "package",
         kind: "readonly",
-        label: "Package",
+        label: "Cesta",
         value: getApplicationPackageLabel(record),
       },
       {
         key: "redeemedAt",
         kind: "readonly",
-        label: "Redeemed At",
+        label: "Retirado em",
         value: formatUkDate(record.redeemed_at),
       },
     ],
@@ -103,11 +103,11 @@ export function CodeDetailsModal({
       id="view-code-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title="Redemption Code Details"
+      title="Detalhes do Código de Retirada"
     >
       <CodeDetailsSection record={record} />
       <EditorActions
-        actions={[{ label: "Close", tone: "secondary", onClick: onClose }]}
+        actions={[{ label: "Fechar", tone: "secondary", onClick: onClose }]}
       />
     </AdminModalShell>
   );
@@ -142,16 +142,16 @@ export function CodeVerifyModal({
       isOpen={isOpen}
       onClose={onClose}
       disableClose={isBusy}
-      title="Verify Redemption Code"
+      title="Conferir Código de Retirada"
     >
       <InlineModalField
         field={{
           key: "code",
           kind: "text",
-          label: "Redemption Code",
+          label: "Código de Retirada",
           value: code,
           onChange: onCodeChange,
-          placeholder: "Enter redemption code",
+          placeholder: "Digite o código (ex: ABCD-1234)",
           disabled: isBusy,
         }}
       />
@@ -159,19 +159,19 @@ export function CodeVerifyModal({
       <EditorActions
         actions={[
           {
-            label: "Cancel",
+            label: "Cancelar",
             tone: "secondary",
             onClick: onClose,
             disabled: isBusy,
           },
           {
-            label: checking ? "Checking..." : "Check Code",
+            label: checking ? "Consultando..." : "Consultar Código",
             tone: "secondary",
             onClick: () => void onCheck(),
             disabled: isBusy,
           },
           {
-            label: redeeming ? "Redeeming..." : "Redeem Code",
+            label: redeeming ? "Confirmando..." : "Confirmar Retirada",
             onClick: () => void onRedeem(),
             disabled:
               isBusy || !result?.record || !canRedeemApplication(result.record),

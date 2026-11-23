@@ -28,13 +28,11 @@ import {
 } from "./modalBits.editors.containers";
 
 const DONOR_TYPE_OPTIONS: SelectFieldOption[] = [
-  { value: "supermarket", label: "Supermarket" },
-  { value: "individual", label: "Individual" },
-  { value: "organization", label: "Organization" },
+  { value: "supermarket", label: "Comércio / Supermercado" },
+  { value: "individual", label: "Pessoa Física" },
+  { value: "organization", label: "Organização / Empresa" },
 ];
 
-// Reuse the same display helpers as the table view so cash and goods donations
-// keep consistent labels across summary rows and detail modals.
 const buildDonationSummaryRows = (
   donation: DonationListRow,
 ): ModalFieldConfig[][] => [
@@ -42,7 +40,7 @@ const buildDonationSummaryRows = (
     {
       key: "donationId",
       kind: "readonly",
-      label: "Donation ID",
+      label: "ID da Doação",
       value: buildDonationDisplayId(donation),
     },
     {
@@ -56,14 +54,14 @@ const buildDonationSummaryRows = (
     {
       key: "donorType",
       kind: "readonly",
-      label: "Donor Type",
+      label: "Tipo de Doador",
       value: getDonationDonorTypeLabel(donation),
     },
     {
       key: "donorName",
       kind: "readonly",
-      label: "Donor Name",
-      value: donation.donor_name ?? "Anonymous",
+      label: "Nome do Doador",
+      value: donation.donor_name ?? "Anônimo",
     },
   ],
 ];
@@ -86,15 +84,15 @@ function DonationDetailsItems({ donation }: { donation: DonationListRow }) {
 
   return (
     <div className={adminStyles["form-group"]}>
-      <label className={adminStyles["form-label"]}>Donation Items</label>
+      <label className={adminStyles["form-label"]}>Alimentos da Doação</label>
       <AdminDetailsTable
         columns={[
-          { header: "Item Name", renderCell: (row) => row.name },
-          { header: "Quantity", renderCell: (row) => row.quantityLabel },
-          { header: "Expiry Date", renderCell: (row) => row.expiryLabel },
+          { header: "Nome do Alimento", renderCell: (row) => row.name },
+          { header: "Quantidade", renderCell: (row) => row.quantityLabel },
+          { header: "Data de Validade", renderCell: (row) => row.expiryLabel },
         ]}
         rows={detailRows}
-        emptyMessage="No item rows."
+        emptyMessage="Nenhum item registrado."
         rowKey={(row) => `${row.name}-${row.quantityLabel}`}
       />
     </div>
@@ -120,10 +118,10 @@ function DonationEditorFields({
           {
             key: "donorType",
             kind: "select",
-            label: "Donor Type",
+            label: "Tipo de Doador",
             required: true,
             value: draft.donorType,
-            placeholder: "Select donor type",
+            placeholder: "Selecione o tipo de doador",
             options: DONOR_TYPE_OPTIONS,
             onChange: bindDraftField(onFieldChange, "donorType"),
             disabled: submitting,
@@ -131,10 +129,10 @@ function DonationEditorFields({
           {
             key: "donorName",
             kind: "text",
-            label: "Donor Name",
+            label: "Nome do Doador",
             required: true,
             value: draft.donorName,
-            placeholder: "Donor full name",
+            placeholder: "Nome completo do doador",
             onChange: bindDraftField(onFieldChange, "donorName"),
             disabled: submitting,
           },
@@ -145,20 +143,20 @@ function DonationEditorFields({
           {
             key: "donorEmail",
             kind: "email",
-            label: "Contact Email",
+            label: "E-mail de Contato",
             required: true,
             value: draft.donorEmail,
-            placeholder: "Email address",
+            placeholder: "exemplo@email.com",
             onChange: bindDraftField(onFieldChange, "donorEmail"),
             disabled: submitting,
           },
           {
             key: "receivedDate",
             kind: "date",
-            label: "Received Date",
+            label: "Data de Recebimento",
             required: true,
             value: draft.receivedDate,
-            placeholder: "DD/MM/YYYY",
+            placeholder: "DD/MM/AAAA",
             onChange: bindDraftField(onFieldChange, "receivedDate"),
             inputMode: "numeric",
             disabled: submitting,
@@ -201,7 +199,7 @@ function DonationItemRow({
         }
         disabled={disabled}
       >
-        <option value="">Select item</option>
+        <option value="">Selecione o alimento</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -209,7 +207,7 @@ function DonationItemRow({
         ))}
       </InlineSelect>
       <InlineInput
-        aria-label={`Quantity ${index + 1}`}
+        aria-label={`Quantidade ${index + 1}`}
         type="number"
         min={1}
         step={1}
@@ -220,13 +218,13 @@ function DonationItemRow({
         disabled={disabled}
       />
       <InlineInput
-        aria-label={`Expiry Date ${index + 1}`}
+        aria-label={`Data de Validade ${index + 1}`}
         type="text"
         value={item.expiryDate}
         onChange={(event) =>
           bindRowField(onItemChange, item.key, "expiryDate")(event.target.value)
         }
-        placeholder="DD/MM/YYYY"
+        placeholder="DD/MM/AAAA"
         inputMode="numeric"
         disabled={disabled}
       />
@@ -238,7 +236,7 @@ function DonationItemRow({
         disabled={disabled || itemCount === 1}
       >
         {" "}
-        Remove
+        Remover
       </AdminButton>
     </>
   );
@@ -263,14 +261,12 @@ function DonationItemsField({
   onAddItem: () => void;
   onRemoveItem: (key: string) => void;
 }) {
-  // Manual intake stays item-name based because staff may record goods before
-  // they are mapped into a specific inventory catalogue entry.
   return (
     <InlineRepeaterField
-      label="Donation Items"
+      label="Alimentos da Doação"
       rows={items}
       rowVariant="donation"
-      addLabel="+ Add Row"
+      addLabel="+ Adicionar Linha"
       addButtonId="add-item-btn"
       disabled={disabled}
       onAddRow={onAddItem}
@@ -307,12 +303,12 @@ export function DonationDetailsModal({
       id="view-donation-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title="Donation Details"
+      title="Detalhes da Doação"
     >
       <DonationDetailsSummary donation={donation} />
       <DonationDetailsItems donation={donation} />
       <EditorActions
-        actions={[{ label: "Close", tone: "secondary", onClick: onClose }]}
+        actions={[{ label: "Fechar", tone: "secondary", onClick: onClose }]}
       />
     </AdminModalShell>
   );
@@ -357,12 +353,12 @@ export function DonationEditorModal({
       id="new-donation-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditing ? "Edit Donation" : "New Donation"}
+      title={isEditing ? "Editar Doação" : "Nova Doação"}
       error={error}
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel={isEditing ? "Save Donation" : "Submit Donation"}
-      submittingLabel="Saving..."
+      submitLabel={isEditing ? "Salvar Doação" : "Cadastrar Doação"}
+      submittingLabel="Salvando..."
     >
       <DonationEditorFields
         draft={draft}

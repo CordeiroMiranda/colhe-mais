@@ -94,7 +94,7 @@ export default function AdminFoodManagement() {
   useScrollToTopOnMount();
 
   useEffect(() => {
-    document.title = "Inventory Management - ABC Foodbank";
+    document.title = "Gestão de Alimentos e Estoque - Colhe+";
   }, []);
 
   return (

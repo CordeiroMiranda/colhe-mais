@@ -49,10 +49,10 @@ function PackageContentsField({
 
   return (
     <InlineRepeaterField
-      label="Contents"
+      label="Alimentos da Cesta"
       rows={rows}
       rowVariant="package"
-      addLabel="+ Add Row"
+      addLabel="+ Adicionar Linha"
       addButtonId="add-package-item-btn"
       disabled={disabled}
       onAddRow={onAddRow}
@@ -65,7 +65,7 @@ function PackageContentsField({
             }
             disabled={disabled}
           >
-            <option value="">Select item</option>
+            <option value="">Selecione o alimento</option>
             {inventoryOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -90,7 +90,7 @@ function PackageContentsField({
             disabled={disabled || rows.length === 1}
           >
             {" "}
-            Remove
+            Remover
           </AdminButton>
         </>
       )}
@@ -107,19 +107,18 @@ const renderPackingStockCheck = (
   loadingStockCheck ? (
     <p className={adminStyles["admin-inline-message-line"]}>
       {" "}
-      Loading package requirements...
+      Carregando itens necessários da cesta...
     </p>
   ) : stockCheckRows.length === 0 ? (
     <p className={adminStyles["admin-inline-message-line"]}>
       {" "}
-      Select a package to review stock requirements.
+      Selecione uma cesta para verificar os itens em estoque.
     </p>
   ) : (
     <>
       {stockCheckRows.map((row) => (
         <p key={row.itemId} className={adminStyles["admin-inline-message-line"]}>
-          {row.name}: {row.availableQuantity}
-          {row.unit} available / {row.requiredQuantity} required per pack
+          {row.name}: {row.availableQuantity} {row.unit} disponíveis / {row.requiredQuantity} necessários por cesta
         </p>
       ))}
     </>
@@ -155,21 +154,21 @@ export function InventoryItemEditorModal({
       id={id}
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditing ? "Edit Item" : "Add New Item"}
+      title={isEditing ? "Editar Alimento" : "Adicionar Novo Alimento"}
       error={error}
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel={isEditing ? "Save Item" : "Add Item"}
-      submittingLabel="Saving..."
+      submitLabel={isEditing ? "Salvar Alimento" : "Adicionar Alimento"}
+      submittingLabel="Salvando..."
     >
       <InlineModalField
         field={{
           key: "name",
           kind: "text",
-          label: "Item Name",
+          label: "Nome do Alimento",
           value: draft.name,
           onChange: bindDraftField(onFieldChange, "name"),
-          placeholder: "e.g. Rice, Pasta",
+          placeholder: "Ex: Arroz, Feijão, Macarrão",
           disabled: submitting,
         }}
       />
@@ -178,20 +177,20 @@ export function InventoryItemEditorModal({
           {
             key: "category",
             kind: "select",
-            label: "Category",
+            label: "Categoria",
             value: draft.category,
             onChange: bindDraftField(onFieldChange, "category"),
             options: selectOptions,
-            placeholder: "Select category",
+            placeholder: "Selecione a categoria",
             disabled: submitting,
           },
           {
             key: "unit",
             kind: "text",
-            label: "Unit",
+            label: "Unidade de Medida",
             value: draft.unit,
             onChange: bindDraftField(onFieldChange, "unit"),
-            placeholder: "e.g. bags, cans, cartons",
+            placeholder: "Ex: kg, un., pct., lata",
             disabled: submitting,
           },
         ]}
@@ -200,7 +199,7 @@ export function InventoryItemEditorModal({
         field={{
           key: "threshold",
           kind: "number",
-          label: "Safety Threshold",
+          label: "Estoque Mínimo de Segurança",
           value: draft.threshold,
           onChange: bindDraftField(onFieldChange, "threshold"),
           placeholder: "0",
@@ -237,18 +236,18 @@ export function InventoryStockInModal({
       id="stock-in-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title="Stock In Item"
+      title="Entrada de Alimento no Estoque"
       error={error}
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel="Apply Stock In"
-      submittingLabel="Saving..."
+      submitLabel="Confirmar Entrada"
+      submittingLabel="Registrando..."
     >
       <InlineModalField
         field={{
           key: "itemName",
           kind: "readonly",
-          label: "Item Name",
+          label: "Nome do Alimento",
           value: itemName,
         }}
       />
@@ -257,7 +256,7 @@ export function InventoryStockInModal({
           {
             key: "quantity",
             kind: "number",
-            label: "Quantity",
+            label: "Quantidade",
             value: draft.quantity,
             onChange: bindDraftField(onFieldChange, "quantity"),
             min: 1,
@@ -267,10 +266,10 @@ export function InventoryStockInModal({
           {
             key: "expiryDate",
             kind: "date",
-            label: "Expiry Date",
+            label: "Data de Validade",
             value: draft.expiryDate,
             onChange: bindDraftField(onFieldChange, "expiryDate"),
-            placeholder: "DD/MM/YYYY",
+            placeholder: "DD/MM/AAAA",
             inputMode: "numeric",
             disabled: submitting,
           },
@@ -308,18 +307,18 @@ export function LotExpiryModal({
       id="edit-lot-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title="Edit Lot Expiry"
+      title="Editar Validade do Lote"
       error={error}
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel="Save Expiry"
-      submittingLabel="Saving..."
+      submitLabel="Salvar Validade"
+      submittingLabel="Salvando..."
     >
       <InlineModalField
         field={{
           key: "itemName",
           kind: "readonly",
-          label: "Item Name",
+          label: "Nome do Alimento",
           value: target.itemName,
         }}
       />
@@ -328,13 +327,13 @@ export function LotExpiryModal({
           {
             key: "lotNumber",
             kind: "readonly",
-            label: "Lot Number",
+            label: "Número do Lote",
             value: target.lotNumber,
           },
           {
             key: "quantity",
             kind: "readonly",
-            label: "Remaining Stock",
+            label: "Estoque Restante",
             value: String(target.quantity),
           },
         ]}
@@ -343,7 +342,7 @@ export function LotExpiryModal({
         field={{
           key: "expiryDate",
           kind: "date",
-          label: "Expiry Date",
+          label: "Data de Validade",
           value: expiryValue,
           onChange: onExpiryChange,
           inputMode: "numeric",
@@ -399,21 +398,21 @@ export function PackageEditorModal({
       id={id}
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditing ? "Edit Package" : "Add New Package"}
+      title={isEditing ? "Editar Cesta" : "Criar Nova Cesta"}
       error={error}
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel={isEditing ? "Save Package" : "Add Package"}
-      submittingLabel="Saving..."
+      submitLabel={isEditing ? "Salvar Cesta" : "Criar Cesta"}
+      submittingLabel="Salvando..."
     >
       <InlineModalField
         field={{
           key: "name",
           kind: "text",
-          label: "Package Name",
+          label: "Nome da Cesta",
           value: draft.name,
           onChange: bindDraftField(onFieldChange, "name"),
-          placeholder: "e.g. Emergency Pack A",
+          placeholder: "Ex: Cesta Básica Familiar, Cesta Emergencial",
           disabled: submitting,
         }}
       />
@@ -422,17 +421,17 @@ export function PackageEditorModal({
           {
             key: "category",
             kind: "select",
-            label: "Category",
+            label: "Categoria",
             value: draft.category,
             onChange: bindDraftField(onFieldChange, "category"),
             options: categorySelectOptions,
-            placeholder: "Select category",
+            placeholder: "Selecione a categoria",
             disabled: submitting,
           },
           {
             key: "threshold",
             kind: "number",
-            label: "Safety Threshold",
+            label: "Estoque Mínimo",
             value: draft.threshold,
             onChange: bindDraftField(onFieldChange, "threshold"),
             min: 0,
@@ -488,32 +487,32 @@ export function PackingModal({
       id="packing-editor"
       isOpen={isOpen}
       onClose={onClose}
-      title="Package Packing Operation"
+      title="Montagem de Cestas de Alimentos"
       submitting={submitting}
       onSubmit={onSubmit}
-      submitLabel="Submit Packing"
-      submittingLabel="Packing..."
+      submitLabel="Confirmar Montagem"
+      submittingLabel="Montando..."
     >
       <InlineModalField
         field={{
           key: "packageId",
           kind: "select",
-          label: "Select Package",
+          label: "Selecionar Cesta",
           value: selectedPackageId,
           onChange: (value) => onPackageChange(normalizeSelectNumber(value)),
           options: packageOptions,
-          placeholder: "Select a package",
+          placeholder: "Selecione uma cesta",
           disabled: submitting,
         }}
       />
-      <AdminInlineFeedback tone="warning" title="Package Contents & Stock Check">
+      <AdminInlineFeedback tone="warning" title="Itens da Cesta e Conferência de Estoque">
         {renderPackingStockCheck(loadingStockCheck, stockCheckRows)}
       </AdminInlineFeedback>
       <InlineModalField
         field={{
           key: "quantity",
           kind: "number",
-          label: "Pack Quantity",
+          label: "Quantidade de Cestas a Montar",
           value: quantity,
           onChange: onQuantityChange,
           min: 1,

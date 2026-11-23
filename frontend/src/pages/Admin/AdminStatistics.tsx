@@ -19,7 +19,7 @@ export default function AdminStatistics() {
   useScrollToTopOnMount();
 
   useEffect(() => {
-    document.title = "Data Dashboard - ABC Foodbank";
+    document.title = "Painel de Impacto e Estatísticas - Colhe+";
   }, []);
 
   return (

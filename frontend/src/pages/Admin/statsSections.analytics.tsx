@@ -17,8 +17,8 @@ import {
   type DashboardRange,
 } from "./useAdminDashboardData";
 const DEFAULT_SHELL = {
-  loadingMessage: "Loading chart...",
-  emptyMessage: "No chart data available.",
+  loadingMessage: "Carregando gráfico...",
+  emptyMessage: "Nenhum dado disponível para este gráfico.",
 };
 export type ChartLegendSwatchTone =
   | "brand"
@@ -200,7 +200,7 @@ type KpiCard = {
 // jump between states while analytics refresh in place.
 const loadingCards: KpiCard[] = Array.from(
   { length: loadingKpiCount },
-  (_, index) => ({ key: `loading-${index}`, label: "Loading...", value: "--" }),
+  (_, index) => ({ key: `loading-${index}`, label: "Carregando...", value: "--" }),
 );
 const buildKpiCards = (
   range: DashboardRange,
@@ -211,21 +211,21 @@ const buildKpiCards = (
   return [
     {
       key: "goods-donation-units",
-      label: `Goods Donation Units (${timeLabel})`,
-      value: kpi.totalDonation.toLocaleString(),
+      label: `Alimentos Doados (${timeLabel})`,
+      value: kpi.totalDonation.toLocaleString("pt-BR"),
       trend: kpi.trends.donation,
       trendTone: "up",
     },
     {
       key: "packages-distributed",
-      label: `Packages Distributed (${timeLabel})`,
-      value: kpi.totalPackageDistributed,
+      label: `Cestas Distribuídas (${timeLabel})`,
+      value: kpi.totalPackageDistributed.toLocaleString("pt-BR"),
       trend: kpi.trends.package,
       trendTone: "up",
     },
     {
       key: "low-stock-items",
-      label: "Low Stock Items",
+      label: "Itens com Baixo Estoque",
       value: kpi.lowStockCount,
       trend: kpi.trends.lowStock,
       trendTone: "down",
@@ -233,7 +233,7 @@ const buildKpiCards = (
     },
     {
       key: "expiring-soon-lots",
-      label: "Expiring Soon Lots",
+      label: "Lotes a Vencer (30 dias)",
       value: kpi.expiringLotCount,
       trend: kpi.trends.expiringLots,
       trendTone: "warning",
@@ -241,7 +241,7 @@ const buildKpiCards = (
     },
     {
       key: "redemption-success-rate",
-      label: "Redemption Success Rate",
+      label: "Taxa de Sucesso nas Retiradas",
       value: `${kpi.redemptionRate}%`,
     },
   ];
@@ -334,60 +334,64 @@ const TABLES = {
     bodyId: "expiring-lots-body",
     columns: [
       {
-        header: "Item Name",
+        header: "Nome do Alimento",
         cell: (row: DashboardExpiringLot) => row.item_name,
       },
       {
-        header: "Lot Number",
+        header: "Número do Lote",
         cell: (row: DashboardExpiringLot) => row.lot_number,
       },
       {
-        header: "Expiry Date",
+        header: "Data de Validade",
         cell: (row: DashboardExpiringLot) => row.expiry_date,
       },
       {
-        header: "Remaining Stock",
+        header: "Estoque Restante",
         cell: (row: DashboardExpiringLot) => row.remaining_stock_label,
       },
       {
-        header: "Days Until Expiry",
+        header: "Dias até Vencer",
         cell: (row: DashboardExpiringLot) => (
           <span className={getStatusToneClasses(row.status_tone)}>
-            {row.days_until_expiry} Day{row.days_until_expiry === 1 ? "" : "s"}
+            {row.days_until_expiry} {row.days_until_expiry === 1 ? "dia" : "dias"}
           </span>
         ),
       },
     ],
-    loadingMessage: "Loading live expiry data...",
-    emptyMessage: "No lots are expiring in the next 30 days.",
+    loadingMessage: "Carregando lotes a vencer...",
+    emptyMessage: "Nenhum lote com vencimento nos próximos 30 dias.",
     rowKey: (row: DashboardExpiringLot) => `${row.item_name}-${row.lot_number}`,
   },
   verification: {
     bodyId: "recent-verification-body",
     columns: [
       {
-        header: "Redemption Code",
+        header: "Código de Retirada",
         cell: (row: DashboardVerificationRecord) => row.redemption_code,
       },
       {
-        header: "Package Type",
+        header: "Tipo de Cesta",
         cell: (row: DashboardVerificationRecord) => row.package_type,
       },
       {
-        header: "Verified At",
+        header: "Validado em",
         cell: (row: DashboardVerificationRecord) => row.verified_at,
       },
       {
         header: "Status",
         cell: (row: DashboardVerificationRecord) => (
           <span className={getStatusToneClasses(row.status_tone)}>
-            {row.status}
+            {row.status === "verified" || row.status === "Verified"
+              ? "Validado"
+              : row.status === "pending" || row.status === "Pending"
+                ? "Pendente"
+                : row.status}
           </span>
         ),
       },
     ],
-    loadingMessage: "Loading live verification records...",
-    emptyMessage: "No recent verification records yet.",
+    loadingMessage: "Carregando histórico de validações...",
+    emptyMessage: "Nenhum registro de validação recente.",
     rowKey: (row: DashboardVerificationRecord) =>
       `${row.redemption_code}-${row.verified_at}`,
   },
@@ -478,7 +482,7 @@ function StatsBlock({
   );
 }
 const KPI_SECTION_META = {
-  title: "Core Operational KPIs",
+  title: "Indicadores Principais de Operação",
 } as const;
 export function StatsKpiSection({
   range,
@@ -504,7 +508,7 @@ export function StatsKpiSection({
             htmlFor="time-range-select"
           >
             {" "}
-            Time Range:
+            Período:
           </label>
           <select
             id="time-range-select"
@@ -527,7 +531,7 @@ export function StatsKpiSection({
           disabled={isLoading}
           onClick={() => void refreshDashboard(range)}
         >
-          {isLoading ? "Refreshing..." : "Refresh Data"}
+          {isLoading ? "Atualizando..." : "Atualizar Dados"}
         </AdminButton>
       </div>
       <p id="time-range-summary" className={adminStyles["range-summary"]}>
@@ -540,25 +544,25 @@ export function StatsKpiSection({
 const SECTION_META = {
   donation: {
     id: "donation-analysis",
-    title: "Donation Analysis",
+    title: "Análise de Doações",
   },
   inventory: {
     id: "inventory-health",
-    title: "Inventory Health Analysis",
+    title: "Situação e Saúde do Estoque",
   },
   distribution: {
     id: "distribution-analysis",
-    title: "Aid Package & Distribution Analysis",
+    title: "Distribuição e Destinação de Cestas",
   },
   waste: {
     id: "waste-analysis",
-    title: "Expiry & Food Waste Reduction Analysis",
-    tableTitle: "Expiring Soon (Within 30 Days)",
+    title: "Prevenção de Perdas e Vencimentos",
+    tableTitle: "Lotes com Vencimento Próximo (30 dias)",
   },
   verification: {
     id: "code-verification",
-    title: "Code Verification Analytics",
-    tableTitle: "Recent Verification Records",
+    title: "Validação de Códigos de Retirada",
+    tableTitle: "Histórico Recente de Validações",
   },
 } as const;
 const METRIC_CARD_IDS = {

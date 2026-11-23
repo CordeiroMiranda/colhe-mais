@@ -70,17 +70,17 @@ function buildConfirmModalConfigs({
       onClose: onCloseLotStatus,
       title:
         lotStatusTarget?.currentStatus === "active"
-          ? "Mark Lot as Wasted"
-          : "Reactivate Lot",
+          ? "Registrar Descarte de Lote"
+          : "Reativar Lote",
       description: !lotStatusTarget
         ? ""
         : lotStatusTarget.currentStatus === "active"
-          ? `Mark lot ${lotStatusTarget.lotNumber} as wasted? This will deduct the remaining stock from inventory, and cannot be undone.`
-          : `Mark lot ${lotStatusTarget.lotNumber} as active again?`,
+          ? `Marcar o lote ${lotStatusTarget.lotNumber} como descartado? O estoque restante será deduzido e a ação não poderá ser desfeita.`
+          : `Reativar o lote ${lotStatusTarget.lotNumber}?`,
       confirmLabel:
         lotStatusTarget?.currentStatus === "active"
-          ? "Mark Wasted"
-          : "Mark Active",
+          ? "Confirmar Descarte"
+          : "Reativar",
       submitting: isLotStatusSubmitting,
       confirmTone:
         lotStatusTarget?.currentStatus === "active" ? "danger" : "primary",
@@ -90,11 +90,11 @@ function buildConfirmModalConfigs({
       id: "delete-lot-confirm",
       isOpen: lotDeleteTarget !== null,
       onClose: onCloseLotDelete,
-      title: "Delete Expired Lot",
+      title: "Excluir Lote Vencido",
       description: lotDeleteTarget
-        ? `Delete expired lot ${lotDeleteTarget.lotNumber}? This cannot be undone.`
+        ? `Excluir o lote vencido ${lotDeleteTarget.lotNumber}? Esta ação não poderá ser desfeita.`
         : "",
-      confirmLabel: "Delete Lot",
+      confirmLabel: "Excluir Lote",
       submitting: isLotDeleteSubmitting,
       confirmTone: "danger",
       onConfirm: onConfirmLotDelete,
@@ -103,11 +103,11 @@ function buildConfirmModalConfigs({
       id: "delete-item-confirm",
       isOpen: deleteItemTarget !== null,
       onClose: onCloseDeleteItem,
-      title: "Delete Inventory Item",
+      title: "Excluir Alimento do Estoque",
       description: deleteItemTarget
-        ? `Delete ${deleteItemTarget.itemName}? This cannot be undone.`
+        ? `Excluir o alimento ${deleteItemTarget.itemName}? Esta ação não poderá ser desfeita.`
         : "",
-      confirmLabel: "Delete Item",
+      confirmLabel: "Excluir Alimento",
       submitting: isDeleteItemSubmitting,
       confirmTone: "danger",
       onConfirm: onConfirmDeleteItem,
@@ -116,11 +116,11 @@ function buildConfirmModalConfigs({
       id: "delete-package-confirm",
       isOpen: deletePackageTarget !== null,
       onClose: onCloseDeletePackage,
-      title: "Remove Food Package",
+      title: "Remover Cesta de Alimentos",
       description: deletePackageTarget
-        ? `Remove ${deletePackageTarget.name} from active packages? Existing application history will be kept, and referenced packages will be archived instead of permanently deleted.`
+        ? `Remover a cesta ${deletePackageTarget.name} das ativas? O histórico de retiradas será preservado e a cesta será arquivada.`
         : "",
-      confirmLabel: "Remove Package",
+      confirmLabel: "Remover Cesta",
       submitting: isDeletePackageSubmitting,
       confirmTone: "danger",
       onConfirm: onConfirmDeletePackage,
@@ -129,11 +129,11 @@ function buildConfirmModalConfigs({
       id: "delete-donation-confirm",
       isOpen: deleteDonationTarget !== null,
       onClose: onCloseDeleteDonation,
-      title: "Delete Donation Record",
+      title: "Excluir Registro de Doação",
       description: deleteDonationTarget
-        ? `Delete donation ${deleteDonationTarget.displayId}? This cannot be undone.`
+        ? `Excluir o registro de doação ${deleteDonationTarget.displayId}? Esta ação não poderá ser desfeita.`
         : "",
-      confirmLabel: "Delete Record",
+      confirmLabel: "Excluir Registro",
       submitting: isDeleteDonationSubmitting,
       confirmTone: "danger",
       onConfirm: onConfirmDeleteDonation,
@@ -142,11 +142,11 @@ function buildConfirmModalConfigs({
       id: "void-code-confirm",
       isOpen: voidCodeTarget !== null,
       onClose: onCloseVoidCode,
-      title: "Void Redemption Code",
+      title: "Anular Código de Retirada",
       description: voidCodeTarget
-        ? `Void code ${voidCodeTarget.record.redemption_code}? This code will no longer be valid for redemption, and cannot be undone.`
+        ? `Anular o código ${voidCodeTarget.record.redemption_code}? O código deixará de ser válido para retirada e a ação não poderá ser desfeita.`
         : "",
-      confirmLabel: "Void Code",
+      confirmLabel: "Anular Código",
       submitting: isVoidCodeSubmitting,
       confirmTone: "danger",
       onConfirm: onConfirmVoidCode,

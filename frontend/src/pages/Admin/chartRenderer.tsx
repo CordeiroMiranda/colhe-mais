@@ -77,7 +77,7 @@ const tooltipStyle = {
 };
 
 const formatValue = (value: number) =>
-  value.toLocaleString(undefined, {
+  value.toLocaleString("pt-BR", {
     maximumFractionDigits: Number.isInteger(value) ? 0 : 1,
   });
 

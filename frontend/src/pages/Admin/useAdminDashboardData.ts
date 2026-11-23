@@ -4,19 +4,19 @@ import { adminAPI } from "@/shared/lib/api/admin";
 import type { DashboardAnalyticsResponse } from "@/shared/lib/api/stats";
 export type DashboardRange = "month" | "quarter" | "year";
 export const rangeOptions: Array<{ value: DashboardRange; label: string }> = [
-  { value: "month", label: "This Month" },
-  { value: "quarter", label: "This Quarter" },
-  { value: "year", label: "This Year" },
+  { value: "month", label: "Este Mês" },
+  { value: "quarter", label: "Este Trimestre" },
+  { value: "year", label: "Este Ano" },
 ];
 export const rangeLabels: Record<DashboardRange, string> = {
-  month: "This Month",
-  quarter: "This Quarter",
-  year: "This Year",
+  month: "Este Mês",
+  quarter: "Este Trimestre",
+  year: "Este Ano",
 };
 export const trendGroupingCopy: Record<DashboardRange, string> = {
-  month: "Trend charts are grouped by day within the current month.",
-  quarter: "Trend charts are grouped by month within the selected range.",
-  year: "Trend charts are grouped by month within the selected range.",
+  month: "Gráficos de tendência agrupados por dia dentro do mês atual.",
+  quarter: "Gráficos de tendência agrupados por mês dentro do trimestre.",
+  year: "Gráficos de tendência agrupados por mês dentro do ano.",
 };
 export const loadingKpiCount = 5;
 export const chartPalette = {
@@ -53,7 +53,7 @@ const startOfDay = (value: Date) =>
 const getRangeBounds = (range: DashboardRange) =>
   RANGE_BOUNDS[range](startOfDay(new Date()));
 const formatSummaryDate = (value: Date) =>
-  value.toLocaleDateString("en-GB", {
+  value.toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -63,10 +63,10 @@ function buildRangeSummary(range: DashboardRange) {
   const quarterNote =
     range === "quarter" &&
     getRangeBounds("month").start.getTime() === bounds.start.getTime()
-      ? "The current calendar quarter started this month, so month and quarter can match early in the quarter."
+      ? "O trimestre atual iniciou este mês, portanto os dados do mês e do trimestre coincidem no início do período."
       : "";
   return [
-    `Live range: ${formatSummaryDate(bounds.start)} to ${formatSummaryDate(bounds.end)}.`,
+    `Período ativo: ${formatSummaryDate(bounds.start)} até ${formatSummaryDate(bounds.end)}.`,
     quarterNote,
     trendGroupingCopy[range],
   ]
@@ -120,7 +120,7 @@ export function useAdminDashboardData() {
         setLoadError(
           error instanceof Error
             ? error.message
-            : "Failed to load dashboard analytics.",
+            : "Falha ao carregar as estatísticas do painel.",
         );
       } finally {
         if (requestIdRef.current === requestId) {

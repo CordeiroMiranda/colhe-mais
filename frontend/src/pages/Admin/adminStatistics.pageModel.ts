@@ -59,20 +59,20 @@ export type AdminStatisticsPageModel = {
 
 const DEFAULT_CARDS = {
   averageDonation: {
-    title: "Average Donation Value",
+    title: "Média de Doações",
     value: "--",
-    subtitle: "Per completed cash donation",
-    trend: "Loading live trend...",
+    subtitle: "Por doação financeira concluída",
+    trend: "Carregando tendência...",
   },
   averageSupport: {
-    title: "Average Family Support Duration",
+    title: "Média de Apoio às Famílias",
     value: "--",
-    subtitle: "Weeks",
+    subtitle: "Semanas",
   },
   itemsPerPackage: {
-    title: "Items Per Package",
+    title: "Itens por Cesta",
     value: "--",
-    subtitle: "Loading live calculation...",
+    subtitle: "Calculando em tempo real...",
   },
 } satisfies Record<string, DashboardDisplayCard>;
 
@@ -183,13 +183,21 @@ const pickCard = (
 
 const formatCount = (value: number, unit: string) => {
   const amount = Number.isInteger(value)
-    ? value.toLocaleString()
-    : value.toLocaleString(undefined, {
+    ? value.toLocaleString("pt-BR")
+    : value.toLocaleString("pt-BR", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
       });
 
-  return `${amount} ${unit}${Math.abs(value) === 1 ? "" : "s"}`;
+  const pluralUnit =
+    unit === "doação"
+      ? "doações"
+      : unit === "doador"
+        ? "doadores"
+        : unit === "parceiro"
+          ? "parceiros"
+          : `${unit}s`;
+  return `${amount} ${Math.abs(value) === 1 ? unit : pluralUnit}`;
 };
 
 const getChartValue = (
@@ -204,33 +212,37 @@ function buildDonationLegend(
   source?: DashboardChartData | null,
   donorType?: DashboardChartData | null,
 ) {
-  // Keep the donor-type split in the legend so we can add context without
-  // introducing another standalone chart for a small breakdown.
   if (!source) {
     return undefined;
   }
 
+  const labelMap: Record<string, string> = {
+    Individual: "Pessoas Físicas",
+    Supermarket: "Comércios / Mercados",
+    Organization: "Organizações / Empresas",
+  };
+
   const items = source.labels.map<ChartLegendItem>((label, index) => ({
-    label,
-    value: formatCount(source.data[index] ?? 0, "donation"),
+    label: labelMap[label] ?? label,
+    value: formatCount(source.data[index] ?? 0, "doação"),
     swatchTone: donationSourceSwatches[index % donationSourceSwatches.length],
     ...(label === "Individual" && donorType
       ? {
           description:
-            "Individual source totals are split by donor loyalty below.",
+            "Divisão dos doadores pessoa física por frequência de doação.",
           details: [
             {
-              label: "Regular Donors",
+              label: "Doadores Recorrentes",
               value: formatCount(
                 getChartValue(donorType, "Regular Donors"),
-                "donor",
+                "doador",
               ),
             },
             {
-              label: "One-Time Donors",
+              label: "Doadores Pontuais",
               value: formatCount(
                 getChartValue(donorType, "One-Time Donors"),
-                "donor",
+                "doador",
               ),
             },
           ],
@@ -240,14 +252,15 @@ function buildDonationLegend(
 
   if (donorType) {
     items.push({
-      label: "Corporate Partners",
+      label: "Parceiros Comerciais",
       value: formatCount(
         getChartValue(donorType, "Corporate Partners"),
-        "partner",
+        "parceiro",
       ),
       description:
-        "Unique partner donors across Supermarket and Organization sources.",
+        "Parceiros únicos entre supermercados, comércios e organizações.",
     });
+  }
   }
 
   return items.length ? ({ items } satisfies ChartLegendConfig) : undefined;
@@ -277,7 +290,7 @@ const PANELS = {
   donation: {
     primary: [
       panel(
-        "Donation Source Distribution",
+        "Distribuição por Origem da Doação",
         "donation-source-loading",
         "donation-source-chart",
         (analytics) => analytics?.donation.source,
@@ -289,14 +302,14 @@ const PANELS = {
           ),
       ),
       panel(
-        "Goods Donation Trend",
+        "Evolução de Doações de Alimentos",
         "donation-trend-loading",
         "donation-trend-chart",
         (analytics) => analytics?.donation.trend,
         (data) =>
           makeLineChart(
             data,
-            "Donations",
+            "Doações",
             palette.donationTrend.line,
             palette.donationTrend.fill,
           ),
@@ -304,47 +317,47 @@ const PANELS = {
     ],
     secondary: [
       panel(
-        "Donation Category Distribution",
+        "Distribuição por Categoria de Alimentos",
         "donation-category-loading",
         "donation-category-chart",
         (analytics) => analytics?.donation.category,
-        (data) => makeBarChart(data, "Items", [...palette.donationCategory]),
+        (data) => makeBarChart(data, "Itens", [...palette.donationCategory]),
       ),
     ],
   },
   inventory: [
     panel(
-      "Inventory Health Status",
+      "Situação Geral do Estoque",
       "inventory-health-loading",
       "inventory-health-chart",
       (analytics) => analytics?.inventory.health,
       (data) => makeDoughnutChart(data, [...palette.inventoryHealth]),
     ),
     panel(
-      "Stock by Category",
+      "Estoque por Categoria",
       "inventory-category-loading",
       "inventory-category-chart",
       (analytics) => analytics?.inventory.category,
-      (data) => makeBarChart(data, "Stock", palette.inventoryCategory),
+      (data) => makeBarChart(data, "Estoque", palette.inventoryCategory),
     ),
   ],
   package: {
     primary: [
       panel(
-        "Aid Package Distribution Trend",
+        "Evolução na Distribuição de Cestas",
         "package-trend-loading",
         "package-trend-chart",
         (analytics) => analytics?.package.trend,
         (data) =>
           makeLineChart(
             data,
-            "Packages",
+            "Cestas",
             palette.packageTrend.line,
             palette.packageTrend.fill,
           ),
       ),
       panel(
-        "Redemption Code Status",
+        "Status dos Códigos de Retirada",
         "redemption-status-loading",
         "redemption-status-chart",
         (analytics) => analytics?.package.redemption,
@@ -352,7 +365,7 @@ const PANELS = {
       ),
     ],
     packageType: panel(
-      "Package Type Distribution",
+      "Distribuição por Tipo de Cesta",
       "package-type-loading",
       "package-type-chart",
       (analytics) => analytics?.package.packageType,
@@ -361,37 +374,37 @@ const PANELS = {
   },
   expiry: [
     panel(
-      "Lot Expiry Distribution",
+      "Distribuição por Vencimento de Lotes",
       "expiry-distribution-loading",
       "expiry-distribution-chart",
       (analytics) => analytics?.expiry.distribution,
       (data) => makeDoughnutChart(data, [...palette.expiryDistribution]),
     ),
     panel(
-      "Food Wastage Trend",
+      "Evolução de Perdas e Descarte",
       "wastage-trend-loading",
       "wastage-trend-chart",
       (analytics) => analytics?.expiry.wastage,
-      (data) => makeBarChart(data, wastageLabel(data), palette.wastage),
+      (data) => makeBarChart(data, wastageLabel(data) === "Wastage" ? "Descartes" : wastageLabel(data), palette.wastage),
     ),
   ],
   redemption: [
     panel(
-      "Redemption Rate Trend",
+      "Evolução da Taxa de Retirada",
       "redemption-rate-loading",
       "redemption-rate-chart",
       (analytics) => analytics?.redemption.rateTrend,
       (data) =>
         makeLineChart(
           data,
-          "Redemption Rate (%)",
+          "Taxa de Retirada (%)",
           palette.redemptionRate.line,
           palette.redemptionRate.fill,
           { min: 0, max: 100 },
         ),
     ),
     panel(
-      "Verification Outcome Breakdown",
+      "Detalhamento dos Resultados de Validação",
       "verification-breakdown-loading",
       "verification-breakdown-chart",
       (analytics) => analytics?.redemption.breakdown,

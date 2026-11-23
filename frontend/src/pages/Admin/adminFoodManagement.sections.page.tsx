@@ -74,7 +74,7 @@ function SharedPublicImpactSection({
   isLocalFoodBankView,
   foodBankName,
 }: AdminFoodManagementSectionsProps["sharedPublicImpact"]) {
-  const localScopeLabel = foodBankName || "your food bank";
+  const localScopeLabel = foodBankName || "seu ponto de coleta";
   const hasImpactMetrics = impactMetrics.length > 0;
   const publicImpactMessageTone =
     publicImpactStatus === "error"
@@ -86,44 +86,43 @@ function SharedPublicImpactSection({
     publicImpactStatus === "loading"
       ? hasImpactMetrics
         ? isLocalFoodBankView
-          ? "Refreshing your food bank snapshot"
-          : "Refreshing shared public totals"
+          ? "Atualizando dados do ponto de coleta"
+          : "Atualizando totais públicos"
         : isLocalFoodBankView
-          ? "Loading your food bank snapshot"
-          : "Loading shared public totals"
+          ? "Carregando dados do ponto de coleta"
+          : "Carregando totais públicos"
       : publicImpactStatus === "error"
         ? hasImpactMetrics
           ? isLocalFoodBankView
-            ? "Showing the latest available local snapshot"
-            : "Showing the latest available public snapshot"
+            ? "Exibindo os dados locais mais recentes"
+            : "Exibindo os totais públicos mais recentes"
           : isLocalFoodBankView
-            ? "Your food bank snapshot is unavailable"
-            : "Shared public totals are unavailable"
+            ? "Dados do ponto de coleta indisponíveis"
+            : "Totais públicos indisponíveis"
         : isLocalFoodBankView
-          ? "Your food bank snapshot is in sync"
-          : "Shared public totals are in sync";
-  // Keep the status copy explicit about data scope so admins can tell whether
-  // these cards reflect one bank or the shared public totals.
+          ? "Dados do ponto de coleta sincronizados"
+          : "Totais públicos sincronizados";
+
   const publicImpactMessageLine =
     publicImpactStatus === "loading"
       ? hasImpactMetrics
         ? isLocalFoodBankView
-          ? `Visible cards only include activity from ${localScopeLabel} while fresh values load.`
-          : "Visible cards use the same live public source as Home while fresh values load."
+          ? `Os cartões incluem apenas movimentações de ${localScopeLabel} enquanto novos dados são carregados.`
+          : "Os cartões exibem a mesma fonte pública da página inicial enquanto novos dados são carregados."
         : isLocalFoodBankView
-          ? `Loading live activity from ${localScopeLabel}.`
-          : "Loading the same live public source used on Home."
+          ? `Carregando atividades em tempo real de ${localScopeLabel}.`
+          : "Carregando os mesmos dados em tempo real da página inicial."
       : publicImpactStatus === "error"
         ? hasImpactMetrics
           ? isLocalFoodBankView
-            ? "The latest refresh did not complete, so the most recent successful local values remain visible."
-            : "The latest refresh did not complete, so the most recent successful values remain visible."
+            ? "A atualização mais recente não foi concluída; os últimos valores locais obtidos continuam visíveis."
+            : "A atualização mais recente não foi concluída; os últimos valores obtidos continuam visíveis."
           : isLocalFoodBankView
-            ? `We could not load the latest snapshot for ${localScopeLabel} yet.`
-            : "We could not load live public totals right now."
+            ? `Não foi possível carregar os dados mais recentes de ${localScopeLabel}.`
+            : "Não foi possível carregar os totais públicos no momento."
         : isLocalFoodBankView
-          ? `Updates to donations and redemption activity for ${localScopeLabel} refresh these cards automatically.`
-          : "Updates to donations and redemption activity refresh these cards automatically.";
+          ? `Novas doações e retiradas em ${localScopeLabel} atualizam estes cartões automaticamente.`
+          : "Novas doações e retiradas atualizam estes cartões automaticamente.";
 
   return (
     <>
@@ -213,10 +212,10 @@ function SharedPublicImpactSection({
                 )}
               >
                 <div className={adminStyles["admin-summary-card-title"]}>
-                  Live totals unavailable
+                  Totais em tempo real indisponíveis
                 </div>
                 <p className={adminStyles["admin-summary-card-description"]}>
-                  We could not load the latest public snapshot right now.
+                  Não foi possível carregar os dados públicos mais recentes.
                 </p>
               </div>
             )}
@@ -261,10 +260,8 @@ export function AdminFoodManagementPageSections({
   codes,
 }: AdminFoodManagementSectionsProps) {
   const sharedPublicImpactDescription = sharedPublicImpact.isLocalFoodBankView
-    ? `These live cards show the public-facing totals for ${sharedPublicImpact.foodBankName || "your food bank"} only.`
-    : "These are the same live public totals shown on Home.";
-  // Declare the page sections as data so hero anchors and future reordering do
-  // not require duplicated wrapper markup around each business area.
+    ? `Estes indicadores mostram exclusivamente os totais de ${sharedPublicImpact.foodBankName || "seu ponto de coleta"}.`
+    : "Estes são os mesmos indicadores de impacto exibidos na página inicial do Colhe+.";
   const sections: Array<{
     id: string;
     title: string;
@@ -273,13 +270,13 @@ export function AdminFoodManagementPageSections({
   }> = [
     {
       id: "shared-public-impact",
-      title: "Public Impact",
+      title: "Painel de Impacto",
       description: sharedPublicImpactDescription,
       content: <SharedPublicImpactSection {...sharedPublicImpact} />,
     },
     {
       id: "donation-intake",
-      title: "Donation Intake & Recording",
+      title: "Entrada e Triagem de Doações",
       content: (
         <>
           <DonationSectionFeedback
@@ -293,22 +290,22 @@ export function AdminFoodManagementPageSections({
     },
     {
       id: "inventory-items",
-      title: "Item Inventory Management",
+      title: "Gestão de Estoque de Alimentos",
       content: <AdminItemsSection {...items} />,
     },
     {
       id: "package-management",
-      title: "Food Package Building & Management",
+      title: "Montagem e Gestão de Cestas",
       content: <AdminPackagesSection {...packages} />,
     },
     {
       id: "expiry-tracking",
-      title: "Lot Tracking & Expiry Management",
+      title: "Controle de Lotes e Validades",
       content: <AdminLotsSection {...lots} />,
     },
     {
       id: "code-verification",
-      title: "Redemption Code Verification",
+      title: "Validação de Código de Retirada",
       content: <AdminCodesSection {...codes} />,
     },
   ];

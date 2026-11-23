@@ -162,12 +162,12 @@ export const getApplicationPackageLabel = (record: AdminApplicationRecord) => {
     return record.package_name.trim();
   }
   if (record.items.length === 0) {
-    return "Package unavailable";
+    return "Cesta não especificada";
   }
   if (record.items.length === 1) {
     return record.items[0].name;
   }
-  return `${record.items[0].name} +${record.items.length - 1} more`;
+  return `${record.items[0].name} +${record.items.length - 1} outros`;
 };
 export const canVoidApplication = (record: AdminApplicationRecord) =>
   !record.is_voided && record.status === "pending";
@@ -214,8 +214,8 @@ export const buildDonationDetailsRows = (row: DonationListRow) => {
       {
         name:
           row.donation_frequency === "monthly"
-            ? "Monthly Cash Donation"
-            : "One-Time Cash Donation",
+            ? "Apoio Financeiro Mensal"
+            : "Doação Financeira Avulsa",
         quantityLabel: buildDonationTotalLabel(row),
         expiryLabel: "-",
       },

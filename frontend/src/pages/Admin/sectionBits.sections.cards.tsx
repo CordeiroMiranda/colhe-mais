@@ -165,7 +165,7 @@ function AdminTablePagination({
         onClick={() => onPageChange(Math.max(1, page - 1))}
       >
         <span>&#8249;</span>
-        <span>Previous</span>
+        <span>Anterior</span>
       </button>
       <div className={adminStyles["pagination-pages"]}>
         {tokens.map((token) =>
@@ -203,7 +203,7 @@ function AdminTablePagination({
         disabled={page >= totalPages}
         onClick={() => onPageChange(Math.min(totalPages, page + 1))}
       >
-        <span>Next</span>
+        <span>Próximo</span>
         <span>&#8250;</span>
       </button>
     </div>
@@ -233,10 +233,10 @@ export function SelectionBatchBar({
           className={adminStyles["batch-select-label"]}
         >
           {" "}
-          Select All
+          Selecionar Todos
         </label>
         <span id={countId} className={adminStyles["batch-select-count"]}>
-          {selectedCount} selected
+          {selectedCount} selecionado(s)
         </span>
       </div>
       <div className={adminStyles["batch-right"]}>{children}</div>

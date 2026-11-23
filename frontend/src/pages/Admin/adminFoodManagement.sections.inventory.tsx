@@ -32,14 +32,14 @@ import adminStyles from "./admin.module.css";
 type AdminStatusTone = "success" | "warning" | "error" | "muted" | "active";
 
 const LOT_STATUS_OPTIONS: FilterOption[] = [
-  { value: "Expiring Soon", label: "Expiring Soon" },
-  { value: "Expired", label: "Expired" },
+  { value: "Próximo do Vencimento", label: "Próximo do Vencimento" },
+  { value: "Vencido", label: "Vencido" },
 ];
 
 const buildItemDetailRows = (item: InventoryItem) => [
-  { label: "Current Stock", value: `${item.stock} ${item.unit}` },
-  { label: "Safety Threshold", value: `${item.threshold} ${item.unit}` },
-  { label: "Deficit", value: Math.max(item.threshold - item.stock, 0) },
+  { label: "Estoque Atual", value: `${item.stock} ${item.unit}` },
+  { label: "Estoque Mínimo", value: `${item.threshold} ${item.unit}` },
+  { label: "Déficit", value: Math.max(item.threshold - item.stock, 0) },
 ];
 
 const renderItemCard = (
@@ -62,7 +62,7 @@ const renderItemCard = (
         isBelowThreshold ? (
           <span className={adminStyles["threshold-warning-notice"]}>
             {" "}
-            Stock is below the safety threshold. Replenish this item soon.
+            Estoque abaixo do limite mínimo de segurança.
           </span>
         ) : null
       }
@@ -81,7 +81,7 @@ const renderItemCard = (
             }
           >
             {" "}
-            Edit
+            Editar
           </AdminButton>
           <AdminButton
             size="sm"
@@ -89,7 +89,7 @@ const renderItemCard = (
             onClick={() => handlers.onAdjustItem(item.id)}
           >
             {" "}
-            + Stock
+            + Entrada
           </AdminButton>
           <AdminButton
             tone="danger"
@@ -98,7 +98,7 @@ const renderItemCard = (
             onClick={() => handlers.onDeleteItem(item.id, item.name)}
           >
             {" "}
-            Delete
+            Excluir
           </AdminButton>
         </AdminActionGroup>
       }
@@ -116,12 +116,12 @@ const isLotExpiringSoon = (lot: InventoryLotRow) =>
 const getLotStatusMeta = (lot: InventoryLotRow) =>
   lot.status === "wasted" || lot.status === "expired"
     ? {
-        label: lot.status === "wasted" ? "Wasted" : "Expired",
+        label: lot.status === "wasted" ? "Descartado" : "Vencido",
         tone: "error" as const,
       }
     : isLotExpiringSoon(lot)
-      ? { label: "Expiring Soon", tone: "warning" as const }
-      : { label: "Active", tone: "active" as const };
+      ? { label: "Próximo do Vencimento", tone: "warning" as const }
+      : { label: "Ativo", tone: "active" as const };
 
 const createCategoryByItemId = (inventoryItems: InventoryItem[]) =>
   new Map(inventoryItems.map((item) => [item.id, item.category]));
@@ -156,7 +156,7 @@ const buildLotTableRows = (
       statusTone: statusMeta.tone,
       canDelete: lot.status !== "active",
       canMarkWasted:
-        lot.status === "active" && statusMeta.label === "Expiring Soon",
+        lot.status === "active" && statusMeta.label === "Próximo do Vencimento",
     };
   });
 
@@ -207,7 +207,7 @@ const buildLotTableActions = (
 
   if (!lot.canDelete) {
     actions.push({
-      label: "Edit",
+      label: "Editar Validade",
       tone: "secondary",
       className: "edit-lot-btn",
       onClick: () => handlers.onEditExpiry(lot.id, lot.expiry_date),
@@ -216,7 +216,7 @@ const buildLotTableActions = (
 
   if (lot.canMarkWasted) {
     actions.push({
-      label: "Mark Wasted",
+      label: "Registrar Descarte",
       tone: "danger",
       className: "mark-wasted-btn",
       onClick: () => handlers.onToggleStatus(lot.id, lot.status),
@@ -225,7 +225,7 @@ const buildLotTableActions = (
 
   if (lot.canDelete) {
     actions.push({
-      label: "Delete",
+      label: "Excluir",
       tone: "secondary",
       className: "delete-lot-btn",
       onClick: () => handlers.onDeleteLot(lot.id),
@@ -238,11 +238,11 @@ const buildLotTableActions = (
 const createLotColumns = (
   handlers: LotActionHandlers,
 ): TableColumn<LotTableRow>[] => [
-  { header: "Item Name", renderCell: (lot) => lot.item_name },
-  { header: "Lot Number", renderCell: (lot) => lot.reference },
-  { header: "Received Date", renderCell: (lot) => lot.receivedDateLabel },
-  { header: "Expiry Date", renderCell: (lot) => lot.expiryDateLabel },
-  { header: "Remaining Stock", renderCell: (lot) => lot.quantity },
+  { header: "Nome do Alimento", renderCell: (lot) => lot.item_name },
+  { header: "Lote", renderCell: (lot) => lot.reference },
+  { header: "Data de Entrada", renderCell: (lot) => lot.receivedDateLabel },
+  { header: "Data de Validade", renderCell: (lot) => lot.expiryDateLabel },
+  { header: "Estoque Restante", renderCell: (lot) => lot.quantity },
   {
     header: "Status",
     renderCell: (lot) => (
@@ -252,7 +252,7 @@ const createLotColumns = (
     ),
   },
   {
-    header: "Actions",
+    header: "Ações",
     renderCell: (lot) => (
       <AdminTableActionButtons
         rowKey={lot.id}
@@ -278,7 +278,7 @@ function PackageContentsList({ pkg }: { pkg: PackageRow }) {
       ) : (
         <div className={adminStyles["admin-summary-card-muted"]}>
           {" "}
-          No contents configured
+          Nenhum item configurado
         </div>
       )}
     </div>
@@ -298,8 +298,8 @@ const renderPackageCard = (
     title={pkg.name}
     meta={
       <div className={adminStyles["admin-package-meta-row"]}>
-        <span>Pack stock: {pkg.stock}</span>
-        <span>Threshold: {pkg.threshold}</span>
+        <span>Estoque montado: {pkg.stock}</span>
+        <span>Meta mínima: {pkg.threshold}</span>
       </div>
     }
     actions={
@@ -310,7 +310,7 @@ const renderPackageCard = (
           onClick={() => handlers.onOpenPackTab(pkg.id)}
         >
           {" "}
-          Packing
+          Montar Cestas
         </AdminButton>
         <AdminButton
           tone="secondary"
@@ -325,7 +325,7 @@ const renderPackageCard = (
           }
         >
           {" "}
-          Edit
+          Editar
         </AdminButton>
         <AdminButton
           tone="danger"
@@ -334,7 +334,7 @@ const renderPackageCard = (
           onClick={() => handlers.onDeletePackage({ id: pkg.id, name: pkg.name })}
         >
           {" "}
-          Delete
+          Excluir
         </AdminButton>
       </AdminActionGroup>
     }
@@ -406,7 +406,7 @@ export function AdminItemsSection({
   selectedFoodBankId,
   onFoodBankChange,
   searchDisabled = false,
-  searchPlaceholder = "Search inventory items",
+  searchPlaceholder = "Buscar alimentos em estoque...",
   searchScopeKey = "",
   sectionError = "",
 }: AdminItemsSectionProps) {
@@ -441,7 +441,7 @@ export function AdminItemsSection({
   return (
     <ConfigurableAdminCardSection
       errorMessage={sectionError}
-      title="Inventory Items"
+      title="Estoque de Alimentos"
       search={{
         value: search,
         onChange: onSearchChange,
@@ -450,7 +450,7 @@ export function AdminItemsSection({
       }}
       toolbarAction={{
         id: "new-item-btn",
-        label: "+ New Item",
+        label: "+ Novo Alimento",
         onClick: onAddItem,
       }}
       filters={[
@@ -470,7 +470,7 @@ export function AdminItemsSection({
           id: "inventory-category-filter",
           value: categoryFilter,
           options: categoryOptions,
-          placeholder: "All Categories",
+          placeholder: "Todas as Categorias",
           onChange: setCategoryFilter,
         },
       ]}
@@ -480,7 +480,7 @@ export function AdminItemsSection({
         !!foodBankOptions && selectedFoodBankId == null && searchDisabled
       }
       emptyStateTitle={
-        isLoadingData ? "Loading inventory..." : "No inventory items found"
+        isLoadingData ? "Carregando estoque..." : "Nenhum alimento cadastrado"
       }
       renderCard={(item) =>
         renderItemCard(item, { onEditItem, onAdjustItem, onDeleteItem })
@@ -510,8 +510,6 @@ export function AdminLotsSection({
   );
 
   useEffect(() => {
-    // Live refreshes can remove or reclassify lots, so drop stale selections
-    // before the next batch action computes against the current dataset.
     const validIds = new Set(lotRows.map((lot) => lot.id));
     setSelectedLotIds((current) => current.filter((id) => validIds.has(id)));
   }, [lotRows]);
@@ -573,24 +571,24 @@ export function AdminLotsSection({
 
   return (
     <AdminSelectableTableSectionShell
-      title={heading ?? "Lot Records"}
+      title={heading ?? "Lotes de Alimentos"}
       errorMessage={lotError}
       searchValue={search}
       onSearchChange={setSearch}
-      searchPlaceholder="Search lot records"
+      searchPlaceholder="Buscar registros de lotes..."
       filters={[
         {
           type: "select",
           value: categoryFilter,
           options: categoryOptions,
-          placeholder: "All Categories",
+          placeholder: "Todas as Categorias",
           onChange: setCategoryFilter,
         },
         {
           type: "select",
           value: statusFilter,
           options: LOT_STATUS_OPTIONS,
-          placeholder: "All Status",
+          placeholder: "Todos os Status",
           onChange: setStatusFilter,
         },
       ]}
@@ -610,8 +608,8 @@ export function AdminLotsSection({
       batchButtons={[
         {
           id: "batch-waste-lots",
-          label: "Mark Selected as Wasted",
-          busyLabel: "Working...",
+          label: "Registrar Descarte dos Selecionados",
+          busyLabel: "Processando...",
           tone: "danger",
           disabled: activeSelectedCount === 0 || batchAction !== null,
           onClick: () =>
@@ -621,8 +619,8 @@ export function AdminLotsSection({
         },
         {
           id: "batch-delete-lots",
-          label: "Delete Selected",
-          busyLabel: "Working...",
+          label: "Excluir Selecionados",
+          busyLabel: "Processando...",
           tone: "secondary",
           disabled: inactiveSelectedCount === 0 || batchAction !== null,
           onClick: () =>
@@ -632,8 +630,8 @@ export function AdminLotsSection({
         },
       ]}
       isLoading={isLoadingLots}
-      loadingMessage="Loading inventory lots..."
-      emptyMessage="No lot records found."
+      loadingMessage="Carregando lotes..."
+      emptyMessage="Nenhum lote registrado."
       paginationId="lot-pagination"
       tableId="lot-table"
       bodyId="lot-table-body"
@@ -655,12 +653,12 @@ export function AdminPackagesSection({
   selectedFoodBankId,
   onFoodBankChange,
   searchDisabled = false,
-  searchPlaceholder = "Search food packages",
+  searchPlaceholder = "Buscar cestas de alimentos...",
   searchScopeKey = "",
   emptyStateMessage = null,
   sectionError = "",
-  heading = "Food Package List",
-  addButtonLabel = "New Package",
+  heading = "Cestas de Alimentos",
+  addButtonLabel = "Nova Cesta",
 }: AdminPackagesSectionProps) {
   const [search, setSearch] = useState("");
 
@@ -717,7 +715,7 @@ export function AdminPackagesSection({
       items={emptyStateMessage ? [] : filteredPackages}
       emptyStateTitle={
         emptyStateMessage ??
-        (isLoadingData ? "Loading packages..." : "No food packages found")
+        (isLoadingData ? "Carregando cestas..." : "Nenhuma cesta encontrada")
       }
       emptyStateTone={emptyStateMessage ? "warning" : "default"}
       renderCard={(pkg) =>

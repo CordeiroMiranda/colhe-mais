@@ -172,7 +172,7 @@ function EditorSubmitActions({
   submitLabel,
   submittingLabel,
   submitTone = "primary",
-  cancelLabel = "Cancel",
+  cancelLabel = "Cancelar",
 }: {
   onClose: () => void;
   onSubmit: () => void | Promise<void>;
@@ -231,13 +231,13 @@ export function AdminConfirmModalShell({
         centered
         actions={[
           {
-            label: "Cancel",
+            label: "Cancelar",
             tone: "secondary",
             onClick: onClose,
             disabled: submitting,
           },
           {
-            label: submitting ? "Working..." : confirmLabel,
+            label: submitting ? "Processando..." : confirmLabel,
             tone: confirmTone,
             onClick: onConfirm,
             disabled: submitting,
@@ -532,7 +532,7 @@ export function AdminModalShell({
           className={adminStyles["editor-close"]}
           onClick={onClose}
           disabled={disableClose}
-          aria-label="Close editor"
+          aria-label="Fechar editor"
         >
           &times;
         </button>

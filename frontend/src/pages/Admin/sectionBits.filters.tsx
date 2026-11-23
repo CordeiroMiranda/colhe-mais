@@ -109,8 +109,8 @@ function FoodBankFilterSelect({
       }))}
       placeholder={
         foodBankOptions.length > 0
-          ? "Choose a food bank"
-          : "No food banks available"
+          ? "Escolha um ponto de coleta"
+          : "Nenhum ponto de coleta disponível"
       }
       onChange={(value) => onFoodBankChange?.(value ? Number(value) : null)}
       disabled={foodBankOptions.length === 0}

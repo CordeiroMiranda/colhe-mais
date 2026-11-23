@@ -66,7 +66,7 @@ const createCodeActionSets = (
     when: canVoidApplication,
     actions: [
       {
-        label: "Void",
+        label: "Anular",
         tone: "danger",
         className: "void-code-btn",
         onClick: handlers.onVoidCode,
@@ -76,7 +76,7 @@ const createCodeActionSets = (
   {
     actions: [
       {
-        label: "View",
+        label: "Visualizar",
         tone: "secondary",
         className: "view-code-btn",
         onClick: handlers.onViewCode,
@@ -92,12 +92,12 @@ const createDonationActionSets = (
     when: isPendingGoodsDonation,
     actions: [
       {
-        label: "Receive",
+        label: "Receber",
         className: "receive-donation-btn",
         onClick: handlers.onReceiveDonation,
       },
       {
-        label: "Delete",
+        label: "Excluir",
         tone: "danger",
         className: "delete-donation-btn",
         onClick: handlers.onDeleteDonation,
@@ -108,13 +108,13 @@ const createDonationActionSets = (
     when: canEditDonation,
     actions: [
       {
-        label: "View",
+        label: "Visualizar",
         tone: "secondary",
         className: "view-donation-btn",
         onClick: handlers.onViewDonation,
       },
       {
-        label: "Edit",
+        label: "Editar",
         tone: "secondary",
         className: "edit-donation-btn",
         onClick: handlers.onEditDonation,
@@ -124,13 +124,13 @@ const createDonationActionSets = (
   {
     actions: [
       {
-        label: "View",
+        label: "Visualizar",
         tone: "secondary",
         className: "view-donation-btn",
         onClick: handlers.onViewDonation,
       },
       {
-        label: "Delete",
+        label: "Excluir",
         tone: "danger",
         className: "delete-donation-btn",
         onClick: handlers.onDeleteDonation,
@@ -146,12 +146,12 @@ const createCodeColumns = (
 
   return [
     {
-      header: "Redemption Code",
+      header: "Código de Retirada",
       renderCell: (record) => record.redemption_code,
     },
-    { header: "Package", renderCell: getApplicationPackageLabel },
+    { header: "Cesta", renderCell: getApplicationPackageLabel },
     {
-      header: "Generated At",
+      header: "Gerado em",
       renderCell: (record) => formatUkDate(record.created_at),
     },
     {
@@ -163,11 +163,11 @@ const createCodeColumns = (
         ),
     },
     {
-      header: "Redeemed At",
+      header: "Retirado em",
       renderCell: (record) => formatUkDate(record.redeemed_at),
     },
     {
-      header: "Actions",
+      header: "Ações",
       renderCell: (record) =>
         renderSectionActionCell(record.id, record, actionSets),
     },
@@ -180,17 +180,17 @@ const createDonationColumns = (
   const actionSets = createDonationActionSets(handlers);
 
   return [
-    { header: "Donation ID", renderCell: buildDonationDisplayId },
-    { header: "Donor Type", renderCell: getDonationDonorTypeLabel },
+    { header: "ID da Doação", renderCell: buildDonationDisplayId },
+    { header: "Tipo de Doador", renderCell: getDonationDonorTypeLabel },
     {
-      header: "Donor Name",
-      renderCell: (donation) => donation.donor_name ?? "Anonymous",
+      header: "Nome do Doador",
+      renderCell: (donation) => donation.donor_name ?? "Anônimo",
     },
-    { header: "Date", renderCell: getDonationDateLabel },
-    { header: "Total Items", renderCell: buildDonationTotalLabel },
+    { header: "Data", renderCell: getDonationDateLabel },
+    { header: "Total de Itens", renderCell: buildDonationTotalLabel },
     { header: "Status", renderCell: getDonationStatusLabel },
     {
-      header: "Actions",
+      header: "Ações",
       renderCell: (donation) =>
         renderSectionActionCell(donation.id, donation, actionSets),
     },
@@ -253,7 +253,7 @@ export function AdminCodesSection({
   onVoidCode,
   onBatchVoid,
   isBatchVoidBusy,
-  heading = "Redemption Code Verification",
+  heading = "Validação de Código de Retirada",
 }: AdminCodesSectionProps) {
   return (
     <AdminSelectableTableSectionShell
@@ -261,10 +261,10 @@ export function AdminCodesSection({
       errorMessage={applicationsError}
       searchValue={search}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search redemption code records"
+      searchPlaceholder="Pesquisar registros de códigos de retirada..."
       toolbarAction={{
         id: "verify-code-btn",
-        label: "Verify Redemption Code",
+        label: "Conferir Código de Retirada",
         onClick: onOpenVerify,
       }}
       selectAllId="select-all-codes"
@@ -277,8 +277,8 @@ export function AdminCodesSection({
       batchButtons={[
         {
           id: "batch-void-codes",
-          label: "Void Selected",
-          busyLabel: "Voiding...",
+          label: "Anular Selecionados",
+          busyLabel: "Anulando...",
           tone: "danger",
           busy: isBatchVoidBusy,
           disabled:
@@ -291,8 +291,8 @@ export function AdminCodesSection({
         },
       ]}
       isLoading={isLoadingApplications}
-      loadingMessage="Loading redemption codes..."
-      emptyMessage="No redemption code records found."
+      loadingMessage="Carregando códigos de retirada..."
+      emptyMessage="Nenhum código de retirada encontrado."
       paginationId="code-pagination"
       tableId="code-table"
       bodyId="code-table-body"
@@ -325,7 +325,7 @@ export function AdminDonationsSection({
   onBatchReceive,
   isBatchDeleteBusy,
   isBatchReceiveBusy,
-  heading = "Donation Intake & Recording",
+  heading = "Entrada e Triagem de Doações",
 }: AdminDonationsSectionProps) {
   return (
     <AdminSelectableTableSectionShell
@@ -333,14 +333,14 @@ export function AdminDonationsSection({
       errorMessage={donationError}
       searchValue={search}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search donation records"
-      toolbarAction={{ label: "+ New Donation", onClick: onNewDonation }}
+      searchPlaceholder="Pesquisar registros de doações..."
+      toolbarAction={{ label: "+ Nova Doação", onClick: onNewDonation }}
       filters={[
         {
           type: "select",
           value: donorTypeFilter,
           options: DONATION_FILTER_DONOR_TYPE_OPTIONS,
-          placeholder: "All Donor Types",
+          placeholder: "Todos os Tipos de Doador",
           emptyValue: "all",
           onChange: (value) =>
             onDonorTypeFilterChange(value as DonationDonorType | "all"),
@@ -349,7 +349,7 @@ export function AdminDonationsSection({
           type: "select",
           value: statusFilter,
           options: DONATION_STATUS_OPTIONS,
-          placeholder: "All Status",
+          placeholder: "Todos os Status",
           emptyValue: "all",
           onChange: (value) =>
             onStatusFilterChange(value as DonationStatusFilter),
@@ -365,8 +365,8 @@ export function AdminDonationsSection({
       batchButtons={[
         {
           id: "batch-delete-donations",
-          label: "Delete Selected",
-          busyLabel: "Deleting...",
+          label: "Excluir Selecionadas",
+          busyLabel: "Excluindo...",
           tone: "secondary",
           busy: isBatchDeleteBusy,
           disabled: selectedDonationIds.size === 0 || isBatchDeleteBusy,
@@ -374,8 +374,8 @@ export function AdminDonationsSection({
         },
         {
           id: "batch-receive-donations",
-          label: "Mark as Received",
-          busyLabel: "Working...",
+          label: "Marcar como Recebida",
+          busyLabel: "Processando...",
           busy: isBatchReceiveBusy,
           disabled:
             countSelectedRows(
@@ -387,8 +387,8 @@ export function AdminDonationsSection({
         },
       ]}
       isLoading={isLoadingDonations}
-      loadingMessage="Loading donation records..."
-      emptyMessage="No donation records found."
+      loadingMessage="Carregando registros de doações..."
+      emptyMessage="Nenhum registro de doação encontrado."
       paginationId="donation-pagination"
       tableId="donation-table"
       bodyId="donation-table-body"
