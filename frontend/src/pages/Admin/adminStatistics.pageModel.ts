@@ -261,7 +261,7 @@ function buildDonationLegend(
         "Parceiros únicos entre supermercados, comércios e organizações.",
     });
   }
-  }
+
 
   return items.length ? ({ items } satisfies ChartLegendConfig) : undefined;
 }

@@ -2,9 +2,7 @@ import { cn } from "@/shared/lib/cn";
 import {
   ClipboardPenLine,
   HeartHandshake,
-  MapPin,
-  Search,
-  Truck,
+  Search
 } from "lucide-react";
 import type {
   PublicImpactMetricCard,
