@@ -15,43 +15,42 @@ type DonateGoodsFeatureCardContent = {
 };
 
 const HERO_BENEFITS = [
-  "Search nearby food banks by postcode",
-  "Submit a request to the food bank you choose",
-  "Drop-off or collection is arranged with the local team",
+  "Localize pontos de coleta por CEP ou bairro",
+  "Cadastre seus excedentes de alimentos de forma rápida",
+  "Entrega ou coleta combinada diretamente com a equipe local",
 ];
 
 const STEP_FEATURES: DonateGoodsFeatureCardContent[] = [
   {
-    title: "1. Choose a food bank",
-    description: "Search by postcode to see nearby food banks within 5 km.",
+    title: "1. Escolha um ponto de coleta",
+    description: "Pesquise por CEP para encontrar os pontos do Colhe+ em São José dos Campos.",
   },
   {
-    title: "2. List your items",
-    description: "Describe what you'd like to donate, the condition, the quantity, and a preferred date.",
+    title: "2. Cadastre os alimentos",
+    description: "Descreva o que deseja doar, o estado de conservação, a quantidade e a data preferencial.",
   },
   {
-    title: "3. Local team replies",
-    description:
-      "The selected food bank's admin reviews the request and contacts you to arrange the rest.",
+    title: "3. Confirmação da equipe",
+    description: "O responsável pelo ponto de coleta recebe o pedido, valida o código e organiza a recepção.",
   },
   {
-    title: "4. Drop-off or collection",
-    description: "Hand over the donation. The team marks it as received and the items become available stock.",
+    title: "4. Entrega e redistribuição",
+    description: "Você entrega a doação, que é conferida, pesada e destinada a famílias em vulnerabilidade.",
   },
 ];
 
 const FEATURE_STORIES: DonateGoodsFeatureCardContent[] = [
   {
-    title: "Routed to the chosen team",
+    title: "Destinação direta e transparente",
     description:
-      "Each request is stored as a pending donation against the chosen food bank. Their admin sees it in the workspace and confirms the next step.",
+      "Cada doação é vinculada ao ponto de coleta selecionado. O responsável visualiza tudo no painel e acompanha cada etapa com transparência.",
     image:
       "https://images.unsplash.com/photo-1765744893064-dce3184289ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXJlaG91c2UlMjBib3hlcyUyMG9yZ2FuaXplZHxlbnwxfHx8fDE3NzQ5MzU0OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
   },
   {
-    title: "Recorded as inventory",
+    title: "Segurança alimentar e controle",
     description:
-      "Confirmed donations are added as inventory lots with their expiry date and become available for package builds and individual item selection on the application page.",
+      "Alimentos recebidos são triados, registrados por lote e validade, compondo pacotes equilibrados para entidades sociais e comunidades parceiras.",
     image:
       "https://images.unsplash.com/photo-1617080090911-91409e3496ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBzdXBwb3J0JTIwaGFuZHN8ZW58MXx8fHwxNzc0OTM1NDk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
   },
@@ -59,44 +58,44 @@ const FEATURE_STORIES: DonateGoodsFeatureCardContent[] = [
 
 const ACCEPTED_ITEMS = [
   {
-    category: "Non-Perishable Food",
+    category: "Alimentos Não Perecíveis",
     items: [
-      "Canned proteins: tuna, chicken, salmon, corned beef, spam",
-      "Canned vegetables: tomatoes, carrots, peas, sweetcorn, mixed vegetables",
-      "Canned fruit: peaches, pears, pineapple, fruit cocktail in juice",
-      "Pantry staples: pasta, rice, noodles, pasta sauce, cooking sauce",
-      "Breakfast foods: cereal, oatmeal, porridge oats, granola bars",
+      "Proteínas e enlatados: atum, sardinha, frango, milho e ervilha",
+      "Legumes em conserva: seleta de legumes, palmito e molhos",
+      "Grãos e cereais: arroz, feijão, lentilha, aveia e fubá",
+      "Massas e farinhas: macarrão, farinha de trigo e mandioca",
+      "Itens matinais: leite UHT, café, chá e achocolatado",
     ],
   },
   {
-    category: "Personal Care & Hygiene",
+    category: "Hortifrúti e Excedentes",
     items: [
-      "Toiletries: shampoo, conditioner, body wash, hand soap, deodorant",
-      "Oral care: toothbrushes, toothpaste",
-      "Shaving: razors, shaving foam or gel",
-      "Feminine hygiene: sanitary pads, tampons",
-      "Baby care: nappies, baby wipes, baby food when unopened",
+      "Frutas da estação: banana, maçã, laranja e mamão",
+      "Legumes e tubérculos: batata, cenoura, mandioca e abóbora",
+      "Hortaliças frescas: alface, couve, repolho e temperos",
+      "Excedentes de feirantes e produtores rurais locais",
+      "Alimentos próprios para consumo imediato",
     ],
   },
   {
-    category: "Household & Cleaning",
+    category: "Higiene e Limpeza Essencial",
     items: [
-      "Cleaning supplies: washing powder, washing-up liquid, household cleaner",
-      "Kitchen essentials: dish soap, sponges, bin bags",
-      "Laundry items: fabric softener, stain remover, laundry detergent",
-      "Paper products: toilet paper, tissues, paper towels",
-      "Air care: air fresheners, disinfectant spray",
+      "Higiene pessoal: sabonete, xampu, creme dental e escovas",
+      "Cuidados íntimos: absorventes higiênicos femininos",
+      "Cuidados com bebês: fraldas descartáveis e lenços umedecidos",
+      "Produtos de limpeza: detergente, sabão em pó e água sanitária",
+      "Descartáveis e embalagens: sacos de lixo e papel higiênico",
     ],
   },
 ];
 
 const REJECTED_ITEMS = [
-  "Homemade foods",
-  "Opened or damaged packages",
-  "Dented or bulging cans",
-  "Expired items",
-  "Perishable foods requiring refrigeration",
-  "Glass jars where possible",
+  "Alimentos preparados artesanalmente sem procedência e data",
+  "Embalagens violadas, rasgadas ou abertas",
+  "Latas estufadas, enferrujadas ou muito amassadas",
+  "Produtos com prazo de validade expirado",
+  "Alimentos congelados ou perecíveis fora da refrigeração necessária",
+  "Embalagens de vidro quebradas ou trincadas",
 ];
 
 function FeatureCard({
@@ -131,14 +130,12 @@ function FeatureCard({
 }
 
 export function DonateGoodsHeroSection() {
-  // hero 区 CTA 按钮直接跳转到实时捐赠流程,让捐赠者在视野内保留背景内容,
-  // 而不是跳转到一个孤立的页面。
   return (
     <PublicPageSection id="home" width="page" innerClassName={styles.heroInner}>
       <PublicSectionIntro
-        title="Donate goods to a local food bank"
-        description="Search for a food bank by postcode, then submit a request listing the items, quantity, and a preferred drop-off or collection date."
-        descriptionExtraLine="Donations are recorded as pending and confirmed by the local admin before stock is updated."
+        title="Doe alimentos para um ponto de coleta"
+        description="Pesquise o ponto de coleta mais próximo por CEP, cadastre a lista de alimentos, a quantidade e a data preferencial para entrega ou retirada."
+        descriptionExtraLine="Sua doação fica registrada e gera um código de identificação para conferência pelo responsável do local."
         titleAs="h1"
         size="hero"
         className={styles.heroIntro}
@@ -153,14 +150,14 @@ export function DonateGoodsHeroSection() {
         </div>
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1738618141234-1ee52c6475a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwYmFuayUyMHNoZWx2ZXMlMjBjYW5uZWQlMjBnb29kc3xlbnwxfHx8fDE3NzQ5Mzc1MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-          alt="Food bank shelves with donations"
+          alt="Prateleiras organizadas de doações do Colhe+"
           className={styles.heroImage}
         />
         <ActionButton
           onClick={() => scrollToId("donate")}
           className={styles.heroCta}
         >
-          Donate Goods
+          Doar Alimentos Agora
         </ActionButton>
       </PublicSectionIntro>
     </PublicPageSection>
@@ -171,7 +168,8 @@ export function DonateGoodsHowItWorksSection() {
   return (
     <PublicPageSection tone="muted" width="page">
       <PublicSectionIntro
-        title="How it works"
+        title="Como funciona a doação"
+        description="Um processo seguro e rastreado para que sua ajuda chegue com agilidade a quem mais necessita."
         className={styles.sectionHeader}
       />
       <div className={styles.featureGrid}>
@@ -198,13 +196,11 @@ export function DonateGoodsHowItWorksSection() {
 }
 
 export function DonateGoodsAcceptedItemsSection() {
-  // 保持可接受与不可接受物品的说明与捐赠者流程一致,
-  // 确保落地页与提交表单之间不会产生矛盾。
   return (
     <PublicPageSection tone="muted" width="page">
       <PublicSectionIntro
-        title="What we accept"
-        description="All items must be unopened, in original packaging, and within their best-before dates"
+        title="O que podemos receber"
+        description="Todos os alimentos devem estar dentro da validade, com embalagem íntegra e próprios para consumo."
         className={styles.sectionHeader}
       />
       <div className={styles.acceptedGrid}>
@@ -226,8 +222,7 @@ export function DonateGoodsAcceptedItemsSection() {
         <Check className={styles.noticeIconSuccess} />
         <div>
           <p className={styles.noticeText}>
-            <strong>Please note:</strong> All items must be unopened, in their
-            original packaging, and within their best-before or use-by dates.
+            <strong>Atenção:</strong> Todos os alimentos industrializados devem estar lacrados, na embalagem original e dentro do prazo de validade.
           </p>
         </div>
       </div>
@@ -235,7 +230,7 @@ export function DonateGoodsAcceptedItemsSection() {
         <X className={styles.noticeIconDanger} />
         <div>
           <p className={styles.noticeTitle}>
-            <strong>We cannot accept:</strong>
+            <strong>Não podemos aceitar:</strong>
           </p>
           <ul className={styles.rejectedList}>
             {REJECTED_ITEMS.map((item) => (

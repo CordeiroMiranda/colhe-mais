@@ -39,28 +39,28 @@ import {
 import styles from "./DonateGoods.module.css";
 
 const FLOW_PROGRESS_LABELS = [
-  "Search Location",
-  "Select Food Bank",
-  "Donation Details",
+  "Buscar Localização",
+  "Selecionar Ponto de Coleta",
+  "Detalhes da Doação",
 ];
 
-const postcodeValidationProps = getEnglishInputValidationProps("Postcode");
-const donorNameValidationProps = getEnglishInputValidationProps("Full Name");
+const postcodeValidationProps = getEnglishInputValidationProps("CEP");
+const donorNameValidationProps = getEnglishInputValidationProps("Nome Completo");
 const donorEmailValidationProps =
-  getEnglishInputValidationProps("Email Address");
+  getEnglishInputValidationProps("E-mail");
 const donorPhoneValidationProps =
-  getEnglishInputValidationProps("Phone Number");
+  getEnglishInputValidationProps("Telefone");
 const pickupDateValidationProps = getEnglishInputValidationProps(
-  "Preferred Collection or Drop-off Date",
+  "Data Preferencial de Coleta ou Entrega",
 );
 const donationItemsValidationProps =
-  getEnglishTextAreaValidationProps("Donation Items");
+  getEnglishTextAreaValidationProps("Itens da Doação");
 const itemConditionValidationProps =
-  getEnglishSelectValidationProps("Item Condition");
+  getEnglishSelectValidationProps("Condição dos Itens");
 const estimatedQuantityValidationProps =
-  getEnglishInputValidationProps("Estimated Quantity");
+  getEnglishInputValidationProps("Quantidade Estimada");
 const specialNotesValidationProps = getEnglishTextAreaValidationProps(
-  "Special Instructions or Notes",
+  "Instruções Especiais ou Observações",
 );
 
 function SearchLocationStep({
@@ -81,16 +81,16 @@ function SearchLocationStep({
       <PublicSearchPanel
         title={
           <>
-            Find a <span className={styles.highlight}>Food Bank</span> Near You
+            Encontre um <span className={styles.highlight}>Ponto de Coleta</span> Perto de Você
           </>
         }
-        description="Enter your postcode to search for food banks within 5 km"
+        description="Informe seu CEP para buscar pontos de coleta em até 5 km"
         value={postcode}
         onChange={(value) => onPostcodeChange(normalizePostcodeInput(value))}
         onSubmit={onSearch}
-        placeholder="Enter Postcode"
-        submitLabel="Search"
-        submittingLabel="Searching..."
+        placeholder="Digite o CEP (ex: 12245-000)"
+        submitLabel="Buscar"
+        submittingLabel="Buscando..."
         isSubmitting={searching}
         icon={<Search className={styles.searchIcon} size={20} />}
         error={postcodeError}
@@ -125,12 +125,12 @@ function SelectFoodBankStep({
         onClick={onBack}
         className={styles.ghostActionButton}
       >
-        Change Location
+        Alterar Localização
       </ActionButton>
       <div className={styles.flowCard}>
         <div className={styles.flowCardHeaderLeft}>
           <h3 className={styles.flowTitle}>
-            Select a <span className={styles.highlight}>Food Bank</span>
+            Selecione um <span className={styles.highlight}>Ponto de Coleta</span>
           </h3>
         </div>
         {searchFeedback && searchResults.length > 0 ? (
@@ -139,7 +139,7 @@ function SelectFoodBankStep({
         <div className={styles.bankList}>
           {searchResults.length === 0 ? (
             <p className={styles.flowTextLeft}>
-              {searchFeedback ?? "Try another postcode to load nearby foodbanks."}
+              {searchFeedback ?? "Tente outro CEP para carregar pontos de coleta próximos."}
             </p>
           ) : (
             searchResults.map((bank) => (
@@ -156,7 +156,7 @@ function SelectFoodBankStep({
                       <MapPin size={16} />
                       <span>{bank.address}</span>
                     </div>
-                    <span className={styles.bankDistance}>{bank.distance} away</span>
+                    <span className={styles.bankDistance}>{bank.distance} de distância</span>
                   </div>
                   <ChevronRight className={styles.bankArrow} />
                 </div>
@@ -199,7 +199,7 @@ function DonationDetailsStep({
         onClick={onBack}
         className={styles.ghostActionButton}
       >
-        Choose Different Food Bank
+        Escolher Outro Ponto de Coleta
       </ActionButton>
       <div className={styles.selectedBankCard}>
         <div className={styles.selectedBankHeader}>
@@ -207,12 +207,12 @@ function DonationDetailsStep({
             <Check size={22} />
           </div>
           <div>
-            <p className={styles.selectedBankLabel}>Donating to:</p>
+            <p className={styles.selectedBankLabel}>Doando para:</p>
             <h3 className={styles.selectedBankName}>{selectedBank.name}</h3>
             <p className={styles.selectedBankAddress}>{selectedBank.address}</p>
             <p className={styles.flowTextLeft}>
-              Your donation request will be sent to this food bank. Their team
-              will contact you to arrange collection or drop-off.
+              Seu pedido de doação será enviado a este ponto de coleta. A equipe
+              entrará em contato para combinar a coleta ou entrega.
             </p>
           </div>
         </div>
@@ -220,17 +220,16 @@ function DonationDetailsStep({
       <FormPanel onSubmit={onSubmit} className={styles.flowCard}>
         <div className={styles.flowCardHeaderCentered}>
           <h3 className={styles.flowTitle}>
-            Your <span className={styles.highlight}>Donation Details</span>
+            Detalhes da sua <span className={styles.highlight}>Doação</span>
           </h3>
           <p className={styles.flowTextLeft}>
-            Please provide the details the selected food bank team will need to
-            follow up
+            Por favor, informe os detalhes necessários para que a equipe do ponto de coleta possa dar andamento
           </p>
         </div>
         <div className={styles.formGrid}>
           <PublicFormField
             id="donor-name"
-            label="Full Name"
+            label="Nome Completo"
             required
             error={fieldErrors.name}
           >
@@ -244,7 +243,7 @@ function DonationDetailsStep({
           </PublicFormField>
           <PublicFormField
             id="donor-email"
-            label="Email Address"
+            label="E-mail"
             required
             error={fieldErrors.email}
           >
@@ -258,7 +257,7 @@ function DonationDetailsStep({
           </PublicFormField>
           <PublicFormField
             id="donor-phone"
-            label="Phone Number"
+            label="Telefone"
             required
             error={fieldErrors.phone}
           >
@@ -272,7 +271,7 @@ function DonationDetailsStep({
           </PublicFormField>
           <PublicFormField
             id="pickup-date"
-            label="Preferred Collection or Drop-off Date"
+            label="Data Preferencial de Coleta ou Entrega"
             required
             error={fieldErrors.pickupDate}
           >
@@ -289,14 +288,14 @@ function DonationDetailsStep({
               onBlur={onNormalizePickupDateField}
               inputMode="numeric"
               maxLength={10}
-              placeholder="DD/MM/YYYY"
+              placeholder="DD/MM/AAAA"
               {...pickupDateValidationProps}
             />
           </PublicFormField>
         </div>
         <PublicFormField
           id="donation-items"
-          label="What are you donating?"
+          label="O que você está doando?"
           required
           error={fieldErrors.items}
         >
@@ -304,14 +303,14 @@ function DonationDetailsStep({
             id="donation-items"
             value={details.items}
             onChange={(event) => onUpdateDetails("items", event.target.value)}
-            placeholder="Please describe the items you'd like to donate, for example canned vegetables, pasta, cereal, shampoo, or nappies."
+            placeholder="Descreva os alimentos que deseja doar (ex: arroz, feijão, legumes, frutas, leite, macarrão, óleo, etc.)."
             {...donationItemsValidationProps}
           />
         </PublicFormField>
         <div className={styles.formGrid}>
           <PublicFormField
             id="item-condition"
-            label="Item Condition"
+            label="Condição dos Itens"
             required
             error={fieldErrors.condition}
           >
@@ -323,29 +322,29 @@ function DonationDetailsStep({
               }
               {...itemConditionValidationProps}
             >
-              <option value="">Select condition</option>
-              <option value="New or unopened">New or unopened</option>
-              <option value="Excellent">Excellent</option>
-              <option value="Good">Good</option>
+              <option value="">Selecione a condição</option>
+              <option value="New or unopened">Novo ou lacrado</option>
+              <option value="Excellent">Excelente</option>
+              <option value="Good">Bom</option>
             </PublicSelect>
           </PublicFormField>
-          <PublicFormField id="estimated-quantity" label="Estimated Quantity">
+          <PublicFormField id="estimated-quantity" label="Quantidade Estimada">
             <PublicTextInput
               id="estimated-quantity"
               type="text"
               value={details.quantity}
               onChange={(event) => onUpdateDetails("quantity", event.target.value)}
-              placeholder="For example 2 bags, 1 box"
+              placeholder="Ex: 2 caixas, 5 kg, 3 sacolas"
               {...estimatedQuantityValidationProps}
             />
           </PublicFormField>
         </div>
-        <PublicFormField id="special-notes" label="Special Instructions or Notes">
+        <PublicFormField id="special-notes" label="Instruções Especiais ou Observações">
           <PublicTextArea
             id="special-notes"
             value={details.notes}
             onChange={(event) => onUpdateDetails("notes", event.target.value)}
-            placeholder="Any pickup instructions, accessibility notes, or other details..."
+            placeholder="Instruções de acesso, melhor horário para coleta ou observações adicionais..."
             compact
             {...specialNotesValidationProps}
           />
@@ -364,7 +363,7 @@ function DonationDetailsStep({
           className={styles.primaryActionWide}
           fullWidthOnMobile
         >
-          {submitting ? "Submitting Donation..." : "Send Donation Request"}
+          {submitting ? "Enviando Doação..." : "Enviar Pedido de Doação"}
         </ActionButton>
       </FormPanel>
     </div>
@@ -403,8 +402,8 @@ export function DonateGoodsFlowSection({
   return (
     <PublicPageSection id="donate" width="page">
       <PublicSectionIntro
-        title="Submit your donation request"
-        description="Three steps: search by postcode, choose a food bank, and provide the donation details."
+        title="Envie seu pedido de doação"
+        description="Três etapas simples: busque pelo CEP, escolha o ponto de coleta e informe os detalhes da doação."
         className={styles.sectionHeader}
       />
       <div className={styles.flowShell}>

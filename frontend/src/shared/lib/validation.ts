@@ -78,23 +78,23 @@ export function getCashDonationValidationMessage(
   formData: CashDonationValidationDetails,
 ) {
   if (!Number.isFinite(amount) || amount <= 0) {
-    return "Please select or enter a valid donation amount.";
+    return "Por favor, selecione ou informe um valor de doação válido.";
   }
 
   if (!formData.donorName.trim()) {
-    return "Please enter the cardholder name.";
+    return "Por favor, informe o nome impresso no cartão.";
   }
 
   if (!isValidEmail(formData.email.trim())) {
-    return "Please enter a valid email address.";
+    return "Por favor, informe um endereço de e-mail válido.";
   }
 
   if (!isValidCardNumber(formData.cardNumber)) {
-    return "Please enter a valid 16-digit card number.";
+    return "Por favor, informe um número de cartão válido com 16 dígitos.";
   }
 
   if (!isValidExpiry(formData.expiryDate)) {
-    return "Please enter a valid expiry date in MM/YY format.";
+    return "Por favor, informe uma data de validade válida no formato MM/AA.";
   }
 
   const [monthString, yearString] = formData.expiryDate.split("/");
@@ -112,17 +112,16 @@ export function getCashDonationValidationMessage(
     year < currentYear ||
     (year === currentYear && month < currentMonth)
   ) {
-    return "Please enter a valid future expiry date in MM/YY format.";
+    return "Por favor, informe uma data de validade futura válida no formato MM/AA.";
   }
 
   if (!/^\d{3,4}$/.test(formData.securityCode)) {
-    return "Please enter a valid CVV.";
+    return "Por favor, informe um código de segurança (CVV) válido.";
   }
 
   return null;
 }
 
-// 兼容捐赠者最常见的几种日期输入格式,统一转成英国友好的显示格式
 export function parsePickupDate(value: string): ParsedPickupDate | null {
   const trimmedValue = value.trim();
 
@@ -175,17 +174,17 @@ export function getPickupDateError(value: string) {
   const trimmedValue = value.trim();
 
   if (!trimmedValue) {
-    return "Preferred collection or drop-off date is required.";
+    return "A data preferencial de entrega ou retirada é obrigatória.";
   }
 
   const parsedPickupDate = parsePickupDate(trimmedValue);
 
   if (!parsedPickupDate) {
-    return "Please enter a valid date in DD/MM/YYYY format.";
+    return "Por favor, informe uma data válida no formato DD/MM/AAAA.";
   }
 
   if (parsedPickupDate.date < getStartOfToday()) {
-    return "Please enter a valid date on or after today.";
+    return "Por favor, informe uma data a partir de hoje.";
   }
 
   return "";
@@ -195,11 +194,11 @@ export function getPhoneError(value: string) {
   const trimmedValue = value.trim();
 
   if (!trimmedValue) {
-    return "Phone number is required.";
+    return "O telefone de contato é obrigatório.";
   }
 
   if (trimmedValue.length < 3) {
-    return "Phone number must be at least 3 characters.";
+    return "O telefone deve conter pelo menos 3 caracteres.";
   }
 
   return "";
@@ -222,11 +221,11 @@ export function validateGoodsDonationDetails(
   const nextErrors: Record<string, string> = {};
 
   if (!details.name.trim()) {
-    nextErrors.name = "Full name is required.";
+    nextErrors.name = "O nome completo é obrigatório.";
   }
 
   if (!isValidEmail(details.email.trim())) {
-    nextErrors.email = "Please enter a valid email address.";
+    nextErrors.email = "Por favor, informe um endereço de e-mail válido.";
   }
 
   const phoneError = getPhoneError(details.phone);
@@ -240,11 +239,11 @@ export function validateGoodsDonationDetails(
   }
 
   if (!details.items.trim()) {
-    nextErrors.items = "Please describe the items you are donating.";
+    nextErrors.items = "Por favor, descreva os alimentos ou itens que você deseja doar.";
   }
 
   if (!details.condition) {
-    nextErrors.condition = "Please select the item condition.";
+    nextErrors.condition = "Por favor, selecione o estado de conservação do item.";
   }
 
   return nextErrors;

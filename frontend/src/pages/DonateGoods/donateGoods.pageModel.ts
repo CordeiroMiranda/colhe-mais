@@ -46,19 +46,19 @@ const INITIAL_DETAILS: DonationDetails = {
 
 const UK_POSTCODE_PATTERN = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
 const INVALID_POSTCODE_MESSAGE =
-  "Please enter a valid postcode, for example SY23 3AN.";
+  "Por favor, insira um CEP válido, ex: 12245-000.";
 const INVALID_PICKUP_DATE_MESSAGE =
-  "Please enter a valid date in DD/MM/YYYY format.";
+  "Por favor, insira uma data válida no formato DD/MM/AAAA.";
 const SELECT_BANK_MESSAGE =
-  "Please choose a food bank before submitting your donation details.";
+  "Por favor, escolha um ponto de coleta antes de enviar os detalhes da doação.";
 
 const buildSearchFeedback = (
   normalizedPostcode: string,
   resultCount: number,
 ) =>
   resultCount === 0
-    ? `We could not find any food banks within ${LOCAL_FOOD_BANK_SEARCH_RADIUS_KM} km of ${normalizedPostcode}.`
-    : `Showing food banks within ${LOCAL_FOOD_BANK_SEARCH_RADIUS_KM} km of ${normalizedPostcode}.`;
+    ? `Não encontramos pontos de coleta em um raio de ${LOCAL_FOOD_BANK_SEARCH_RADIUS_KM} km de ${normalizedPostcode}.`
+    : `Exibindo pontos de coleta em um raio de ${LOCAL_FOOD_BANK_SEARCH_RADIUS_KM} km de ${normalizedPostcode}.`;
 
 const getNormalizedPostcode = (value: string) =>
   normalizeWhitespace(value).toUpperCase();
@@ -133,7 +133,7 @@ const buildSubmitSuccessMessage = (
   details: DonationDetails,
   selectedBank: FoodBankOption,
 ) =>
-  `Thanks, ${details.name.trim()}. Your donation request has been sent to ${selectedBank.name}. Their team will contact you at ${details.email.trim()} to arrange collection or drop-off.`;
+  `Obrigado, ${details.name.trim()}. Seu pedido de doação foi enviado para ${selectedBank.name}. A equipe entrará em contato pelo e-mail ${details.email.trim()} para combinar a entrega ou retirada.`;
 
 export function useDonateGoodsPageModel() {
   const [step, setStep] = useState(1);
@@ -275,7 +275,7 @@ export function useDonateGoodsPageModel() {
         if (/at least 3 characters/i.test(error.message)) {
           setFieldErrors((current) => ({
             ...current,
-            phone: "Phone number must be at least 3 characters.",
+            phone: "O número de telefone deve ter pelo menos 3 dígitos.",
           }));
           return;
         }
@@ -288,7 +288,7 @@ export function useDonateGoodsPageModel() {
             ...current,
             pickupDate:
               getPickupDateError(details.pickupDate) ||
-              "Please enter a valid date on or after today.",
+              "Por favor, insira uma data válida para hoje ou data futura.",
           }));
           return;
         }
@@ -299,7 +299,7 @@ export function useDonateGoodsPageModel() {
         message:
           error instanceof Error
             ? error.message
-            : "Unable to submit your donation right now. Please try again.",
+            : "Não foi possível enviar sua doação agora. Por favor, tente novamente.",
       });
     } finally {
       setSubmitting(false);

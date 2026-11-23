@@ -26,10 +26,10 @@ Slogan: "Conectando alimentos e comunidades"
   - Mapa Leaflet centralizado em São José dos Campos – SP, com popups e legendas em português.
   - Listagem com botões táteis mínimos de 44px e estilo Colhe+.
 
-- [ ] **Bloco 3: Doar Alimentos (DonateGoods)**
+- [x] **Bloco 3: Doar Alimentos (DonateGoods)**
   - Cadastro de doação por produtor, comerciante ou morador.
   - Formulário, seleção de ponto de coleta, geração de código de doação e acompanhamento da entrega.
-  - Tradução completa e estilo acolhedor.
+  - Tradução completa para pt-BR, CEP brasileiro e estilo acolhedor Colhe+.
 
 - [ ] **Bloco 4: Doar Dinheiro / Apoiar Projeto (DonateCash)**
   - Exibição de valores em R$.
