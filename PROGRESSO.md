@@ -31,10 +31,11 @@ Slogan: "Conectando alimentos e comunidades"
   - Formulário, seleção de ponto de coleta, geração de código de doação e acompanhamento da entrega.
   - Tradução completa para pt-BR, CEP brasileiro e estilo acolhedor Colhe+.
 
-- [ ] **Bloco 4: Doar Dinheiro / Apoiar Projeto (DonateCash)**
-  - Exibição de valores em R$.
-  - Correção do espaçamento superior sob cabeçalho fixo (título não cortado).
-  - Tradução e adaptação ao tom do Colhe+.
+- [x] **Bloco 4: Doar Dinheiro / Apoiar Projeto (DonateCash)**
+  - Exibição de valores em R$ (R$ 20, R$ 50, R$ 100, R$ 200).
+  - Correção definitiva do corte de título no topo com espaçamento seguro sob o cabeçalho fixo e altura de linha ajustada.
+  - Tradução integral para pt-BR e adaptação ao tom solidário do Colhe+.
+  - Botões táteis acessíveis (mínimo 44px) e paleta verde/dourado da identidade visual.
 
 - [ ] **Bloco 5: Pacotes de Alimentos (FoodPackages)**
   - Solicitação e acompanhamento da destinação e retirada de alimentos.

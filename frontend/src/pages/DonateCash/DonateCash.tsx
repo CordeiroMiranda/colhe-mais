@@ -21,16 +21,16 @@ const createEmptyFormData = (): CardForm => ({ email: '', donorName: '', cardNum
 // 旧版 CTA 仍以 `type=onetime` 深链跳转,而 page model 和 API 内部使用规范化的 `one_time` 值。
 const getGivingMode = (search: string): GivingMode => new URLSearchParams(search).get('type')?.toLowerCase() === 'monthly' ? 'monthly' : 'one_time'
 const scrollToSection = (id: string) => scrollToId(id)
-const cardholderValidationProps = getEnglishInputValidationProps('Cardholder Name')
-const emailValidationProps = getEnglishInputValidationProps('Email Address')
-const customAmountValidationProps = getEnglishInputValidationProps('Custom Amount')
-const cardNumberValidationProps = getEnglishInputValidationProps('Card Number')
-const expiryDateValidationProps = getEnglishInputValidationProps('Expiry Date')
+const cardholderValidationProps = getEnglishInputValidationProps('Nome do Titular do Cartão')
+const emailValidationProps = getEnglishInputValidationProps('E-mail')
+const customAmountValidationProps = getEnglishInputValidationProps('Valor Personalizado')
+const cardNumberValidationProps = getEnglishInputValidationProps('Número do Cartão')
+const expiryDateValidationProps = getEnglishInputValidationProps('Data de Validade')
 const securityCodeValidationProps = getEnglishInputValidationProps('CVV')
 const formatNextChargeDate = (value?: string | null) => {
   if (!value) return ''
   const parsed = new Date(`${value}T00:00:00`)
-  return Number.isNaN(parsed.getTime()) ? value : new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(parsed)
+  return Number.isNaN(parsed.getTime()) ? value : new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }).format(parsed)
 }
 
 function SectionIntro({ title, description, descriptionExtraLine }: { title: string; description: string; descriptionExtraLine?: string }) {
@@ -98,14 +98,12 @@ export default function DonateCash() {
         const response = await foodBanksAPI.getFoodBanks()
         if (isCancelled) return
         setFoodBanks(
-          [...(response.items ?? [])].sort((left, right) => left.name.localeCompare(right.name, 'en', { sensitivity: 'base' })),
+          [...(response.items ?? [])].sort((left, right) => left.name.localeCompare(right.name, 'pt-BR', { sensitivity: 'base' })),
         )
         setFoodBankLoadError('')
       } catch {
         if (isCancelled) return
-        // 选择器仅决定哪个团队接收通知邮件,
-        // 因此加载失败时捐款仍会回退到平台默认路由。
-        setFoodBankLoadError('We could not load food bank contacts right now. Your donation will still be submitted to the platform team.')
+        setFoodBankLoadError('Não foi possível carregar os pontos de coleta no momento. Sua doação será direcionada para a coordenação geral do Colhe+.')
       }
     }
 
@@ -141,19 +139,19 @@ export default function DonateCash() {
         donation_frequency: donationMode,
         card_last4: formData.cardNumber.replace(/\D/g, '').slice(-4),
       })
-      const amountLabel = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(finalAmount)
-      const referenceLine = donation.payment_reference ? ` Payment reference: ${donation.payment_reference}.` : ''
-      const subscriptionLine = donation.subscription_reference ? ` Subscription reference: ${donation.subscription_reference}.` : ''
-      const nextChargeLine = donation.next_charge_date ? ` Next charge date: ${formatNextChargeDate(donation.next_charge_date)}.` : ''
+      const amountLabel = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(finalAmount)
+      const referenceLine = donation.payment_reference ? ` Código da transação: ${donation.payment_reference}.` : ''
+      const subscriptionLine = donation.subscription_reference ? ` Identificador da assinatura: ${donation.subscription_reference}.` : ''
+      const nextChargeLine = donation.next_charge_date ? ` Próxima cobrança: ${formatNextChargeDate(donation.next_charge_date)}.` : ''
       resetForm()
       setFormNotice({
         type: 'success',
         message: isMonthlyDonation
-          ? `Your monthly donation of ${amountLabel} has been set up.${subscriptionLine}${referenceLine}${nextChargeLine}`
-          : `Thank you for your one-time donation of ${amountLabel}.${referenceLine}`,
+          ? `Seu apoio mensal de ${amountLabel} foi configurado com sucesso!${subscriptionLine}${referenceLine}${nextChargeLine}`
+          : `Muito obrigado por sua doação de ${amountLabel}!${referenceLine}`,
       })
     } catch (error) {
-      setFormNotice({ type: 'error', message: error instanceof Error ? error.message : 'Failed to submit donation. Please try again.' })
+      setFormNotice({ type: 'error', message: error instanceof Error ? error.message : 'Não foi possível concluir a doação. Por favor, tente novamente.' })
     } finally {
       setIsSubmitting(false)
     }
@@ -164,19 +162,19 @@ export default function DonateCash() {
       <div className={ui.page}>
         <section className={ui.section}>
           <div className={`${ui.sectionInner} ${ui.heroInner}`}>
-            <h1 className={ui.heroTitle}>Support a local food bank</h1>
-            <p className={ui.heroText}>Choose a one-off or monthly amount. Pick which food bank receives the donation, or leave it as the platform team for the central queue.</p>
+            <h1 className={ui.heroTitle}>Apoie os pontos de coleta do Colhe+</h1>
+            <p className={ui.heroText}>Escolha uma contribuição avulsa ou mensal. Selecione qual ponto de coleta receberá a ajuda ou direcione para a coordenação geral.</p>
             <div className={ui.checkList}>
               {heroChecks.map((benefit) => <CheckListItem key={benefit} text={benefit} />)}
             </div>
-            <div className={ui.heroImageWrap}><ImageWithFallback src="https://images.unsplash.com/photo-1738618141224-815f18b8e469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwYmFuayUyMHNoZWx2ZXMlMjBvcmdhbml6ZWQlMjBkb25hdGlvbnN8ZW58MXx8fHwxNzc0OTQwMDk4fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Food bank donation" className={ui.heroImage} /></div>
-            <button type="button" onClick={() => scrollToSection('donate-form')} className={ui.primaryButton}>Donate Cash</button>
+            <div className={ui.heroImageWrap}><ImageWithFallback src="https://images.unsplash.com/photo-1738618141224-815f18b8e469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwYmFuayUyMHNoZWx2ZXMlMjBvcmdhbml6ZWQlMjBkb25hdGlvbnN8ZW58MXx8fHwxNzc0OTQwMDk4fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Doação para o Colhe+" className={ui.heroImage} /></div>
+            <button type="button" onClick={() => scrollToSection('donate-form')} className={ui.primaryButton}>Apoiar Financeiramente</button>
           </div>
         </section>
 
         <section className={`${ui.section} ${ui.sectionMuted}`}>
           <div className={ui.sectionInner}>
-            <SectionIntro title="Where your donation goes" description="Cash donations are recorded by the platform and routed to a food bank of your choice." />
+            <SectionIntro title="Para onde vai sua doação" description="As contribuições financeiras são registradas e destinadas para manter a operação e os pontos de coleta." />
             <div className={ui.helpPanel}><div className={ui.helpGrid}>{helpCards.map((item) => <HelpItemCard key={item.title} item={item} />)}</div></div>
             <div className={ui.galleryGrid}>{galleryCards.map((item) => <GalleryCard key={item.title} item={item} />)}</div>
           </div>
@@ -186,10 +184,10 @@ export default function DonateCash() {
           <div className={ui.formInner}>
             <div className={`${ui.sectionIntro} ${ui.formSectionIntro}`}>
               <h2 className={ui.sectionTitle}>{formCopy.heading}</h2>
-              <div className={ui.modeSwitch} role="tablist" aria-label="Donation type">
+              <div className={ui.modeSwitch} role="tablist" aria-label="Tipo de doação">
                 {[
-                  { mode: 'monthly' as const, label: 'Monthly Giving', selected: isMonthlyDonation },
-                  { mode: 'one_time' as const, label: 'One-Time Gift', selected: !isMonthlyDonation },
+                  { mode: 'monthly' as const, label: 'Apoio Mensal', selected: isMonthlyDonation },
+                  { mode: 'one_time' as const, label: 'Doação Avulsa', selected: !isMonthlyDonation },
                 ].map(({ mode, label, selected }) => (
                   <button key={mode} type="button" role="tab" aria-selected={selected} className={`${ui.modeButton} ${selected ? ui.modeButtonActive : ''}`} onClick={() => updateGivingMode(mode)}>{label}</button>
                 ))}
@@ -199,44 +197,44 @@ export default function DonateCash() {
             <div className={ui.formCard}>
               <form onSubmit={handleSubmit} className={ui.formStack}>
                 <div className={ui.formBlock}>
-                  <FormField id="foodBank" label="Notification Route">
+                  <FormField id="foodBank" label="Direcionamento da Doação">
                     <>
                       <select id="foodBank" value={selectedFoodBankId} onChange={(event) => setSelectedFoodBankId(event.target.value)} className={ui.input}>
-                        <option value="">Platform Team (default)</option>
+                        <option value="">Coordenação Geral do Colhe+ (padrão)</option>
                         {foodBanks.map((bank) => <option key={bank.id} value={bank.id}>{bank.name}</option>)}
                       </select>
                       <p className={foodBankLoadError ? ui.fieldHintError : ui.fieldHint}>
-                        {foodBankLoadError || 'Optional: choose a food bank if you want the donation notification email routed to that local team.'}
+                        {foodBankLoadError || 'Opcional: selecione um ponto de coleta se desejar que a notificação de doação seja encaminhada à equipe local.'}
                       </p>
                     </>
                   </FormField>
                   <div className={ui.formGrid}>
-                    <FormField id="donorName" label="Cardholder Name " required><input id="donorName" type="text" value={formData.donorName} onChange={(event) => updateFormField('donorName', event.target.value)} required className={ui.input} {...cardholderValidationProps} /></FormField>
-                    <FormField id="email" label="Email Address " required><input id="email" type="email" value={formData.email} onChange={(event) => updateFormField('email', event.target.value)} required className={ui.input} {...emailValidationProps} /></FormField>
+                    <FormField id="donorName" label="Nome do Titular do Cartão " required><input id="donorName" type="text" value={formData.donorName} onChange={(event) => updateFormField('donorName', event.target.value)} required className={ui.input} {...cardholderValidationProps} /></FormField>
+                    <FormField id="email" label="E-mail " required><input id="email" type="email" value={formData.email} onChange={(event) => updateFormField('email', event.target.value)} required className={ui.input} {...emailValidationProps} /></FormField>
                   </div>
                 </div>
                 <div className={ui.formBlock}>
                   <div>
-                    <label className={ui.label}>Donation Amount <span className={ui.required}>*</span></label>
+                    <label className={ui.label}>Valor da Doação <span className={ui.required}>*</span></label>
                     <div className={ui.amountGrid}>
                       {presetAmounts.map((amount) => (
                         <button key={amount} type="button" onClick={() => { setSelectedAmount(amount); setCustomAmount('') }} className={`${ui.amountButton} ${selectedAmount === amount ? ui.amountButtonActive : ''}`}>
-                          {gbp}{amount}
+                          {gbp} {amount}
                         </button>
                       ))}
                     </div>
                   </div>
-                  <FormField id="customAmount" label={`Custom Amount (${gbp})`}><input id="customAmount" type="number" placeholder="Enter amount" value={customAmount} onChange={(event) => { setCustomAmount(event.target.value); setSelectedAmount(null) }} className={ui.input} {...customAmountValidationProps} /></FormField>
+                  <FormField id="customAmount" label={`Outro Valor (${gbp})`}><input id="customAmount" type="number" placeholder="Digite o valor" value={customAmount} onChange={(event) => { setCustomAmount(event.target.value); setSelectedAmount(null) }} className={ui.input} {...customAmountValidationProps} /></FormField>
                 </div>
                 <div className={ui.formBlock}>
-                  <FormField id="cardNumber" label="Card Number " required><input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" value={formData.cardNumber} onChange={(event) => updateFormField('cardNumber', formatCardNumber(event.target.value))} required className={ui.input} {...cardNumberValidationProps} /></FormField>
+                  <FormField id="cardNumber" label="Número do Cartão " required><input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" value={formData.cardNumber} onChange={(event) => updateFormField('cardNumber', formatCardNumber(event.target.value))} required className={ui.input} {...cardNumberValidationProps} /></FormField>
                   <div className={ui.formGrid}>
-                    <FormField id="expiryDate" label="Expiry Date " required><input id="expiryDate" type="text" placeholder="MM/YY" value={formData.expiryDate} onChange={(event) => updateFormField('expiryDate', formatExpiryDate(event.target.value))} required className={ui.input} {...expiryDateValidationProps} /></FormField>
+                    <FormField id="expiryDate" label="Data de Validade " required><input id="expiryDate" type="text" placeholder="MM/AA" value={formData.expiryDate} onChange={(event) => updateFormField('expiryDate', formatExpiryDate(event.target.value))} required className={ui.input} {...expiryDateValidationProps} /></FormField>
                     <FormField id="securityCode" label="CVV " required><input id="securityCode" type="text" placeholder="123" value={formData.securityCode} onChange={(event) => updateFormField('securityCode', event.target.value.replace(/\D/g, '').slice(0, 4))} required className={ui.input} {...securityCodeValidationProps} /></FormField>
                   </div>
                 </div>
                 {submitFeedback ? <FeedbackBanner feedback={submitFeedback} /> : null}
-                <button type="submit" disabled={isSubmitting} className={ui.submitButton}>{isSubmitting ? 'Submitting...' : formCopy.submitLabel}</button>
+                <button type="submit" disabled={isSubmitting} className={ui.submitButton}>{isSubmitting ? 'Processando...' : formCopy.submitLabel}</button>
               </form>
             </div>
           </div>

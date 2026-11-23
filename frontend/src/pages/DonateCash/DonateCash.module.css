@@ -1,16 +1,16 @@
 :root {
-  --donate-cash-white: #ffffff;
-  --donate-cash-text: #1a1a1a;
-  --donate-cash-muted: #6b7280;
-  --donate-cash-border: #e5e7eb;
-  --donate-cash-border-strong: #d1d5db;
-  --donate-cash-accent: #f5a623;
-  --donate-cash-accent-hover: #e09515;
-  --donate-cash-accent-dark: #d4870a;
-  --donate-cash-surface: #f2f4f3;
-  --donate-cash-footer: #1c2b2a;
-  --donate-cash-footer-text: #5aada0;
-  --donate-cash-success: #22c55e;
+  --donate-cash-white: var(--color-surface-card, #ffffff);
+  --donate-cash-text: var(--color-text-base, #1B4D2A);
+  --donate-cash-muted: var(--color-text-muted, #4A5568);
+  --donate-cash-border: var(--color-border-default, #E2E8F0);
+  --donate-cash-border-strong: var(--color-border-subtle, #CBD5E0);
+  --donate-cash-accent: var(--color-accent-gold, #F67C01);
+  --donate-cash-accent-hover: #E06D00;
+  --donate-cash-accent-dark: #C55E00;
+  --donate-cash-surface: var(--color-surface-subtle, #F8FAF9);
+  --donate-cash-footer: var(--color-surface-footer, #12331C);
+  --donate-cash-footer-text: #A7F3D0;
+  --donate-cash-success: #16A34A;
 }
 .page {
   min-height: 100vh;
@@ -18,8 +18,7 @@
   flex-direction: column;
   background: var(--donate-cash-white);
   color: var(--donate-cash-text);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 16px;
   line-height: 1.5;
 }
@@ -31,7 +30,10 @@
 .page h1,
 .page h2,
 .page h3,
-.page h4,
+.page h4 {
+  font-family: var(--font-display, "Poppins", sans-serif);
+  margin: 0;
+}
 .page p,
 .page span,
 .page a,
@@ -44,10 +46,6 @@
 .page div {
   font-family: inherit;
 }
-.page h1,
-.page h2,
-.page h3,
-.page h4,
 .page p,
 .page blockquote,
 .page ul {
@@ -67,8 +65,11 @@
   flex: 1 1 auto;
 }
 .section {
-  padding: 5rem 0;
+  padding: 4.5rem 0;
   background: var(--donate-cash-white);
+}
+.section:first-of-type {
+  padding-top: 3.5rem;
 }
 .sectionMuted {
   background: var(--donate-cash-surface);
@@ -85,16 +86,20 @@
   width: 100%;
   max-width: 76rem;
   text-align: center;
+  padding-top: 1rem;
 }
 .heroTitle {
+  margin-top: 0.5rem;
   margin-bottom: 1.5rem;
   margin-left: auto;
   margin-right: auto;
   max-width: 58rem;
-  color: var(--donate-cash-text);
-  font-size: 3rem;
-  line-height: 1;
+  color: var(--color-brand-dark, #1B4D2A);
+  font-family: var(--font-display, "Poppins", sans-serif);
+  font-size: 2.75rem;
+  line-height: 1.25;
   font-weight: 700;
+  padding: 0.25rem 0.5rem;
 }
 .heroText,
 .sectionDescription,
@@ -161,12 +166,16 @@
 }
 .primaryButton {
   background: var(--donate-cash-accent);
-  color: var(--donate-cash-text);
-  padding: 1rem 2rem;
-  border-radius: 0.375rem;
+  color: #ffffff;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  border-radius: var(--radius-md, 0.5rem);
   font-size: 1rem;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 .primaryButton:hover {
   background: var(--donate-cash-accent-hover);
@@ -368,7 +377,11 @@
   border-radius: 9999px;
   background: var(--donate-cash-white);
   color: var(--donate-cash-text);
-  padding: 0.85rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -379,9 +392,9 @@
 }
 .modeButtonActive,
 .modeButtonActive:hover {
-  border-color: var(--donate-cash-accent);
-  background: var(--donate-cash-accent);
-  color: var(--donate-cash-text);
+  border-color: var(--color-brand-default, #2F7D32);
+  background: var(--color-brand-default, #2F7D32);
+  color: #ffffff;
 }
 .formCard {
   padding: 2.5rem;
@@ -450,12 +463,16 @@
   margin-bottom: 1rem;
 }
 .amountButton {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1rem;
   color: var(--donate-cash-text);
   background: var(--donate-cash-white);
   border: 1px solid var(--donate-cash-border-strong);
-  border-radius: 0.375rem;
-  font-weight: 500;
+  border-radius: var(--radius-md, 0.5rem);
+  font-weight: 600;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 .amountButton:hover {
@@ -463,22 +480,26 @@
 }
 .amountButtonActive,
 .amountButtonActive:hover {
-  background: var(--donate-cash-accent);
-  border-color: var(--donate-cash-accent);
-  color: var(--donate-cash-text);
+  background: var(--color-brand-default, #2F7D32);
+  border-color: var(--color-brand-default, #2F7D32);
+  color: #ffffff;
 }
 .submitButton {
   width: 100%;
-  padding: 1rem;
-  color: var(--donate-cash-text);
-  background: var(--donate-cash-accent);
-  border-radius: 0.375rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  color: #ffffff;
+  background: var(--color-brand-default, #2F7D32);
+  border-radius: var(--radius-md, 0.5rem);
   font-size: 1rem;
   font-weight: 600;
   transition: background-color 0.2s ease;
 }
 .submitButton:hover:not(:disabled) {
-  background: var(--donate-cash-accent-hover);
+  background: var(--color-brand-dark, #1B4D2A);
 }
 .submitButton:disabled {
   opacity: 0.8;
@@ -518,8 +539,9 @@
 }
 @media (max-width: 767px) {
   .heroTitle {
-    font-size: 2.5rem;
-    line-height: 1.1;
+    font-size: 2.25rem;
+    line-height: 1.25;
+    padding-top: 0.5rem;
   }
   .sectionTitle {
     font-size: 2rem;
