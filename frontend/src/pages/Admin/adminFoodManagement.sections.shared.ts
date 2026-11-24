@@ -34,7 +34,7 @@ import type {
   AdminPackagesSectionProps,
 } from "./adminFoodManagement.sections.inventory";
 
-export const sessionExpiredMessage = "Please login again and retry.";
+export const sessionExpiredMessage = "Entre novamente e tente de novo.";
 export const donorEmailPattern = /\S+@\S+\.\S+/;
 export const inventoryEditorCategories = Array.from(inventoryCategoryOptions);
 export const packageEditorCategories = Array.from(packageCategoryOptions);

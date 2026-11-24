@@ -46,7 +46,7 @@ function LowStockModal({
             type="button"
             onClick={onClose}
             className={styles.closeButton}
-            aria-label="Close low stock list"
+            aria-label="Fechar lista de estoque baixo"
           >
             <X size={24} />
           </button>
@@ -83,7 +83,7 @@ function LowStockModal({
                         type="button"
                         onClick={() => onAddToForm(item)}
                         className={`${styles.iconButton} ${styles.addButton}`}
-                        title="Add this inventory item to the donation form"
+                        title="Adicionar este item de estoque ao formulário de doação"
                       >
                         <Plus size={18} />
                       </button>
@@ -91,7 +91,7 @@ function LowStockModal({
                         type="button"
                         onClick={() => onDismissItem(item.id)}
                         className={`${styles.iconButton} ${styles.dismissButton}`}
-                        title="Hide this item from the current page"
+                        title="Ocultar este item da página atual"
                       >
                         <X size={18} />
                       </button>
@@ -134,7 +134,7 @@ function LowStockBanner({
       split
       className={styles.lowStockBanner}
       icon={<AlertCircle size={22} className={styles.bannerIcon} />}
-      title="Low stock alert: items at your local food bank may need support"
+      title="Alerta de estoque baixo: itens do seu ponto de coleta local podem precisar de apoio"
       actions={
         <>
           <ActionButton
@@ -188,7 +188,7 @@ function DonationRowEditor({
         helperText={
           selectedItem
             ? `Current stock ${selectedItem.current_stock}${selectedItem.unit}, threshold ${selectedItem.threshold}${selectedItem.unit}.`
-            : "Use the low stock modal or enter the exact food name from inventory."
+            : "Use a janela de estoque baixo ou digite o nome exato do alimento no estoque."
         }
         helperTextClassName={styles.fieldHelp}
       >
@@ -216,7 +216,7 @@ function DonationRowEditor({
           value={row.quantity}
           onChange={(event) => onUpdateQuantity(event.target.value)}
           className={styles.fieldInput}
-          placeholder="Quantity"
+          placeholder="Quantidade"
           disabled={loading}
         />
       </Field>
@@ -286,7 +286,7 @@ export function SupermarketDonationForm({
           ) : null}
           <InlineFeedback
             tone="info"
-            message="Submissions from this page are saved as pending supermarket donations. Your food bank admin will review and receive them from Inventory Management before stock is updated."
+            message="Os envios desta página são salvos como doações pendentes de supermercado. O responsável pelo ponto de coleta vai revisar e receber essas doações na Gestão de Estoque antes de o estoque ser atualizado."
             role="status"
             ariaLive="polite"
             className={styles.inlineBanner}
@@ -294,7 +294,7 @@ export function SupermarketDonationForm({
           {showEmptyBanner ? (
             <InlineFeedback
               tone="info"
-              message="No low-stock items right now. You can still submit a donation using the exact food name and quantity."
+              message="Nenhum item com estoque baixo no momento. Você ainda pode enviar uma doação informando o nome exato do alimento e a quantidade."
               role="status"
               ariaLive="polite"
               className={styles.inlineBanner}
@@ -348,7 +348,7 @@ export function SupermarketDonationForm({
               className={styles.submitButton}
               disabled={isSubmittingDonation}
             >
-              {isSubmittingDonation ? "Submitting..." : "Submit Donation"}
+              {isSubmittingDonation ? "Enviando..." : "Enviar doação"}
             </button>
           </FormPanel>
         </div>

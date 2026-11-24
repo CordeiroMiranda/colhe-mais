@@ -97,7 +97,7 @@ function buildItemEditorSubmission({
     return { error: "Choose a food bank before creating an item." };
   }
   if (itemEditorTarget.mode === "edit" && !itemEditorTarget.itemId) {
-    return { error: "Inventory item not found." };
+    return { error: "Item de estoque não encontrado." };
   }
   return {
     mode: itemEditorTarget.mode,
@@ -123,7 +123,7 @@ function buildStockInSubmission({
     ? parseUkDateInput(expiryInput)
     : undefined;
   if (!Number.isInteger(quantity) || quantity <= 0) {
-    return { error: "Quantity must be a positive integer." };
+    return { error: "A quantidade deve ser um número inteiro positivo." };
   }
   if (expiryInput && !normalizedExpiryDate) {
     return { error: "Expiry date must use DD/MM/YYYY." };
@@ -148,7 +148,7 @@ function createScopedInventoryItemHelpers({
   const getScopedInventoryItemOrNotify = (itemId: number) => {
     const item = scopedInventoryItems.find((entry) => entry.id === itemId);
     if (!item) {
-      setPageNotice("error", "Inventory item not found.");
+      setPageNotice("error", "Item de estoque não encontrado.");
     }
     return item ?? null;
   };

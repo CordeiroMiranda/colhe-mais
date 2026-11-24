@@ -35,7 +35,7 @@ export function ImageWithFallback({
         <div className={fallbackContentClassName}>
           <img
             src={ERROR_IMG_SRC}
-            alt="Error loading image"
+            alt="Erro ao carregar a imagem"
             {...rest}
             // 保留原始 URL 在 DOM 上,便于 QA 排查第三方图片加载失败,不在 UI 中直接暴露原始链接
             data-original-url={src}
@@ -44,7 +44,7 @@ export function ImageWithFallback({
       ) : (
         <img
           src={ERROR_IMG_SRC}
-          alt="Error loading image"
+          alt="Erro ao carregar a imagem"
           {...rest}
           // 保留原始 URL 在 DOM 上,便于 QA 排查第三方图片加载失败,不在 UI 中直接暴露原始链接
           data-original-url={src}

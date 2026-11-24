@@ -201,7 +201,7 @@ function useSupermarketPageModel() {
       );
 
     if (!items.length) {
-      setFormError("Add at least one item before submitting your donation.");
+      setFormError("Adicione pelo menos um item antes de enviar sua doação.");
       return;
     }
 

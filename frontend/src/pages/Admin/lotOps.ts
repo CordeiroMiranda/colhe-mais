@@ -109,7 +109,7 @@ export function makeLotOps({
   const getLotOrNotify = (lotId: number) => {
     const lot = findLotById(lotRows, lotId);
     if (!lot) {
-      setPageNotice("error", "Inventory lot not found.");
+      setPageNotice("error", "Lote de estoque não encontrado.");
     }
     return lot ?? null;
   };

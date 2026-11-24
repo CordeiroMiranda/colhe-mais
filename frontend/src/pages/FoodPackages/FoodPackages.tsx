@@ -14,8 +14,8 @@ export default function FoodPackages() {
     return (
       <PublicPageShell>
         <FoodPackagesEmptyState
-          title="Loading Food Support Options"
-          message="Connecting this page to the live backend and database."
+          title="Carregando opções de apoio alimentar"
+          message="Conectando esta página ao servidor e ao banco de dados."
         />
       </PublicPageShell>
     );
@@ -24,8 +24,8 @@ export default function FoodPackages() {
     return (
       <PublicPageShell>
         <FoodPackagesEmptyState
-          title="No Connected Food Bank Available"
-          message="The backend did not return a food bank for online applications."
+          title="Nenhum ponto de coleta conectado disponível"
+          message="O servidor não retornou um ponto de coleta para solicitações online."
         />
       </PublicPageShell>
     );

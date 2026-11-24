@@ -80,7 +80,7 @@ export const useAuthStore = createStore<AuthState>(
       } catch (error) {
         return {
           success: false,
-          message: getErrorMessage(error, "Login failed"),
+          message: getErrorMessage(error, "Falha ao entrar"),
         };
       }
     },

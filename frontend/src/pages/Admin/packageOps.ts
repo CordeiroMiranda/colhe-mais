@@ -153,7 +153,7 @@ function buildPackageEditorSubmission({
   packageEditorDraft: PackageEditorDraft;
 }): { error: string } | PackageEditorSubmission {
   if (!packageEditorTarget) {
-    return { error: "Session expired. Please refresh and try again." };
+    return { error: "Sessão expirada. Atualize a página e tente novamente." };
   }
   const name = packageEditorDraft.name.trim();
   const category = packageEditorDraft.category.trim();
@@ -175,7 +175,7 @@ function buildPackageEditorSubmission({
   if (
     contents.some((row) => !Number.isInteger(row.item_id) || row.item_id <= 0)
   ) {
-    return { error: "Choose an inventory item for every package row." };
+    return { error: "Escolha um item de estoque para cada linha do pacote." };
   }
   if (
     contents.some((row) => !Number.isInteger(row.quantity) || row.quantity <= 0)
@@ -186,7 +186,7 @@ function buildPackageEditorSubmission({
     return { error: "Choose a food bank before creating a package." };
   }
   if (packageEditorTarget.mode === "edit" && !packageEditorTarget.packageId) {
-    return { error: "Package not found." };
+    return { error: "Pacote não encontrado." };
   }
   return {
     mode: packageEditorTarget.mode,
@@ -203,7 +203,7 @@ function parsePackQuantity(packQuantity: string) {
   const buildError = (error: string): { error: string } => ({ error });
   const quantity = Number(packQuantity);
   if (!Number.isInteger(quantity) || quantity <= 0) {
-    return buildError("Quantity must be a positive integer.");
+    return buildError("A quantidade deve ser um número inteiro positivo.");
   }
   return { quantity } as { quantity: number };
 }

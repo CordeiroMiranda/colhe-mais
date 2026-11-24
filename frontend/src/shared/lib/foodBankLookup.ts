@@ -17,7 +17,7 @@ import {
 export const LOCAL_FOOD_BANK_SEARCH_RADIUS_KM = 5;
 const FEED_CACHE_TTL_MS = 10 * 60 * 1000;
 export const BACKEND_API_UNAVAILABLE_MESSAGE =
-  "Food bank lookup service is temporarily unavailable.";
+  "O serviço de busca de pontos de coleta está temporariamente indisponível.";
 export interface NearbyFoodBank {
   name: string;
   address: string;
@@ -108,7 +108,7 @@ export function getFoodBankLookupErrorMessage(
     return backendUnavailableMessage;
   }
   if (normalizedMessage.includes("invalid postcode")) {
-    return "We could not find that postcode. Please check it and try again.";
+    return "Não encontramos esse CEP. Confira e tente novamente.";
   }
   return message;
 }

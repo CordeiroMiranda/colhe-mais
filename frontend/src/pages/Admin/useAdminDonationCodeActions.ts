@@ -108,7 +108,7 @@ function buildDonationItemsPayload(
     }
 
     if (!itemName || !Number.isInteger(quantity) || quantity <= 0) {
-      return { error: "Each donation row needs an item and quantity." };
+      return { error: "Cada linha da doação precisa de um item e de uma quantidade." };
     }
 
     const expiryDate = expiryInput ? parseUkDateInput(expiryInput) : undefined;
@@ -474,13 +474,13 @@ function createAdminCodeActions({
     if (!isCanonicalRedemptionCode(normalizedCode)) {
       return void setCodeVerifyError(
         "Invalid Code",
-        "Use the current redemption code format: XXXX-XXXX.",
+        "Use o formato atual do código de retirada: XXXX-XXXX.",
       );
     }
 
     await runPendingTask<AdminApplicationRecord>({
       action: "code-check",
-      fallbackMessage: "Redemption code not found.",
+      fallbackMessage: "Código de retirada não encontrado.",
       reportMissingToken: (message) =>
         setCodeVerifyError("Session Expired", message),
       onSuccess: (record) => {

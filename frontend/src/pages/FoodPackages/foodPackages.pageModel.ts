@@ -303,7 +303,7 @@ export function useFoodPackagesPageModel() {
       }
       if (!result.code) {
         setErrorMsg(
-          "Application succeeded but no redemption code was returned.",
+          "Solicitação concluída, mas nenhum código de retirada foi retornado.",
         );
         return;
       }

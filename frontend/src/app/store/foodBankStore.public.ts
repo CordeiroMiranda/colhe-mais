@@ -192,7 +192,7 @@ export function createPublicFoodBankStoreActions(
           return {
             success: false,
             message:
-              "This food bank is not connected to online applications yet.",
+              "Este ponto de coleta ainda não está conectado a solicitações online.",
           };
         }
         const finalWeekStart = weekStart || getCurrentWeekMonday();

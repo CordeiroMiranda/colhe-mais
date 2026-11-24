@@ -417,7 +417,7 @@ export function FoodPackagesCatalogSection({
     <>
       <div className={styles.hero}>
         <PublicSectionIntro
-          title="Apply for food support"
+          title="Solicitar apoio alimentar"
           titleAs="h1"
           size="hero"
           className={styles.heroIntro}

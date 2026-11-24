@@ -43,7 +43,7 @@ export function FoodPackagesOutcomeSection({
             <div className={styles.successCodeBlock}>
               <div className={styles.successCodeLabel}>Redemption Code</div>
               <div className={styles.successCode}>{redemptionCode}</div>
-              <div className={styles.successCodeHint}>Valid for 7 days</div>
+              <div className={styles.successCodeHint}>Válido por 7 dias</div>
             </div>
             <div className={styles.successMetrics}>
               {totalPkgs > 0 ? (
@@ -113,10 +113,10 @@ export function FoodPackagesOutcomeSection({
         className={styles.submitBtn}
       >
         {isBootstrapping
-          ? "Loading Availability..."
+          ? "Carregando disponibilidade..."
           : loading
-            ? "Submitting..."
-            : "Submit Application"}
+            ? "Enviando..."
+            : "Enviar solicitação"}
       </ActionButton>
     </div>
   );
